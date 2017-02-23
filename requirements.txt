@@ -1,0 +1,9 @@
+cloudmesh_client
+psutil
+eve
+pygments
+tox
+detox
+coverage
+flake8
+psutil
