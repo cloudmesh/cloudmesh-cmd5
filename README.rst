@@ -71,7 +71,7 @@ To see the list of commands you can say
 
     cms> help
 
-To see the manula page for a specific command, please use::
+To see the manual page for a specific command, please use::
 
     help COMMANDNAME
 
