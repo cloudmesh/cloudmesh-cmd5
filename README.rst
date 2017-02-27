@@ -67,7 +67,7 @@ It will print the banner and enter the shell::
     cms>
 
 
-To see the list of commands you can say
+To see the list of commands you can say::
 
     cms> help
 
