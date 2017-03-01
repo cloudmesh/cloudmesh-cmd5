@@ -17,7 +17,7 @@ virtualenv::
 
     virtualenv ~/ENV2
 
-pyenv:
+pyenv::
 
     pyenev virtualenv 2.7.13 ENV2
 
