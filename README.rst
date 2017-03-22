@@ -31,6 +31,7 @@ Now you need to get two source directories. We assume yo place them in
 
     mkdir ~/github
     cd ~/github
+    git clone https://github.com/cloudmesh/common.git
     git clone https://github.com/cloudmesh/cmd5.git
     git clone https://github.com/cloudmesh/extbar.git
 
@@ -39,6 +40,8 @@ contains the sample commands foo and bar.
 
 To install them simply to the following::
 
+    cd ~/github/common
+    python setup.py install
     cd ~/github/cmd5
     python setup.py install
     cd ~/github/extbar
