@@ -16,21 +16,33 @@ import sys
 import textwrap
 from cmd import Cmd
 
-from cloudmesh_client.shell.command import PluginCommand
-from cloudmesh_client.shell.command import command
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command
 
 import cloudmesh
-from cloudmesh.rest.server. mongo import Mongo
 import inspect
-from cloudmesh_client.common.dotdict import dotdict
+from cloudmesh.common.dotdict import dotdict
+
 
 def print_list(elements):
+    """
+    prints the element of a list
+    :param elements: the elements to be printed
+    """
     for name in elements:
         print("*", name)
 
-class plugin(object):
+
+class Plugin(object):
+    """
+    Some simple methods to manage dynamic namespace plugins for cloudmesh.
+    """
     @classmethod
     def modules(cls):
+        """
+        list of cloudmesh modules in the cloudmesh namespace
+        :return: list of modules
+        """
         module_list = []
         package = cloudmesh
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
@@ -41,6 +53,10 @@ class plugin(object):
 
     @classmethod
     def classes(cls):
+        """
+        list of the commands in the cloudmesh namespace under cloudmesh.ext.command
+        :return: list of the commands
+        """
         module_list = cls.modules()
         commands = []
         for module in module_list:
@@ -50,6 +66,11 @@ class plugin(object):
 
     @classmethod
     def name(cls, command):
+        """
+        creates a name for a modules starting with do_
+        :param command: returns a tupke with the module location and tge do_function
+        :return:
+        """
         command_name = "do_" + command
 
         class_name = "cloudmesh.ext.command." + command + "." \
@@ -59,6 +80,11 @@ class plugin(object):
 
     @classmethod
     def class_name(cls, command):
+        """
+        creates the default filename in which the module is defined
+        :param command:  the name of the command
+        :return: cloudmesh.ext.command.<command>+command.<Command>
+        """
         return "cloudmesh.ext.command." + command + "." \
                + command.capitalize() + "Command"
 
@@ -83,13 +109,13 @@ class plugin(object):
 
         # print_list(commands)
 
-        COMMANDS = [cls.class_name(c) for c in commands]
+        class_commands = [cls.class_name(c) for c in commands]
         commands = [getattr(importlib.import_module(mod), cls) for (mod, cls) in
-                    (commands.rsplit(".", 1) for commands in COMMANDS)]
+                    (commands.rsplit(".", 1) for commands in class_commands)]
         return commands
 
 
-plugin.load()
+Plugin.load()
 
 PluginCommandClasses = type(
     'CommandProxyClass',
@@ -98,7 +124,9 @@ PluginCommandClasses = type(
 
 
 class CMShell(Cmd, PluginCommandClasses):
-
+    """
+    The command shell that inherits all commands from PluginCommand
+    """
     prompt = 'cms> '
     banner = textwrap.dedent("""
     +-------------------------------------------------------+
@@ -115,6 +143,7 @@ class CMShell(Cmd, PluginCommandClasses):
     #
     # List all commands that start with do
     #
+    # noinspection PyMethodOverriding
     @command
     def do_help(self, args, arguments):
         """
@@ -128,15 +157,15 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         print("Help")
         print("====")
-        methodList = [n for n, v in inspect.getmembers(self, inspect.ismethod)]
-        functionList = [n for n, v in inspect.getmembers(self, inspect.isfunction)]
+        method_list = [n for n, v in inspect.getmembers(self, inspect.ismethod)]
+        function_list = [n for n, v in inspect.getmembers(self, inspect.isfunction)]
 
-        commands = methodList + functionList
+        commands = method_list + function_list
 
         for c in sorted(commands):
             if c.startswith("do_"):
                 print(c.replace("do_", ""), end=' ')
-        print ()
+        print()
         return ""
 
     @command
@@ -154,10 +183,10 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         arguments = dotdict(arguments)
 
-        module_list = plugin.modules()
+        module_list = Plugin.modules()
 
         if arguments.commands:
-            commands = plugin.classes()
+            commands = Plugin.classes()
             print_list(commands)
         elif arguments.help:
             for name in module_list:
@@ -165,101 +194,23 @@ class CMShell(Cmd, PluginCommandClasses):
                 strhelp = p + " not found."
                 try:
                     strhelp = pydoc.render_doc(p, "Help on %s" + "\n" + 79 * "=")
-                except Exception, e:
+                except Exception as e:
                     pass
                 print(strhelp)
 
         else:
             print_list(module_list)
 
-    @command
-    def do_admin(self, args, arguments):
-        """
-        ::
-
-          Usage:
-                admin [db|rest] start
-                admin [db|rest] stop
-                admin db backup
-                admin db reset
-                admin status
-
-          Description:
-                db start
-                    starts the database service
-
-                db stop
-                    stops the database service
-
-                db backup
-                    creates abackup of the database
-
-                db reset
-                    resets the database
-
-          Arguments:
-              FILE   a file name
-
-          Options:
-              -f      specify the file
-
-        """
-        arguments = dotdict(arguments)
-        print(arguments)
-        if arguments.db and arguments.stop:
-
-            print("PLEASE stop db")
-            m = Mongo()
-            m.stop()
-        elif arguments.db and arguments.start:
-
-            print("PLEASE start db")
-            m = Mongo()
-            m.start()
-
-        elif arguments.rest and arguments.start:
-
-            print("PLEASE start rest")
-            # m = Eve()
-            # m.start()
-
-        elif arguments.rest and arguments.stop:
-
-            print("PLEASE stop rest")
-            # m = Eve()
-            # m.stop()
-
-
-        elif arguments.start:
-            m = Mongo()
-            r = m.start()
-            print(r)
-
-            # start mong, start eve
-            pass
-        elif arguments.stop:
-            m = Mongo()
-            r = m.stop()
-            print(r)
-
-            # stop eve
-            pass
-
-        elif arguments.status:
-            m = Mongo()
-            r = m.status()
-            print(r)
 
     def preloop(self):
         """adds the banner to the preloop"""
-
 
         lines = textwrap.dedent(self.banner).split("\n")
         for line in lines:
             # Console.cprint("BLUE", "", line)
             print(line)
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyPep8Naming,PyMethodMayBeStatic
     def do_EOF(self, args):
         """
         ::
@@ -272,7 +223,7 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         return True
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyMethodMayBeStatic
     def do_quit(self, args):
         """
         ::
@@ -290,7 +241,8 @@ class CMShell(Cmd, PluginCommandClasses):
     def emptyline(self):
         return
 
-#def main():
+
+# def main():
 #    CMShell().cmdloop()
 
 def inheritors(klass):
@@ -308,7 +260,8 @@ def inheritors(klass):
 def do_gregor(line):
     print("gregor")
 
-# noinspection PyBroadException
+
+# noinspection PyBroadException,PyUnusedLocal
 def main():
     """cms.
 
@@ -371,20 +324,16 @@ def main():
     script = arguments["SCRIPT"]
     command = arguments["COMMAND"]
 
-    #context = CloudmeshContext(
+    # context = CloudmeshContext(
     #    interactive=interactive,
     #    debug=debug,
     #    echo=echo,
     #    splash=splash)
 
-
-
-
     cmd = CMShell()
 
-
-#    if script is not None:
-#        cmd.do_exec(script)
+    #    if script is not None:
+    #        cmd.do_exec(script)
 
     try:
         if echo:
@@ -403,10 +352,5 @@ def main():
         cmd.cmdloop()
 
 
-
-
-
 if __name__ == '__main__':
     main()
-
-

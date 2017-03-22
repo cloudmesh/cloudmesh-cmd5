@@ -14,11 +14,19 @@
 # See the License for the specific language governing permissions and     #
 # limitations under the License.                                          #
 # ------------------------------------------------------------------------#
-
+"""
+Cloudmesh CMD5 setup.
+"""
 from setuptools import find_packages, setup
 import io
 
+
 def readfile(filename):
+    """
+    Read a file
+    :param filename: name of the file
+    :return: returns the content of the file as string
+    """
     with io.open(filename, encoding="utf-8") as stream:
         return stream.read().split()
 
@@ -29,26 +37,24 @@ tox
 detox
 coverage
 flake8
-cloudmesh_client
 eve
 psutil
+docopt
 """.split("\n")
 
-#dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
+# dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
 version = readfile("VERSION")[0].strip()
 readme = readfile('README.rst')
 
-NAME = "cloudmesh shell CMD5"
+NAME = "cloudmesh cmd5"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cmd5"
 LONG_DESCRIPTION = "\n".join(readme)
 
-
-setup \
-(
+setup(
     name=NAME,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
@@ -58,11 +64,11 @@ setup \
     license="Apache 2.0",
     url=URL,
     packages=find_packages(),
-    #package_data={
+    # package_data={
     #    "cloudmesh.data": [
     #        "templates/cloudmesh/data.txt",
     #    ]
-    #},
+    # },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",

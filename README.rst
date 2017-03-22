@@ -1,4 +1,4 @@
-cloudmesh cmd5
+Cloudmesh cmd5
 ==============
 
 An dynamically extensible CMD based command shell
@@ -9,7 +9,7 @@ Requirements
 * Python 2.7.13
 
 Installation from source
------------------------
+------------------------
 
 Setup a virtualenv either with virtualenv or pyenv.
 
