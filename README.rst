@@ -33,7 +33,7 @@ Now you need to get two source directories. We assume yo place them in
     cd ~/github
     git clone https://github.com/cloudmesh/common.git
     git clone https://github.com/cloudmesh/cmd5.git
-    git clone https://github.com/cloudmesh/extbar.git
+    git clone https://github.com/cloudmesh/cloudmesh.bar.git
 
 The cmd5 repository contains the shell, while the extbar directory
 contains the sample commands foo and bar.
@@ -42,10 +42,13 @@ To install them simply to the following::
 
     cd ~/github/common
     python setup.py install
+    pip install .
     cd ~/github/cmd5
     python setup.py install
-    cd ~/github/extbar
+    pip install .
+    cd ~/github/cloudmesh.bar
     python setup.py install
+    pip install .
 
 Execution
 ---------
@@ -86,10 +89,14 @@ with new commands.  This is done via packaged name spaces. This is
 defined in the setup.py file of your enhancement. The best way to
 create an enhancement is to take a look at the code in
 
-* https://github.com/cloudmesh/extbar.git
+* https://github.com/cloudmesh/cloudmesh.bar.git
 
 Simply copy the code and modify the bar and foo commands to fit yor
-needs. It is important that all objects are defined in the command
+needs. 
+
+*Wraning:* do not copy the .git directory
+
+It is important that all objects are defined in the command
 itself and that no global variables be use in order to allow each
 shell command to stand alone. Naturally you should develop API
 libraries outside of the cloudmesh shell command and reuse them in
@@ -100,13 +107,13 @@ command in::
 
 An example for the bar command is presented at:
 
-* https://github.com/cloudmesh/extbar/blob/master/cloudmesh/ext/command/bar.py
+* https://github.com/cloudmesh/cloudmesh.bar/blob/master/cloudmesh/ext/command/bar.py
 
 It shows how simple the command definition is (bar.py)::
 
     from __future__ import print_function
-    from cloudmesh_client.shell.command import command
-    from cloudmesh_client.shell.command import PluginCommand
+    from cloudmesh.shell.command import command
+    from cloudmesh.shell.command import PluginCommand
 
     class BarCommand(PluginCommand):
 
