@@ -9,15 +9,19 @@
 
 from __future__ import print_function
 
+from cloudmesh.common.util import get_python
+from cloudmesh.common.util import check_python
 import importlib
 import pkgutil
 import pydoc
 import sys
 import textwrap
 from cmd import Cmd
+from cloudmesh.common.Printer import Printer
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
+from cloudmesh.shell.plugins.terminal import TerminalCommands
 
 import cloudmesh
 import inspect
@@ -241,6 +245,58 @@ class CMShell(Cmd, PluginCommandClasses):
     def emptyline(self):
         return
 
+    # noinspection PyUnusedLocal
+    @command
+    def do_version(self, args, arguments):
+        """
+        Usage:
+           version [--format=FORMAT] [--check=CHECK]
+
+        Options:
+            --format=FORMAT  the format to print the versions in [default: table]
+            --check=CHECK    boolean tp conduct an additional check [default: True]
+
+        Description:
+            Prints out the version number
+        """
+
+        python_version, pip_version = get_python()
+
+        try:
+            git_hash_version = Shell.execute('git', 'log -1 --format=%h', traceflag=False, witherror=False)
+        except:
+            git_hash_version = 'N/A'
+
+        versions = {
+            #"cloudmesh_client": {
+            #    "name": "cloudmesh_client",
+            #    "version": str(cloudmesh_client.__version__)
+            #},
+            # "cloudmesh_base": {
+            #     "name": "cloudmesh_base",
+            #     "version": str(cloudmesh_base.__version__)
+            # },
+            "python": {
+                "name": "python",
+                "version": str(python_version)
+            },
+            "pip": {
+                "name": "pip",
+                "version": str(pip_version)
+            },
+            "git": {
+                "name": "git hash",
+                "version": str(git_hash_version)
+            }
+
+        }
+        print(Printer.write(versions, output=arguments["--format"],
+                            order=["name", "version"]))
+        if arguments["--check"] in ["True"]:
+            check_python()
+
+        
+        
 
 # def main():
 #    CMShell().cmdloop()

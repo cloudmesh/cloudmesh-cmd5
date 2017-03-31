@@ -45,8 +45,10 @@ mongo:
 eve:
 	$(call terminal, $(EVE))
 
-deploy: setup mongo eve
-	echo deployed
+deploy: 
+	cd ../common; python setup.py install; pip install .
+	python setup.py install; pip install .
+	cms help
 
 test:
 	$(call banner, "LIST SERVICE")
@@ -88,3 +90,4 @@ json:
 	python evegenie/geneve.py sample.json
 	cp sample.settings.py $(ROOT_DIR)/settings.py
 	cat $(ROOT_DIR)/settings.py
+
