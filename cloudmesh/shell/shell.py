@@ -1,31 +1,31 @@
 #
 # in our rest architecture we want to interface to the backend systems while
 # using a secure rest service. I
-# Internally we will use the many fnctions that cloudmesh_client provides.
+# Internally we will use the many functions that cloudmesh_client provides.
 # Before we use them we need to implement some elementary functions
-# lets first do administrative functions in an admin commond
+# lets first do administrative functions in an admin command
 
 # pseudo code: task implement
 
 from __future__ import print_function
 
-from cloudmesh.common.util import get_python
-from cloudmesh.common.util import check_python
 import importlib
+import inspect
 import pkgutil
 import pydoc
 import sys
 import textwrap
 from cmd import Cmd
-from cloudmesh.common.Printer import Printer
 
-from cloudmesh.shell.command import PluginCommand
-from cloudmesh.shell.command import command
-from cloudmesh.shell.plugins.terminal import TerminalCommands
+from cloudmesh.common.Printer import Printer
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.dotdict import dotdict
+from cloudmesh.common.util import check_python
+from cloudmesh.common.util import get_python
 
 import cloudmesh
-import inspect
-from cloudmesh.common.dotdict import dotdict
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command
 
 
 def print_list(elements):
@@ -41,6 +41,7 @@ class Plugin(object):
     """
     Some simple methods to manage dynamic namespace plugins for cloudmesh.
     """
+
     @classmethod
     def modules(cls):
         """
@@ -72,7 +73,7 @@ class Plugin(object):
     def name(cls, command):
         """
         creates a name for a modules starting with do_
-        :param command: returns a tupke with the module location and tge do_function
+        :param command: returns a tuple with the module location and tge do_function
         :return:
         """
         command_name = "do_" + command
@@ -103,7 +104,7 @@ class Plugin(object):
                             'cloudmesh.ext.command.bar.BarCommand',
                             'cloudmesh.ext.command.foo.FooCommand',
                             ]
-                          A namespace packege must exists. Foo and Bar ar just examples
+                          A namespace package must exists. Foo and Bar ar just examples
 
         :return: the classes of the command
         """
@@ -205,7 +206,6 @@ class CMShell(Cmd, PluginCommandClasses):
         else:
             print_list(module_list)
 
-
     def preloop(self):
         """adds the banner to the preloop"""
 
@@ -236,7 +236,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 quit
 
             Description:
-                Action to be performed whne quit is typed
+                Action to be performed when quit is typed
         """
         return True
 
@@ -268,10 +268,10 @@ class CMShell(Cmd, PluginCommandClasses):
             git_hash_version = 'N/A'
 
         versions = {
-            #"cloudmesh_client": {
+            # "cloudmesh_client": {
             #    "name": "cloudmesh_client",
             #    "version": str(cloudmesh_client.__version__)
-            #},
+            # },
             # "cloudmesh_base": {
             #     "name": "cloudmesh_base",
             #     "version": str(cloudmesh_base.__version__)
@@ -295,8 +295,6 @@ class CMShell(Cmd, PluginCommandClasses):
         if arguments["--check"] in ["True"]:
             check_python()
 
-        
-        
 
 # def main():
 #    CMShell().cmdloop()

@@ -1,9 +1,9 @@
 import inspect
-import textwrap
 import shlex
+import textwrap
 
-from docopt import docopt
 from cloudmesh.common.dotdict import dotdict
+from docopt import docopt
 
 
 class PluginCommand(object):
@@ -26,7 +26,7 @@ class CometPluginCommand(object):
     pass
 
 
-# noinspection PySingleQuotedDocstring
+# noinspection PySingleQuotedDocstring,PyUnusedLocal
 def command(func):
     '''
     A decorator to create a function with docopt arguments.

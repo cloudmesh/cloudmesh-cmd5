@@ -1,14 +1,17 @@
 from __future__ import print_function
-from cloudmesh.shell.command import command
-from cloudmesh.shell.command import PluginCommand
-from cloudmesh.common.console import Console
+
 import os
 import sys
-from builtins import input
 import time
 
-class TerminalCommands(PluginCommand):
+from builtins import input
+from cloudmesh.common.console import Console
 
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command
+
+
+class TerminalCommands(PluginCommand):
     # noinspection PyUnusedLocal
     @command
     def do_clear(self, args, arguments):
@@ -31,7 +34,6 @@ class TerminalCommands(PluginCommand):
 
         seconds = arguments["SECONDS"]
         time.sleep(float(seconds))
-
 
     # noinspection PyUnusedLocal
     @command
