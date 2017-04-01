@@ -20,8 +20,6 @@ from cmd import Cmd
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.dotdict import dotdict
-from cloudmesh.common.util import check_python
-from cloudmesh.common.util import get_python
 
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
@@ -260,7 +258,7 @@ class CMShell(Cmd, PluginCommandClasses):
             Prints out the version number
         """
 
-        python_version, pip_version = get_python()
+        python_version, pip_version = Shell.get_python()
 
         try:
             git_hash_version = Shell.execute('git', 'log -1 --format=%h', traceflag=False, witherror=False)
@@ -293,7 +291,7 @@ class CMShell(Cmd, PluginCommandClasses):
         print(Printer.write(versions, output=arguments["--format"],
                             order=["name", "version"]))
         if arguments["--check"] in ["True"]:
-            check_python()
+            Shell.check_python()
 
 
 # def main():
