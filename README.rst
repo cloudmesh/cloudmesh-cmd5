@@ -21,11 +21,6 @@ pyenv::
 
     pyenev virtualenv 2.7.13 ENV2
 
-First you must install cloudmesh_client. You must do this before
-working with cloudmesh cmd5.  At this time it is best to use pip::
-
-    pip install cloudmesh_client
-
 Now you need to get two source directories. We assume yo place them in
 ~/github::
 
@@ -36,9 +31,12 @@ Now you need to get two source directories. We assume yo place them in
     git clone https://github.com/cloudmesh/cloudmesh.bar.git
 
 The cmd5 repository contains the shell, while the extbar directory
-contains the sample commands foo and bar.
+contains the sample commands foo and bar. The common library contains
+some useful classes and methods that we also share with other
+cloudmesh code.
 
-To install them simply to the following::
+To install them from source simply to the following. The cloudmesh.bar
+example you want as source as you want to modify the code at one point::
 
     cd ~/github/common
     python setup.py install
@@ -49,6 +47,22 @@ To install them simply to the following::
     cd ~/github/cloudmesh.bar
     python setup.py install
     pip install .
+
+Instalation from pip
+--------------------
+
+To install cmd5 from pip please use::
+
+  pip install cloudmesh.cmd5
+
+The cloudmesh.bar repository you want to download as source so you can
+learn how to write your own commands::
+
+  mkdir ~/github
+  cd ~/github
+  git clone https://github.com/cloudmesh/cloudmesh.bar.git
+
+Commands are shared in the `cloudmesh` namespace::
 
 Execution
 ---------
@@ -121,6 +135,7 @@ It shows how simple the command definition is (bar.py)::
         def do_bar(self, args, arguments):
             """
             ::
+	       
               Usage:
                     command -f FILE
                     command FILE
@@ -149,4 +164,5 @@ The transformation is enabled by the @command decorator that takes
 also the manual page and creates a proper help message for the shell
 automatically. Thus there is no need to introduce a sepaarte help
 method as would normally be needed in CMD.
+
 

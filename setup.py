@@ -28,7 +28,7 @@ def readfile(filename):
     :return: returns the content of the file as string
     """
     with io.open(filename, encoding="utf-8") as stream:
-        return stream.read().split()
+        return stream.read()
 
 
 requiers = """
@@ -40,6 +40,7 @@ flake8
 eve
 psutil
 docopt
+cloudmesh.common
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
@@ -47,12 +48,12 @@ docopt
 version = readfile("VERSION")[0].strip()
 readme = readfile('README.rst')
 
-NAME = "cloudmesh cmd5"
+NAME = "cloudmesh.cmd5"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cmd5"
-LONG_DESCRIPTION = "\n".join(readme)
+LONG_DESCRIPTION = readme
 
 setup(
     name=NAME,
