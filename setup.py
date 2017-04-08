@@ -17,8 +17,9 @@
 """
 Cloudmesh CMD5 setup.
 """
-from setuptools import find_packages, setup
 import io
+
+from setuptools import find_packages, setup
 
 
 def readfile(filename):
@@ -45,7 +46,7 @@ cloudmesh.common
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
-version = readfile("VERSION")[0].strip()
+version = readfile("VERSION").strip()
 readme = readfile('README.rst')
 
 NAME = "cloudmesh.cmd5"
