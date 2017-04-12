@@ -26,8 +26,8 @@ Now you need to get two source directories. We assume yo place them in
 
     mkdir ~/github
     cd ~/github
-    git clone https://github.com/cloudmesh/common.git
-    git clone https://github.com/cloudmesh/cmd5.git
+    git clone https://github.com/cloudmesh/cloudmesh.common.git
+    git clone https://github.com/cloudmesh/cloudmesh.cmd5.git
     git clone https://github.com/cloudmesh/cloudmesh.bar.git
 
 The cmd5 repository contains the shell, while the extbar directory
@@ -38,10 +38,10 @@ cloudmesh code.
 To install them from source simply to the following. The cloudmesh.bar
 example you want as source as you want to modify the code at one point::
 
-    cd ~/github/common
+    cd ~/github/cloudmesh.common
     python setup.py install
     pip install .
-    cd ~/github/cmd5
+    cd ~/github/cloudmesh.cmd5
     python setup.py install
     pip install .
     cd ~/github/cloudmesh.bar
@@ -117,11 +117,11 @@ libraries outside of the cloudmesh shell command and reuse them in
 order to keep the command code as small as possible. We place the
 command in::
 
-    cloudmsesh/ext/command/COMMANDNAME.py
+    cloudmsesh/COMMANDNAME/command/COMMANDNAME.py
 
 An example for the bar command is presented at:
 
-* https://github.com/cloudmesh/cloudmesh.bar/blob/master/cloudmesh/ext/command/bar.py
+* https://github.com/cloudmesh/cloudmesh.bar/blob/master/cloudmesh/bar/command/bar.py
 
 It shows how simple the command definition is (bar.py)::
 
