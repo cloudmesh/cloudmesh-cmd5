@@ -47,9 +47,9 @@ mongo:
 eve:
 	$(call terminal, $(EVE))
 
-deploy: 
-	cd ../common; python setup.py install; pip install .
-	python setup.py install; pip install .
+source: 
+	cd ../cloudmesh.common; python setup.py install; pip install -e .
+	python setup.py install; pip install -e .
 	cms help
 
 test:
