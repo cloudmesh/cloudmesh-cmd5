@@ -5,7 +5,7 @@
 # Before we use them we need to implement some elementary functions
 # lets first do administrative functions in an admin command
 
-# pseudo code: task implement
+# pseudo code: task implementplugin
 
 from __future__ import print_function
 
@@ -177,7 +177,7 @@ class CMShell(Cmd, PluginCommandClasses):
         ::
 
           Usage:
-                info [commands|package|help]
+                info [path|commands|package|files|help]
 
           Description:
                 info
@@ -191,6 +191,18 @@ class CMShell(Cmd, PluginCommandClasses):
         if arguments.commands:
             commands = Plugin.classes()
             print_list(commands)
+        elif arguments.path:
+            path_list= cloudmesh.__path__
+            print_list(path_list)
+        elif arguments.files:
+            commands = Plugin.modules()
+            for command in commands:
+                print(type(command))
+                try:
+                    r = inspect.getfile(command)
+                    print("*", type(command))
+                except Exception as e:
+                    print (e)
         elif arguments.help:
             for name in module_list:
                 p = "cloudmesh." + name
