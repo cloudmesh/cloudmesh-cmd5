@@ -63,7 +63,7 @@ class Plugin(object):
         module_list = cls.modules()
         commands = []
         for module in module_list:
-            if module.startswith('cloudmesh.ext.command.'):
+            if module.startswith('cloudmesh.') and '.command.' in module:
                 commands.append(module)
         return commands
 
@@ -76,7 +76,7 @@ class Plugin(object):
         """
         command_name = "do_" + command
 
-        class_name = "cloudmesh.ext.command." + command + "." \
+        class_name = "cloudmesh." + command + ".command." + command + "." \
                      + command.capitalize() + "Command"
 
         return class_name, command_name
@@ -88,7 +88,7 @@ class Plugin(object):
         :param command:  the name of the command
         :return: cloudmesh.ext.command.<command>+command.<Command>
         """
-        return "cloudmesh.ext.command." + command + "." \
+        return "cloudmesh." + command + ".command." + command + "." \
                + command.capitalize() + "Command"
 
     @classmethod
@@ -177,7 +177,7 @@ class CMShell(Cmd, PluginCommandClasses):
         ::
 
           Usage:
-                info [path|commands|package|files|help]
+                info [path|commands|files|cloudmesh]
 
           Description:
                 info
@@ -197,7 +197,6 @@ class CMShell(Cmd, PluginCommandClasses):
         elif arguments.files:
             commands = Plugin.modules()
             for command in commands:
-                print(type(command))
                 try:
                     r = inspect.getfile(command)
                     print("*", type(command))
