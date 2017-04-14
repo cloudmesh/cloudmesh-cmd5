@@ -23,8 +23,10 @@ from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
+from cloudmesh.common.StopWatch import StopWatch
 
 import cloudmesh
+
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 
@@ -148,6 +150,17 @@ class CMShell(Cmd, PluginCommandClasses):
 
     filename = path_expand("~/.cloudmesh/data")
     variable = shelve.open(filename)
+
+    def precmd(self, line):
+        StopWatch.start("command")
+        return line
+
+    def postcmd(self, stop, line):
+        StopWatch.stop("command")
+        if self.variable["timer"].lower() in ['on', 'true']:
+            print("Timer: {:.4f}s ({})".format(StopWatch.get("command"),
+                                               line.strip()))
+        return stop
 
     def replace_vars(self, line):
 
