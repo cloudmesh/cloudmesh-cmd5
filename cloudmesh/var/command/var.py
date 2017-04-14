@@ -61,7 +61,8 @@ class VarCommand(PluginCommand):
             database = None
         elif arguments["list"]:
             for name in database:
-                print(name, "=", database[name])
+                value = database[name]
+                print(name, "=", "'", value, "'", sep="")
         elif arguments.delete:
             del database[arguments.NAME]
         elif arguments.NAME is not None:
@@ -81,5 +82,5 @@ class VarCommand(PluginCommand):
                 var = value.replace("$", "")
                 value = database[var]
 
-            print(name, "=", value)
+            print(name, "=", "'", value, "'", sep="")
             database[name] = value
