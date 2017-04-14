@@ -5,13 +5,41 @@ import sys
 import time
 
 from builtins import input
+from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 
 
-class TerminalCommands(PluginCommand):
+class TerminalCommand(PluginCommand):
+    # noinspection PyUnusedLocal
+    @command
+    def do_stopwatch(self, args, arguments):
+        """
+        Usage:
+            stopwatch start TIMER
+            stopwatch stop TIMER
+            stopwatch print [TIMER]
+            
+        Arguments:
+            TIMER  the name of the timer
+
+        Description:
+            THIS IS NOT YET WORKING
+            starts and stops named timers and prints them
+        """
+        t = arguments.TIMER
+        if arguments.start:
+            StopWatch.start(t)
+        elif arguments.stop:
+            StopWatch.stop(t)
+        elif arguments.print:
+            t = arguments.TIMER
+            if t is None:
+                print(StopWatch.__str__)
+            else:
+                StopWatch.print("Timer " + t + ":", t)
     # noinspection PyUnusedLocal
     @command
     def do_clear(self, args, arguments):
