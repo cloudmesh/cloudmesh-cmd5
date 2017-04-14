@@ -11,8 +11,10 @@ from __future__ import print_function
 
 import importlib
 import inspect
+import os
 import pkgutil
 import pydoc
+import shelve
 import sys
 import textwrap
 from cmd import Cmd
@@ -20,6 +22,7 @@ from cmd import Cmd
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.dotdict import dotdict
+from cloudmesh.common.util import path_expand
 
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
@@ -143,6 +146,100 @@ class CMShell(Cmd, PluginCommandClasses):
     +-------------------------------------------------------+
     """)
 
+    filename = path_expand("~/.cloudmesh/data")
+    variable = shelve.open(filename)
+
+    def replace_vars(self, line):
+
+        # self.update_time()
+
+        newline = line
+
+        variables = self.variable
+
+        if len(variables) is not None:
+            for name in variables:
+                value = str(variables[name])
+                newline = newline.replace("$" + name, value)
+                newline = newline.replace("var." + name, value)
+            for v in os.environ:
+                name = v.replace('os.', '')
+                if name in newline:
+                    value = os.environ[name]
+                    newline = newline.replace("os." + v, value)
+
+        newline = path_expand(newline)
+        return line, newline
+
+    def onecmd(self, line):
+        """Interpret the argument as though it had been typed in response
+        to the prompt.
+
+        This may be overridden, but should not normally need to be;
+        see the precmd() and postcmd() methods for useful execution hooks.
+        The return value is a flag indicating whether interpretation of
+        commands by the interpreter should stop.
+
+        """
+
+        oldline, line = self.replace_vars(line)
+
+        # -----------------------------
+        # print comment lines, but do not execute them
+        # -----------------------------
+        if line.startswith('#') \
+                or line.startswith('//') \
+                or line.startswith('/*'):
+            print(line)
+            return ""
+
+        # if line is None:
+        #    return ""
+
+
+        # if line.startswith("!"):
+        #    line.replace("!", "! ")
+        # line = self.var_replacer(line)
+        # if line != "hist" and line:
+        #    self._hist += [line.strip()]
+        # if line.startswith("!") or line.startswith("shell"):
+        #    self.do_shell_exec(line[1:])
+        #    return ""
+        cmd, arg, line = self.parseline(line)
+
+        if cmd != '':
+            try:
+                func = getattr(self, 'do_' + cmd)
+                return func(arg)
+            except AttributeError:
+                cmd = None
+                line = oldline
+
+        if line.startswith("$") or line.startswith('var.'):
+            line = line.replace("$", "", 1)
+            line = line.replace("var.", "", 1)
+            print("FIND>", line, "<", sep='')
+            print(self.variable[line])
+            return ""
+
+        # -----------------------------
+        # handle empty line
+        # -----------------------------
+        if not line:
+            return self.emptyline()
+
+        # -----------------------------
+        # handle file execution
+        # -----------------------------
+        #
+        # this does not yet work
+        #
+        # if os.path.isfile(line):
+        #    print ("... execute", line)
+        #    self.do_exec(line)
+        #    return ""
+
+        return ""
     #
     # List all commands that start with do
     #
