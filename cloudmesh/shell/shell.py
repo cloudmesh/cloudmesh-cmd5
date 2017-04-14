@@ -21,12 +21,11 @@ from cmd import Cmd
 
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
+from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
-from cloudmesh.common.StopWatch import StopWatch
 
 import cloudmesh
-
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 
@@ -206,6 +205,10 @@ class CMShell(Cmd, PluginCommandClasses):
             print(line)
             return ""
 
+        if line.startswith('!'):
+            os.system(line[1:])
+
+            return ""
         # if line is None:
         #    return ""
 
@@ -253,6 +256,26 @@ class CMShell(Cmd, PluginCommandClasses):
         #    return ""
 
         return ""
+
+    @command
+    def do_shell(self, args, arguments):
+        """
+        ::
+           Usage:
+                shell COMMAND
+                
+            Arguments:
+                COMMAND  the command to be executed
+
+           Description:
+                shell COMMAND  executes the command 
+
+        """
+        # print ("Executing>", args, "<", sep='')
+        # os.system(args)
+        os.system(str(args))
+        return ""
+
     #
     # List all commands that start with do
     #
