@@ -23,7 +23,7 @@ from cloudmesh.common.dotdict import dotdict
 
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
-from cloudmesh.shell.command import command
+from cloudmesh.shell.command import command, basecommand
 
 
 def print_list(elements):
@@ -255,19 +255,51 @@ class CMShell(Cmd, PluginCommandClasses):
         return
 
     # noinspection PyUnusedLocal
-    @command
+    @basecommand
     def do_version(self, args, arguments):
         """
         Usage:
+           version pip [PACKAGE]
            version [--format=FORMAT] [--check=CHECK]
+           
 
         Options:
             --format=FORMAT  the format to print the versions in [default: table]
             --check=CHECK    boolean tp conduct an additional check [default: True]
 
         Description:
-            Prints out the version number
+            version 
+                Prints out the version number
+            version pip
+                Prints the contents of pip list
+                
+        Limitations:
+           Package names must not have a . in them instead you need to use -
+           Thus to querry for cloudmesh.cmd5 use
+            
+              cms version pip cloudmesh-cmd5
+           
         """
+
+        #print (arguments)
+
+        if arguments["pip"]:
+            try:
+                package = arguments["PACKAGE"]
+
+                if package is None:
+                    result = Shell.execute('pip', ['list', '--format=columns'], traceflag=False, witherror=False)
+                    print (result)
+                else:
+                    if "." in package:
+                        package = package.replace(".", "-")
+                    result = Shell.execute('pip', ['show', package], traceflag=False, witherror=False)
+                    print(result)
+
+            except Exception as e:
+                result = 'N/A'
+            return ""
+
 
         python_version, pip_version = Shell.get_python()
 
