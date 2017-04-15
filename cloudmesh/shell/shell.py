@@ -147,7 +147,7 @@ class CMShell(Cmd, PluginCommandClasses):
     +-------------------------------------------------------+
     """)
 
-    filename = path_expand("~/.cloudmesh/data")
+    filename = path_expand("~/.cloudmesh/var-data")
     variable = shelve.open(filename)
 
     def precmd(self, line):
