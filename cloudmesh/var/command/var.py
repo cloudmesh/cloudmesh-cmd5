@@ -54,7 +54,7 @@ class VarCommand(PluginCommand):
             
         """
         # print (arguments)
-        filename = path_expand("~/.cloudmesh/data")
+        filename = path_expand("~/.cloudmesh/var-data")
         database = shelve.open(filename)
         # print ("readung db ...", filename + ".db")
         if arguments["clear"]:
