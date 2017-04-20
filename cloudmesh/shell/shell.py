@@ -156,6 +156,8 @@ class CMShell(Cmd, PluginCommandClasses):
 
     def postcmd(self, stop, line):
         StopWatch.stop("command")
+        if "timer" not in self.variable:
+            self.variable["timer"] = "off"
         if self.variable["timer"].lower() in ['on', 'true']:
             print("Timer: {:.4f}s ({})".format(StopWatch.get("command"),
                                                line.strip()))
