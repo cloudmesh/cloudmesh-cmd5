@@ -24,12 +24,12 @@ from cloudmesh.common.Shell import Shell
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
+from cloudmesh.common.default import Default
 
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 
-from cloudmesh.shell.default import Default
 
 def print_list(elements):
     """
@@ -186,13 +186,9 @@ class CMShell(Cmd, PluginCommandClasses):
                     newline = newline.replace("os." + v, value)
 
             default = Default()
-            print ("D", default.data, type(self.default))
             for v in default.data:
-                print ("K", v)
                 name = "default." + v.replace(",",".")
                 value = default.data[v]
-
-                print ("V", name, value)
                 if name in newline:
                     newline = newline.replace(name, value)
 
@@ -202,7 +198,6 @@ class CMShell(Cmd, PluginCommandClasses):
             for v in general:
                 name = "default." + v
                 value = general[v]
-                print("K", name, v, general[v])
                 if name in newline:
                     newline = newline.replace(name, value)
 

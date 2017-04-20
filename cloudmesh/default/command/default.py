@@ -1,13 +1,11 @@
 from __future__ import print_function
 
-from cloudmesh.common.StopWatch import StopWatch
+from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
+from cloudmesh.common.default import Default
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
-
-from cloudmesh.shell.default import Default
-from cloudmesh.common.Printer import Printer
 
 
 class DefaultCommand(PluginCommand):
