@@ -29,6 +29,7 @@ import cloudmesh
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 
+from cloudmesh.shell.default import Default
 
 def print_list(elements):
     """
@@ -150,6 +151,7 @@ class CMShell(Cmd, PluginCommandClasses):
     filename = path_expand("~/.cloudmesh/var-data")
     variable = shelve.open(filename)
 
+
     def precmd(self, line):
         StopWatch.start("command")
         return line
@@ -171,6 +173,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         variables = self.variable
 
+
         if len(variables) is not None:
             for name in variables:
                 value = str(variables[name])
@@ -181,6 +184,30 @@ class CMShell(Cmd, PluginCommandClasses):
                 if name in newline:
                     value = os.environ[name]
                     newline = newline.replace("os." + v, value)
+
+            default = Default()
+            print ("D", default.data, type(self.default))
+            for v in default.data:
+                print ("K", v)
+                name = "default." + v.replace(",",".")
+                value = default.data[v]
+
+                print ("V", name, value)
+                if name in newline:
+                    newline = newline.replace(name, value)
+
+            # repace if general is missing
+
+            general = default["general"]
+            for v in general:
+                name = "default." + v
+                value = general[v]
+                print("K", name, v, general[v])
+                if name in newline:
+                    newline = newline.replace(name, value)
+
+
+            default.close()
 
         newline = path_expand(newline)
         return line, newline
