@@ -14,7 +14,10 @@ class Variables(object):
         self.data.sync()
 
     def __getitem__(self, key):
-        return self.data[key]
+        if key not in self.data:
+            return None
+        else:
+            return self.data[key]
 
     def __setitem__(self, key, value):
         self.data[key] = value
