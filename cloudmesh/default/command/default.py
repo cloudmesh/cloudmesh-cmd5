@@ -20,6 +20,7 @@ class DefaultCommand(PluginCommand):
 
           Usage:
               default list [--context=CONTEXT] [--format=FORMAT]
+              default delete --context=CONTEXT
               default delete KEY [--context=CONTEXT]
               default KEY [--context=CONTEXT]
               default KEY=VALUE [--CONTEXT=CONTEXT]
@@ -94,12 +95,29 @@ class DefaultCommand(PluginCommand):
                 cloud kilo
 
         """
-        # print(arguments)
+        print(arguments)
         # print (">", args, "<")
 
-        context = arguments.CONTEXT or "general"
+
+        context = arguments["--context"] or "general"
 
         defaults = Default()
+
+        if arguments["delete"]:
+
+            key = arguments.KEY
+            if key is None:
+                del defaults[context]
+            else:
+                del defaults[context, key]
+            #if not result :
+            #    Console.error("default {} not present".format(key))
+            #else:
+            #    Console.ok("Deleted key {} for cloud {}. ok.".format(key,
+            #                                                      cloud))
+            return ""
+
+
         if arguments.KEY is not None:
             if "=" not in arguments.KEY:
                 print (arguments.KEY, "=", defaults[context,arguments.KEY], sep='')
@@ -127,14 +145,3 @@ class DefaultCommand(PluginCommand):
                 print(Printer.list(data,output=output_format))
             return ""
 
-        elif arguments["delete"]:
-
-            print("NOT YET IMPLEMENTED")
-            #key = arguments.KEY
-            # del defaults(context, key)
-            #if not result :
-            #    Console.error("default {} not present".format(key))
-            #else:
-            #    Console.ok("Deleted key {} for cloud {}. ok.".format(key,
-            #                                                      cloud))
-            return ""

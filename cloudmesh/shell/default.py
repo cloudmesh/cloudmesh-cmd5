@@ -41,8 +41,16 @@ class Default(object):
         self.data.sync()
 
     def __delitem__(self, context_key):
-        context, key = context_key
-        del self.data[self._index(context,key)]
+        print ("DEL")
+        if type(context_key) == tuple:
+            context, key = context_key
+            del self.data[self._index(context,key)]
+        else:
+            context = context_key
+            for element in self.data:
+                print ("E", element, context)
+                if element.startswith(context + ","):
+                    del self.data[element]
         self.data.sync()
 
     def __contains__(self, item):
