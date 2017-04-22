@@ -25,6 +25,7 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.default import Default
+# from cloudmesh.common.error import ERROR
 
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
@@ -219,7 +220,6 @@ class CMShell(Cmd, PluginCommandClasses):
         commands by the interpreter should stop.
 
         """
-
         oldline, line = self.replace_vars(line)
 
         # -----------------------------
@@ -282,7 +282,6 @@ class CMShell(Cmd, PluginCommandClasses):
                 print ("CMS ERROR: command '", cmd, "' not found.", sep='')
                 cmd = None
                 line = oldline
-
         return ""
 
     @command
@@ -602,6 +601,7 @@ def main():
         print("ERROR: executing command '{0}'".format(command))
         print(70 * "=")
         print(e)
+        # Error.traceback(error=e, debug=True, trace=True)
         print(70 * "=")
 
     if interactive or (command is None and script is None):
