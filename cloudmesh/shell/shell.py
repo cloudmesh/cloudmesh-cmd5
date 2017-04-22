@@ -249,13 +249,6 @@ class CMShell(Cmd, PluginCommandClasses):
         #    return ""
         cmd, arg, line = self.parseline(line)
 
-        if cmd != '':
-            try:
-                func = getattr(self, 'do_' + cmd)
-                return func(arg)
-            except AttributeError:
-                cmd = None
-                line = oldline
 
         if line.startswith("$") or line.startswith('var.'):
             line = line.replace("$", "", 1)
@@ -269,6 +262,15 @@ class CMShell(Cmd, PluginCommandClasses):
         # -----------------------------
         if not line:
             return self.emptyline()
+
+        if cmd != '':
+            try:
+                func = getattr(self, 'do_' + cmd)
+                return func(arg)
+            except AttributeError:
+                print ("CMS ERROR: can not execute command", cmd)
+                cmd = None
+                line = oldline
 
         # -----------------------------
         # handle file execution
