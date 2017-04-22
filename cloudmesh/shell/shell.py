@@ -263,15 +263,6 @@ class CMShell(Cmd, PluginCommandClasses):
         if not line:
             return self.emptyline()
 
-        if cmd != '':
-            try:
-                func = getattr(self, 'do_' + cmd)
-                return func(arg)
-            except AttributeError:
-                print ("CMS ERROR: can not execute command", cmd)
-                cmd = None
-                line = oldline
-
         # -----------------------------
         # handle file execution
         # -----------------------------
@@ -282,6 +273,15 @@ class CMShell(Cmd, PluginCommandClasses):
         #    print ("... execute", line)
         #    self.do_exec(line)
         #    return ""
+
+        if cmd != '':
+            try:
+                func = getattr(self, 'do_' + cmd)
+                return func(arg)
+            except AttributeError:
+                print ("CMS ERROR: command '", cmd, "' not found.", sep='')
+                cmd = None
+                line = oldline
 
         return ""
 
