@@ -97,7 +97,7 @@ class DefaultCommand(PluginCommand):
         # print (">", args, "<")
 
 
-        context = arguments["--context"] or "general"
+        context = arguments["--context"] or "global"
 
         defaults = Default()
 

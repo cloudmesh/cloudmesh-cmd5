@@ -186,20 +186,22 @@ class CMShell(Cmd, PluginCommandClasses):
                     newline = newline.replace("os." + v, value)
 
             default = Default()
-            for v in default.data:
-                name = "default." + v.replace(",",".")
-                value = default.data[v]
-                if name in newline:
-                    newline = newline.replace(name, value)
+            if default is not None:
+                for v in default.data:
+                    name = "default." + v.replace(",",".")
+                    value = default.data[v]
+                    if name in newline:
+                        newline = newline.replace(name, value)
 
-            # repace if general is missing
+                # repace if global is missing
 
-            general = default["general"]
-            for v in general:
-                name = "default." + v
-                value = general[v]
-                if name in newline:
-                    newline = newline.replace(name, value)
+                global_default = default["global"]
+                if global_default is not None:
+                    for v in global_default:
+                        name = "default." + v
+                        value = global_default[v]
+                        if name in newline:
+                            newline = newline.replace(name, value)
 
 
             default.close()
