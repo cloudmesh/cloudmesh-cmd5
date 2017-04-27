@@ -25,7 +25,7 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.default import Default
-# from cloudmesh.common.error import ERROR
+from cloudmesh.common.error import Error
 
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
@@ -278,10 +278,11 @@ class CMShell(Cmd, PluginCommandClasses):
             try:
                 func = getattr(self, 'do_' + cmd)
                 return func(arg)
-            except AttributeError:
-                print ("CMS ERROR: command '", cmd, "' not found.", sep='')
+            except AttributeError as e:
+                print ("CMS ERROR: error while executing command '", cmd, "'", sep='')
                 cmd = None
                 line = oldline
+                Error.traceback(error=e, debug=True, trace=True)
         return ""
 
     @command
@@ -303,6 +304,7 @@ class CMShell(Cmd, PluginCommandClasses):
         os.system(str(args))
         return ""
 
+    '''
     #
     # List all commands that start with do
     #
@@ -330,6 +332,78 @@ class CMShell(Cmd, PluginCommandClasses):
                 print(c.replace("do_", ""), end=' ')
         print()
         return ""
+
+    '''
+
+    def do_help(self, arg):
+        """
+        ::
+
+            Usage:
+                help
+                help COMMAND 
+
+            Description:
+                List available commands with "help" or detailed help with
+                "help COMMAND"."""
+
+        if arg:
+            try:
+                func = getattr(self, 'help_' + arg)
+            except AttributeError:
+                try:
+                    doc = getattr(self, 'do_' + arg).__doc__
+                    if doc:
+                        doc = doc.replace("::\n\n","")
+                        self.stdout.write("%s\n" % str(doc))
+                        return
+                except AttributeError:
+                    pass
+                self.stdout.write("%s\n" % str(self.nohelp % (arg,)))
+                return
+            func()
+        else:
+            names = self.get_names()
+            cmds_doc = []
+            cmds_undoc = []
+            help_page = {}
+            for name in names:
+                if name[:5] == 'help_':
+                    help_page[name[5:]] = 1
+            names.sort()
+            # There can be duplicates if routines overridden
+            prevname = ''
+            for name in names:
+                if name[:3] == 'do_':
+                    if name == prevname:
+                        continue
+                    prevname = name
+                    cmd = name[3:]
+                    if cmd in help_page:
+                        cmds_doc.append(cmd)
+                        del help_page[cmd]
+                    elif getattr(self, name).__doc__:
+                        cmds_doc.append(cmd)
+                    else:
+                        cmds_undoc.append(cmd)
+
+            self.stdout.write("%s\n" % str(self.doc_leader))
+            self.print_topics(self.doc_header, cmds_doc, 15, 80)
+            self.print_topics(self.misc_header, list(help_page.keys()), 15, 80)
+            self.print_topics(self.undoc_header, cmds_undoc, 15, 80)
+
+
+
+    def help_help(self):
+        """
+        ::
+
+            Usage:
+               help NAME
+
+            Prints out the help message for a given function
+        """
+        print(textwrap.dedent(self.help_help.__doc__))
 
     @command
     def do_info(self, args, arguments):
@@ -601,7 +675,10 @@ def main():
         print("ERROR: executing command '{0}'".format(command))
         print(70 * "=")
         print(e)
-        # Error.traceback(error=e, debug=True, trace=True)
+        d = Default()
+        trace =  d["global", "trace"] == "True"
+        Error.traceback(error=e, debug=True, trace=trace)
+        d.close()
         print(70 * "=")
 
     if interactive or (command is None and script is None):
