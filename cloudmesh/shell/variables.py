@@ -20,15 +20,16 @@ class Variables(object):
             return self.data[key]
 
     def __setitem__(self, key, value):
-        self.data[key] = value
+        print ("set", key, value)
+        self.data[str(key)] = value
         self.data.sync()
 
     def __delitem__(self, key):
-        del self.data[key]
+        del self.data[str(key)]
         self.data.sync()
 
     def __contains__(self, item):
-        return item in self.data
+        return str(item) in self.data
 
     def __str__(self):
         return (str(self.data))
@@ -43,6 +44,9 @@ class Variables(object):
     def __sub__(self, keys):
         for key in keys:
             del self.data[key]
+
+    def __iter__(self):
+        return self.data
 
     def close(self):
         self.data.close()

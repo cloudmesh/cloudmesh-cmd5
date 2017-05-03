@@ -30,7 +30,7 @@ from cloudmesh.common.error import Error
 import cloudmesh
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
-
+from cloudmesh.shell.variables import Variables
 
 def print_list(elements):
     """
@@ -149,35 +149,37 @@ class CMShell(Cmd, PluginCommandClasses):
     +-------------------------------------------------------+
     """)
 
-    filename = path_expand("~/.cloudmesh/var-data")
-    variable = shelve.open(filename)
-
-
     def precmd(self, line):
         StopWatch.start("command")
         return line
 
     def postcmd(self, stop, line):
         StopWatch.stop("command")
-        if "timer" not in self.variable:
-            self.variable["timer"] = "off"
-        if self.variable["timer"].lower() in ['on', 'true']:
-            print("Timer: {:.4f}s ({})".format(StopWatch.get("command"),
-                                               line.strip()))
+
+        try:
+            variable = Variables()
+            if "timer" not in variable:
+                variable["timer"] = "off"
+            if variable["timer"].lower() in ['on', 'true']:
+                print("Timer: {:.4f}s ({})".format(StopWatch.get("command"), line.strip()))
+            variable.close()
+        except Exception as e:
+            Error.traceback(error=e)
+
         return stop
 
     def replace_vars(self, line):
 
         # self.update_time()
 
+        variable = Variables()
         newline = line
 
-        variables = self.variable
+        if len(variable) is not None:
+            for name in variable.data:
+                print("var replace", name)
 
-
-        if len(variables) is not None:
-            for name in variables:
-                value = str(variables[name])
+                value = str(variable[name])
                 newline = newline.replace("$" + name, value)
                 newline = newline.replace("var." + name, value)
             for v in os.environ:
@@ -206,6 +208,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
 
             default.close()
+            variable.close()
 
         newline = path_expand(newline)
         return line, newline
@@ -254,7 +257,9 @@ class CMShell(Cmd, PluginCommandClasses):
             line = line.replace("$", "", 1)
             line = line.replace("var.", "", 1)
             print("FIND>", line, "<", sep='')
-            print(self.variable[line])
+            variable = Variables()
+            print(variable[line])
+            variable.close()
             return ""
 
         # -----------------------------

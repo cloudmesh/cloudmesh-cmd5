@@ -1,4 +1,5 @@
 cloudmesh.common
+pytz==2016.10
 psutil
 eve
 pygments
