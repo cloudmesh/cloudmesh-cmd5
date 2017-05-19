@@ -177,8 +177,6 @@ class CMShell(Cmd, PluginCommandClasses):
 
         if len(variable) is not None:
             for name in variable.data:
-                print("var replace", name)
-
                 value = str(variable[name])
                 newline = newline.replace("$" + name, value)
                 newline = newline.replace("var." + name, value)
