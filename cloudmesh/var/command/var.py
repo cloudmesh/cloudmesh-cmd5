@@ -1,12 +1,12 @@
 from __future__ import print_function
 
-import shelve
 from datetime import datetime
 
 from cloudmesh.common.util import path_expand
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
+from cloudmesh.shell.variables import Variables
 
 
 class VarCommand(PluginCommand):
@@ -54,11 +54,10 @@ class VarCommand(PluginCommand):
             
         """
         # print (arguments)
-        filename = path_expand("~/.cloudmesh/var-data")
-        database = shelve.open(filename)
-        # print ("readung db ...", filename + ".db")
+        database = Variables(filename="~/.cloudmesh/var-data")
+
         if arguments["clear"]:
-            database = None
+            database.clear()
         elif arguments["list"]:
             for name in database:
                 value = database[name]
