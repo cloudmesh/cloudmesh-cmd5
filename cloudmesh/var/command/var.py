@@ -18,8 +18,8 @@ class VarCommand(PluginCommand):
             var list
             var clear 
             var delete NAME
-            var NAME=VALUE
             var NAME
+            var NAME=VALUE
                           
         Arguments:
             NAME      the name of the variable
