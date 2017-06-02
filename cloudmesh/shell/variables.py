@@ -1,11 +1,9 @@
 from __future__ import print_function
 
-from ruamel import yaml
-import os
-import os.path
 
 from cloudmesh.db.strdb import YamlDB
 from cloudmesh.common.util import path_expand
+
 
 class Variables(object):
     def __init__(self, filename=None):
