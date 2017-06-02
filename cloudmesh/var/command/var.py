@@ -2,8 +2,6 @@ from __future__ import print_function
 
 from datetime import datetime
 
-from cloudmesh.common.util import path_expand
-
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.shell.variables import Variables
