@@ -1,3 +1,4 @@
+ruamel.yaml<15.0
 cloudmesh.common
 pytz==2016.10
 psutil
@@ -8,4 +9,4 @@ detox
 coverage
 flake8
 psutil
-ruamel.yaml
+
