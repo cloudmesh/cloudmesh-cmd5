@@ -188,14 +188,14 @@ To switch timers on or off you can use
 
 cms var timer=on
 
-Than every command you type is timed
+Than every command you type is timed::
 
-$ cms banner hallo
-banner
-######################################################################
-# hallo
-######################################################################
-Timer: 0.0011s (banner hallo)
+    $ cms banner hallo
+    banner
+    ######################################################################
+    # hallo
+    ######################################################################
+    Timer: 0.0011s (banner hallo)
 
 Variables
 ^^^^^^^^^
@@ -218,6 +218,7 @@ with the HOME variable from the shell, try it with::
 
   cms banner os.HOME
 
+
 Defaults
 ^^^^^^^^^
 
@@ -233,7 +234,7 @@ To List the defaults use::
 
 To use the defaults in a command preceed it with the the keyword `default.`
 and append the context and the name of the default variable. If the context
-is missing, the `general` context will be used. Examples:
+is missing, the `general` context will be used. Examples::
 
   banner default.cloud
   default image=ubnuntu --context=chameleon
@@ -245,7 +246,7 @@ Stopwatch
 
 for some (not all) benchmarks this could be helpful. It only works in script mode of cmd5
 
-put this in a file called s.cm:
+put this in a file called s.cm::
 
   stopwatch start g
   stopwatch stop g
