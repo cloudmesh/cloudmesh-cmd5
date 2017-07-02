@@ -4,7 +4,7 @@ import textwrap
 
 from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
-
+from cloudmesh.common.console import Console
 
 class PluginCommand(object):
     pass
@@ -61,9 +61,10 @@ def command(func):
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
-                print("Could not execute the command.")
-                print(e)
-            print(doc)
+                Console.error("Could not execute the command.")
+                # print (args)
+                # print(e)
+            # print(doc)
 
     new.__doc__ = doc
     return new
@@ -106,7 +107,7 @@ def basecommand(func):
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
-                print("Could not execute the command.")
+                Console.error("Could not execute the command.")
                 print(e)
             print(doc)
 
