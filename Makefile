@@ -1,9 +1,5 @@
 package=cmd5
-pyenv=ENV2
 UNAME=$(shell uname)
-export ROOT_DIR=${PWD}/cloudmesh/rest/server
-MONGOD=mongod --dbpath ~/.cloudmesh/data/db --bind_ip 127.0.0.1
-EVE=cd $(ROOT_DIR); $(pyenv); python service.py
 VERSION=`head -1 VERSION`
 
 define banner
@@ -29,47 +25,11 @@ define terminal
 endef
 endif
 
-
-
-setup:
-	# brew update
-	# brew install mongodb
-	# brew install jq
-	rm -rf ~/.cloudmesh/data/db
-	mkdir -p ~/.cloudmesh/data/db
-
-kill:
-	killall mongod
-
-mongo:
-	$(call terminal, $(MONGOD))
-
-eve:
-	$(call terminal, $(EVE))
-
 source: 
-	cd ../cloudmesh.common; python setup.py install; pip install -e .
-	python setup.py install; pip install -e .
+	cd ../cloudmesh.common; python setup.py install
+	# cd ../cloudmesh.sys; python setup.py install
+	python setup.py install
 	cms help
-
-test:
-	$(call banner, "LIST SERVICE")
-	curl -s -i http://127.0.0.1:5000 
-	$(call banner, "LIST PROFILE")
-	@curl -s http://127.0.0.1:5000/profile  | jq
-	$(call banner, "LIST CLUSTER")
-	@curl -s http://127.0.0.1:5000/cluster  | jq
-	$(call banner, "LIST COMPUTER")
-	@curl -s http://127.0.0.1:5000/computer  | jq
-	$(call banner, "INSERT COMPUTER")
-	curl -d '{"name": "myCLuster",	"label": "c0","ip": "127.0.0.1","memoryGB": 16}' -H 'Content-Type: application/json'  http://127.0.0.1:5000/computer  
-	$(call banner, "LIST COMPUTER")
-	@curl -s http://127.0.0.1:5000/computer  | jq
-
-
-nosetests:
-	nosetests -v --nocapture tests/test_mongo.py
-
 
 clean:
 	rm -rf *.zip
@@ -82,16 +42,6 @@ clean:
 	find . -name '*.pyc' -delete
 	rm -rf .tox
 	rm -f *.whl
-
-
-genie:
-	git clone https://github.com/drud/evegenie.git
-	cd evegenie; pip install -r requirements.txt
-
-json:
-	python evegenie/geneve.py sample.json
-	cp sample.settings.py $(ROOT_DIR)/settings.py
-	cat $(ROOT_DIR)/settings.py
 
 ######################################################################
 # PYPI
@@ -118,9 +68,8 @@ register: dist
 	@echo "# $(VERSION)"
 	@echo "######################################"
 	twine register dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl
-	twine register dist/cloudmesh.$(package)-$(VERSION).macosx-10.12-x86_64.tar.gz
-	twine register dist/cloudmesh.$(package)-$(VERSION).tar.gz
-	twine register dist/cloudmesh.$(package)-$(VERSION).zip
+	# twine register dist/cloudmesh.$(package)-$(VERSION).tar.gz
+
 
 upload: dist
 	twine upload dist/*

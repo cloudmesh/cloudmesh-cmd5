@@ -1,11 +1,2 @@
 cloudmesh.common
-pytz==2016.10
-psutil
-eve
-pygments
-tox
-detox
-coverage
-flake8
-psutil
-ruamel.yaml
+docopt
