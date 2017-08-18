@@ -33,15 +33,8 @@ def readfile(filename):
 
 
 requiers = """
-pygments
-tox
-detox
-coverage
-flake8
-eve
-psutil
-docopt
 cloudmesh.common
+docopt
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
@@ -66,11 +59,6 @@ setup(
     license="Apache 2.0",
     url=URL,
     packages=find_packages(),
-    # package_data={
-    #    "cloudmesh.data": [
-    #        "templates/cloudmesh/data.txt",
-    #    ]
-    # },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -82,8 +70,6 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     install_requires=requiers,
-    # dependency_links = dependency_links,
-    # test_suite="runtests.runtests",
     tests_require=[
         "flake8",
         "coverage",
