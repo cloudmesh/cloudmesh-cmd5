@@ -24,7 +24,7 @@ class VarCommand(PluginCommand):
             VALUE     the value of the variable
             FILENAME  the filename of the variable
         Description:
-            Manage persistant variables
+            Manage persistent variables
             
             var NAME=VALUE
                sets the variable with the name to the value
@@ -46,7 +46,7 @@ class VarCommand(PluginCommand):
                cms var 'a=$b'
                cms var a=val.b
                
-            The previosu command coppy the value from b to a. The val command
+            The previous command copy the value from b to a. The val command
             was added to avoid quoting.
             
             
