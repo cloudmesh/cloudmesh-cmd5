@@ -46,7 +46,7 @@ NAME = "cloudmesh.cmd5"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
-URL = "https://github.com/cloudmesh/cmd5"
+URL = "https://github.com/cloudmesh/cloudmesh.cmd5"
 LONG_DESCRIPTION = readme
 
 setup(
