@@ -5,7 +5,7 @@
 # Before we use them we need to implement some elementary functions
 # lets first do administrative functions in an admin command
 
-# pseudo code: task implementplugin
+# pseudo code: task implement plugin
 
 from __future__ import print_function
 
@@ -69,9 +69,9 @@ class Plugin(object):
         """
         module_list = cls.modules()
         commands = []
-        for module in module_list:
-            if module.startswith('cloudmesh.') and '.command.' in module:
-                commands.append(module)
+        for module_name in module_list:
+            if module_name.startswith('cloudmesh.') and '.command.' in module_name:
+                commands.append(module_name)
         return commands
 
     @classmethod
@@ -169,6 +169,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         return stop
 
+    # noinspection PyMethodMayBeStatic
     def replace_vars(self, line):
 
         # self.update_time()
@@ -195,7 +196,7 @@ class CMShell(Cmd, PluginCommandClasses):
                     if name in newline:
                         newline = newline.replace(name, value)
 
-                # repace if global is missing
+                # replace if global is missing
 
                 global_default = default["global"]
                 if global_default is not None:
@@ -286,6 +287,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 Error.traceback(error=e, debug=True, trace=True)
         return ""
 
+    # noinspection PyUnusedLocal
     @command
     def do_shell(self, args, arguments):
         """
@@ -404,6 +406,7 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         print(textwrap.dedent(self.help_help.__doc__))
 
+    # noinspection PyUnusedLocal
     @command
     def do_info(self, args, arguments):
         """
@@ -438,12 +441,13 @@ class CMShell(Cmd, PluginCommandClasses):
         elif arguments.help:
             for name in module_list:
                 p = "cloudmesh." + name
-                strhelp = p + " not found."
+                help_string = p + " not found."
+                # noinspection PyBroadException
                 try:
-                    strhelp = pydoc.render_doc(p, "Help on %s" + "\n" + 79 * "=")
+                    help_string = pydoc.render_doc(p, "Help on %s" + "\n" + 79 * "=")
                 except Exception as e:
                     pass
-                print(strhelp)
+                print(help_string)
 
         else:
             print_list(module_list)
@@ -508,7 +512,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 
         Limitations:
            Package names must not have a . in them instead you need to use -
-           Thus to querry for cloudmesh.cmd5 use
+           Thus to query for cloudmesh.cmd5 use
             
               cms version pip cloudmesh-cmd5
            
@@ -517,6 +521,7 @@ class CMShell(Cmd, PluginCommandClasses):
         # print (arguments)
 
         if arguments["pip"]:
+            # noinspection PyBroadException
             try:
                 package = arguments["PACKAGE"]
 
@@ -535,6 +540,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         python_version, pip_version = Shell.get_python()
 
+        # noinspection PyBroadException
         try:
             git_hash_version = Shell.execute('git', 'log -1 --format=%h', traceflag=False, witherror=False)
         except:
@@ -584,6 +590,7 @@ def inheritors(klass):
     return subclasses
 
 
+# TODO: remove this as it seems to be a test
 def do_gregor(line):
     print("gregor")
 
@@ -630,6 +637,8 @@ def main():
     arguments['COMMAND'] = [' '.join(args)]
 
     commands = arguments["COMMAND"]
+    # commands = list(arguments["COMMAND"])
+
     if len(commands) > 0:
         if ".cm" in commands[0]:
             arguments["SCRIPT"] = commands[0]
