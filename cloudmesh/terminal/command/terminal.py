@@ -156,6 +156,7 @@ class TerminalCommand(PluginCommand):
         # self.echo = on
         pass
 
+    # noinspection PyAttributeOutsideInit
     def set_banner(self, banner):
         self.banner = banner
 

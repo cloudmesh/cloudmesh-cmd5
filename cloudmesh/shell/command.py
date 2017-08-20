@@ -56,6 +56,7 @@ def command(func):
 
     def new(instance, args):
         # instance.new.__doc__ = doc
+        # noinspection PyUnusedLocal
         try:
             argv = shlex.split(args)
             arguments = dotdict(docopt(doc, help=True, argv=argv))
