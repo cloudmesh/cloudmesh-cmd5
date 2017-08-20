@@ -11,10 +11,12 @@ endef
 
 source: 
 	cd ../cloudmesh.common; make source
+	$(call banner, "Install cloudmesh.cmd5")
 	pip install -e .
 	cms help
 
 clean:
+	$(call banner, "CLEAN")
 	rm -rf *.zip
 	rm -rf *.egg-info
 	rm -rf *.eggs

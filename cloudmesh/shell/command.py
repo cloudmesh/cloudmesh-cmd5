@@ -6,6 +6,7 @@ from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
 from cloudmesh.common.console import Console
 
+
 class PluginCommand(object):
     pass
 
@@ -64,7 +65,7 @@ def command(func):
                 Console.error("Could not execute the command.")
                 # print (args)
                 # print(e)
-            # print(doc)
+                # print(doc)
 
     new.__doc__ = doc
     return new
@@ -100,9 +101,9 @@ def basecommand(func):
     def new(instance, args):
         # instance.new.__doc__ = doc
         try:
-            #print("ARGS", args)
+            # print("ARGS", args)
             argv = shlex.split(args)
-            #print ("ARGV", argv)
+            # print ("ARGV", argv)
             arguments = docopt(doc, help=True, argv=argv)
             func(instance, args, arguments)
         except SystemExit as e:

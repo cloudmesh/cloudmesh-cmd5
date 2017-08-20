@@ -40,6 +40,7 @@ class TerminalCommand(PluginCommand):
                 print(StopWatch.__str__)
             else:
                 StopWatch.print("Timer " + t + ":", t)
+
     # noinspection PyUnusedLocal
     @command
     def do_clear(self, args, arguments):

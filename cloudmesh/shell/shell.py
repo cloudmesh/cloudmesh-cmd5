@@ -32,6 +32,7 @@ from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 from cloudmesh.shell.variables import Variables
 
+
 def print_list(elements):
     """
     prints the element of a list
@@ -189,7 +190,7 @@ class CMShell(Cmd, PluginCommandClasses):
             default = Default()
             if default is not None:
                 for v in default.data:
-                    name = "default." + v.replace(",",".")
+                    name = "default." + v.replace(",", ".")
                     value = default.data[v]
                     if name in newline:
                         newline = newline.replace(name, value)
@@ -203,7 +204,6 @@ class CMShell(Cmd, PluginCommandClasses):
                         value = global_default[v]
                         if name in newline:
                             newline = newline.replace(name, value)
-
 
             default.close()
             variable.close()
@@ -239,7 +239,6 @@ class CMShell(Cmd, PluginCommandClasses):
         # if line is None:
         #    return ""
 
-
         # if line.startswith("!"):
         #    line.replace("!", "! ")
         # line = self.var_replacer(line)
@@ -249,7 +248,6 @@ class CMShell(Cmd, PluginCommandClasses):
         #    self.do_shell_exec(line[1:])
         #    return ""
         cmd, arg, line = self.parseline(line)
-
 
         if line.startswith("$") or line.startswith('var.'):
             line = line.replace("$", "", 1)
@@ -282,7 +280,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 func = getattr(self, 'do_' + cmd)
                 return func(arg)
             except AttributeError as e:
-                print ("CMS ERROR: error while executing command '", cmd, "'", sep='')
+                print("CMS ERROR: error while executing command '", cmd, "'", sep='')
                 cmd = None
                 line = oldline
                 Error.traceback(error=e, debug=True, trace=True)
@@ -357,7 +355,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 try:
                     doc = getattr(self, 'do_' + arg).__doc__
                     if doc:
-                        doc = doc.replace("::\n\n","")
+                        doc = doc.replace("::\n\n", "")
                         self.stdout.write("%s\n" % str(doc))
                         return
                 except AttributeError:
@@ -395,8 +393,6 @@ class CMShell(Cmd, PluginCommandClasses):
             self.print_topics(self.misc_header, list(help_page.keys()), 15, 80)
             self.print_topics(self.undoc_header, cmds_undoc, 15, 80)
 
-
-
     def help_help(self):
         """
         ::
@@ -429,7 +425,7 @@ class CMShell(Cmd, PluginCommandClasses):
             commands = Plugin.classes()
             print_list(commands)
         elif arguments.path:
-            path_list= cloudmesh.__path__
+            path_list = cloudmesh.__path__
             print_list(path_list)
         elif arguments.files:
             commands = Plugin.modules()
@@ -438,7 +434,7 @@ class CMShell(Cmd, PluginCommandClasses):
                     r = inspect.getfile(command)
                     print("*", type(command))
                 except Exception as e:
-                    print (e)
+                    print(e)
         elif arguments.help:
             for name in module_list:
                 p = "cloudmesh." + name
@@ -518,7 +514,7 @@ class CMShell(Cmd, PluginCommandClasses):
            
         """
 
-        #print (arguments)
+        # print (arguments)
 
         if arguments["pip"]:
             try:
@@ -526,7 +522,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
                 if package is None:
                     result = Shell.execute('pip', ['list', '--format=columns'], traceflag=False, witherror=False)
-                    print (result)
+                    print(result)
                 else:
                     if "." in package:
                         package = package.replace(".", "-")
@@ -536,7 +532,6 @@ class CMShell(Cmd, PluginCommandClasses):
             except Exception as e:
                 result = 'N/A'
             return ""
-
 
         python_version, pip_version = Shell.get_python()
 
@@ -679,7 +674,7 @@ def main():
         print(70 * "=")
         print(e)
         d = Default()
-        trace =  d["global", "trace"] == "True"
+        trace = d["global", "trace"] == "True"
         Error.traceback(error=e, debug=True, trace=trace)
         d.close()
         print(70 * "=")
