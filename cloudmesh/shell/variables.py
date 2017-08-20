@@ -1,6 +1,5 @@
 from __future__ import print_function
 
-
 from cloudmesh.db.strdb import YamlDB
 from cloudmesh.common.util import path_expand
 
@@ -17,7 +16,7 @@ class Variables(object):
             return self.data[key]
 
     def __setitem__(self, key, value):
-        print ("set", key, value)
+        print("set", key, value)
         self.data[str(key)] = value
 
     def __delitem__(self, key):

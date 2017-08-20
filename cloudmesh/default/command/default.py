@@ -9,7 +9,6 @@ from cloudmesh.shell.command import command
 
 
 class DefaultCommand(PluginCommand):
-
     # noinspection PyUnusedLocal
     @command
     def do_default(self, args, arguments):
@@ -96,7 +95,6 @@ class DefaultCommand(PluginCommand):
         print(arguments)
         # print (">", args, "<")
 
-
         context = arguments["--context"] or "global"
 
         defaults = Default()
@@ -108,26 +106,24 @@ class DefaultCommand(PluginCommand):
                 del defaults[context]
             else:
                 del defaults[context, key]
-            #if not result :
+            # if not result :
             #    Console.error("default {} not present".format(key))
-            #else:
+            # else:
             #    Console.ok("Deleted key {} for cloud {}. ok.".format(key,
             #                                                      cloud))
             return ""
 
-
         if arguments.KEY is not None:
             if "=" not in arguments.KEY:
-                print (arguments.KEY, "=", defaults[context,arguments.KEY], sep='')
+                print(arguments.KEY, "=", defaults[context, arguments.KEY], sep='')
             else:
-                key,value = arguments["KEY"].split("=",1)
-                defaults[context,key] = value
+                key, value = arguments["KEY"].split("=", 1)
+                defaults[context, key] = value
             return ""
-
 
         if arguments["list"]:
 
-            output_format = arguments["--format"] or defaults["global","output"] or 'table'
+            output_format = arguments["--format"] or defaults["global", "output"] or 'table'
 
             if defaults is None:
                 Console.error("No default values found")
@@ -138,8 +134,7 @@ class DefaultCommand(PluginCommand):
                 for context in d:
                     for key in d[context]:
                         data.append({"context": context,
-                                       "key": key,
-                                       "value": d[context][key]})
-                print(Printer.list(data,output=output_format))
+                                     "key": key,
+                                     "value": d[context][key]})
+                print(Printer.list(data, output=output_format))
             return ""
-
