@@ -6,20 +6,18 @@ An dynamically extensible CMD based command shell
 Requirements
 ------------
 
+* Python 3.6.2
 * Python 2.7.13
 
 Installation from source
 ------------------------
 
 Setup a virtualenv either with virtualenv or pyenv.
+We have a tutorial on cloudmesh classes for the use of
+pyenv
 
-virtualenv::
+https://cloudmesh.github.io/classes/lesson/prg/python.html?managing-custom-python-installs#managing-custom-python-installs
 
-    virtualenv ~/ENV2
-
-pyenv::
-
-    pyenev virtualenv 2.7.13 ENV2
 
 Now you need to get two source directories. We assume yo place them in
 ~/github::
