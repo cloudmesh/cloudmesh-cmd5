@@ -27,6 +27,7 @@ Now you need to get two source directories. We assume yo place them in
     git clone https://github.com/cloudmesh/cloudmesh.common.git
     git clone https://github.com/cloudmesh/cloudmesh.cmd5.git
     git clone https://github.com/cloudmesh/cloudmesh.bar.git
+     git clone https://github.com/cloudmesh/cloudmesh.sys.git
 
 The cmd5 repository contains the shell, while the extbar directory
 contains the sample commands foo and bar. The common library contains
@@ -42,12 +43,15 @@ example you want as source as you want to modify the code at one point::
     cd ~/github/cloudmesh.cmd5
     python setup.py install
     pip install .
-    cd ~/github/cloudmesh.bar
+    cd ~/github/cloudmesh.sys
     python setup.py install
     pip install .
 
 Instalation from pip
 --------------------
+
+.. note:: we do recommend that you install cmd5 from source as not all 
+          features will be accessible to you if you do a pip install
 
 To install cmd5 from pip please use::
 
@@ -60,7 +64,16 @@ learn how to write your own commands::
   cd ~/github
   git clone https://github.com/cloudmesh/cloudmesh.bar.git
 
-Commands are shared in the `cloudmesh` namespace::
+Commands are shared in the `cloudmesh` namespace.
+
+The better method on writing a command is to install cloudmesh.sys and use the 
+sys command to generate a new command template via a program. You can generate 
+a new command with::
+
+	cms sys command generate NAME
+	
+A directory with the name cloudmesh.NAME will be generated that contains the template
+for the command NAME. 
 
 Execution
 ---------
