@@ -17,6 +17,8 @@ import pydoc
 import shelve
 import sys
 import textwrap
+import subprocess
+
 from cmd import Cmd
 
 from cloudmesh.common.Printer import Printer
@@ -569,8 +571,66 @@ class CMShell(Cmd, PluginCommandClasses):
             }
 
         }
+
+        # dynamically check all installed cloudmesh packages and versions
+        pipcheck = subprocess.Popen(('pip', 'freeze'), stdout=subprocess.PIPE)
+        try:
+            # python 3 returns byte sequence so the decode is necessary
+            output = subprocess.check_output(('grep', "cloudmesh"), stdin=pipcheck.stdout).decode("utf-8")
+            pkglines = output.strip().split("\n")
+            for pkgline in pkglines:
+                values = pkgline.split("==")
+                pkg = values[0]
+                version = values[1].strip()
+                versions[pkg] = {"name": pkg,
+                                 "version": version
+                                }
+        except subprocess.CalledProcessError as e:
+            pass
+        pipcheck.wait()
+
+        #installedpkgs = []
+        #
+        # for a preset set of named packages
+        '''
+        #pkgs = ['cloudmesh.common', 'cloudmesh.cmd5', 'cloudmesh.comet']
+        for package in pkgs:
+            # check version from pip
+            pipcheck = subprocess.Popen(('pip', 'freeze'), stdout=subprocess.PIPE)
+            try:
+                output = subprocess.check_output(('grep', package), stdin=pipcheck.stdout)
+                version = output.split("==")[1].strip()
+                versions[package] = {"name": package,
+                                     "version": version
+                                     }
+            except subprocess.CalledProcessError as e:
+                pass
+            pipcheck.wait()
+        '''
+
+        # __version__ not maintained in package file so this won't work
+        '''
+            try:
+                print ("trying package |%s|" % package)
+                try_module = __import__(package)
+                print ("added one package into the list...")
+                installedpkgs.append(package)
+            except ImportError as e:
+                print ("error importing |%s|" % package)
+                pass
+
+        #print (installedpkgs)
+        for package in installedpkgs:
+            versions[package] = {package: {"name": package,
+                                           "version": str(package.__version__)
+                                           }
+                                 }
+        print (versions)
+        '''
+
         print(Printer.write(versions, output=arguments["--format"],
-                            order=["name", "version"]))
+                            order=["name", "version"],
+                            sort_keys="name"))
         if arguments["--check"] in ["True"]:
             Shell.check_python()
 
