@@ -30,6 +30,7 @@ from cloudmesh.common.default import Default
 from cloudmesh.common.error import Error
 
 import cloudmesh
+import cloudmesh.common
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 from cloudmesh.shell.variables import Variables
