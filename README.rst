@@ -27,7 +27,7 @@ Now you need to get two source directories. We assume yo place them in
     git clone https://github.com/cloudmesh/cloudmesh.common.git
     git clone https://github.com/cloudmesh/cloudmesh.cmd5.git
     git clone https://github.com/cloudmesh/cloudmesh.bar.git
-     git clone https://github.com/cloudmesh/cloudmesh.sys.git
+    git clone https://github.com/cloudmesh/cloudmesh.sys.git
 
 The cmd5 repository contains the shell, while the extbar directory
 contains the sample commands foo and bar. The common library contains
