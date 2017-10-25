@@ -65,18 +65,34 @@ plugins:
             - pip install .
         status: draft
     batch:
-        name: azure
+        name: batch
         description: >
-            management of cloudmesh azure
-        url: https://github.com/cloudmesh/cloudmesh.azure
+            management of cloudmesh batch
+        url: https://github.com/cloudmesh/cloudmesh.batch
         pip:
-            - pip install cloudmesh.azure
+            - pip install cloudmesh.batch
         uninstall:
-            - pip uninstall cloudmesh.azure
+            - pip uninstall cloudmesh.batch
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.azure#egg=cloudmesh.azure"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.batch#egg=cloudmesh.batch"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.azure.git
-            - cd cloudmesh.azure
+            - git clone https://github.com/cloudmesh/cloudmesh.batch.git
+            - cd cloudmesh.batch
+            - pip install .
+        status: draft
+    openstack:
+        name: openstack
+        description: >
+            management of cloudmesh openstack
+        url: https://github.com/cloudmesh/cloudmesh.openstack
+        pip:
+            - pip install cloudmesh.openstack
+        uninstall:
+            - pip uninstall cloudmesh.openstack
+        git-broken:
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.openstack#egg=cloudmesh.openstack"
+        source:
+            - git clone https://github.com/cloudmesh/cloudmesh.openstack.git
+            - cd cloudmesh.openstack
             - pip install .
         status: draft
