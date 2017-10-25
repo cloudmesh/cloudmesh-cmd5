@@ -47,4 +47,36 @@ plugins:
             - git clone https://github.com/cloudmesh/cloudmesh.aws.git
             - cd cloudmesh.aws
             - pip install .
-        status: alpha
+        status: draft
+    azure:
+        name: azure
+        description: >
+            management of cloudmesh azure
+        url: https://github.com/cloudmesh/cloudmesh.azure
+        pip:
+            - pip install cloudmesh.azure
+        uninstall:
+            - pip uninstall cloudmesh.azure
+        git-broken:
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.azure#egg=cloudmesh.azure"
+        source:
+            - git clone https://github.com/cloudmesh/cloudmesh.azure.git
+            - cd cloudmesh.azure
+            - pip install .
+        status: draft
+    batch:
+        name: azure
+        description: >
+            management of cloudmesh azure
+        url: https://github.com/cloudmesh/cloudmesh.azure
+        pip:
+            - pip install cloudmesh.azure
+        uninstall:
+            - pip uninstall cloudmesh.azure
+        git-broken:
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.azure#egg=cloudmesh.azure"
+        source:
+            - git clone https://github.com/cloudmesh/cloudmesh.azure.git
+            - cd cloudmesh.azure
+            - pip install .
+        status: draft

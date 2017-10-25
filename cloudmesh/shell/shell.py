@@ -540,7 +540,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 entry['description'] = entry['description'].strip()
             print(Printer.write(data['plugins'],
                                 output=arguments["--format"],
-                                order=["name", "description", "url"],
+                                order=["name", "description"],
                                 sort_keys="name"))
 
 
