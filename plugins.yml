@@ -15,6 +15,7 @@ plugins:
             - git clone https://github.com/cloudmesh/cloudmesh.sys.git
             - cd cloudmesh.sys
             - pip install .
+        status: production
     comet:
         name: comet
         description: >
@@ -29,4 +30,21 @@ plugins:
         source:
             - git clone https://github.com/cloudmesh/cloudmesh.comet.git
             - cd cloudmesh.comet
-            - pip install .            
+            - pip install .
+        status: production
+    aws:
+        name: aws
+        description: >
+            management of cloudmesh aws
+        url: https://github.com/cloudmesh/cloudmesh.aws
+        pip:
+            - pip install cloudmesh.aws
+        uninstall:
+            - pip uninstall cloudmesh.aws
+        git-broken:
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.aws#egg=cloudmesh.aws"
+        source:
+            - git clone https://github.com/cloudmesh/cloudmesh.aws.git
+            - cd cloudmesh.aws
+            - pip install .
+        status: alpha
