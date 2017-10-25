@@ -1,6 +1,6 @@
 ---
 plugins:
-    - sys:
+    sys:
         name: sys
         description: >
             management of cloudmesh release
