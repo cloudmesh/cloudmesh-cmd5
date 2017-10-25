@@ -16,3 +16,19 @@ plugins:
             - git clone https://github.com/cloudmesh/cloudmesh.sys.git
             - cd cloudmesh.sys
             - pip install .
+    comet:
+        name: comet
+        description: >
+            management of cloudmesh comet
+        url:
+            - https://github.com/cloudmesh/cloudmesh.comet
+        pip:
+            - pip install cloudmesh.comet
+        uninstall:
+            - pip uninstall cloudmesh.comet
+        git-broken:
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.comet#egg=cloudmesh.comet"
+        source:
+            - git clone https://github.com/cloudmesh/cloudmesh.comet.git
+            - cd cloudmesh.comet
+            - pip install .            
