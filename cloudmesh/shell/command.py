@@ -107,6 +107,11 @@ def basecommand(func):
             # print ("ARGV", argv)
             arguments = docopt(doc, help=True, argv=argv)
             func(instance, args, arguments)
+        except docopt.DocoptExit as e:
+            if args not in ('-h', '--help'):
+                Console.error("Could not execute the command.")
+            print(doc)
+
         except SystemExit as e:
             if args not in ('-h', '--help'):
                 Console.error("Could not execute the command.")

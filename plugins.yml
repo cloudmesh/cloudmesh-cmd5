@@ -1,0 +1,18 @@
+---
+plugins:
+    - sys:
+        name: sys
+        description: >
+            management of cloudmesh release
+        url:
+            - https://github.com/cloudmesh/cloudmesh.sys
+        pip:
+            - pip install cloudmesh.sys
+        uninstall:
+            - pip uninstall cloudmesh.sys
+        git-broken:
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.sys#egg=cloudmesh.sys"
+        source:
+            - git clone https://github.com/cloudmesh/cloudmesh.sys.git
+            - cd cloudmesh.sys
+            - pip install .
