@@ -18,6 +18,8 @@ import shelve
 import sys
 import textwrap
 import subprocess
+import requests
+import yaml
 
 from cmd import Cmd
 
@@ -527,10 +529,12 @@ class CMShell(Cmd, PluginCommandClasses):
         elif '?' in arguments:
             print("available")
 
-            url = ''
+            url = 'https://raw.githubusercontent.com/cloudmesh/cloudmesh.cmd5/install/plugins.yml'
             r = requests.get(url)
-            print (r.content)
             print (r.text)
+            y = yaml.load(r.text)
+            from pprint import pprint; pprint (y)
+
 
     # noinspection PyUnusedLocal
     @basecommand
