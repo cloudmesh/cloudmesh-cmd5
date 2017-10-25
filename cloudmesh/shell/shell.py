@@ -503,7 +503,7 @@ class CMShell(Cmd, PluginCommandClasses):
            plugin install PLUGIN
            plugin uninstall PLUGIN
            plugin list
-           plugin ?
+           plugin ? [--format=FORMAT]
 
         Arguments:
             PLUGIN   the name of the plugin
@@ -519,8 +519,11 @@ class CMShell(Cmd, PluginCommandClasses):
                 uninstalls the given plugin
 
         """
+        if arguments['--format'] is None:
+            arguments['--format'] = 'table'
 
         print (arguments)
+
 
         if arguments.install:
             print ("joy")
@@ -531,9 +534,14 @@ class CMShell(Cmd, PluginCommandClasses):
 
             url = 'https://raw.githubusercontent.com/cloudmesh/cloudmesh.cmd5/install/plugins.yml'
             r = requests.get(url)
-            print (r.text)
-            y = yaml.load(r.text)
-            from pprint import pprint; pprint (y)
+            data = yaml.load(r.text)
+            for key in data['plugins']:
+                entry = data['plugins'][key]
+                entry['description'] = entry['description'].strip()
+            print(Printer.write(data['plugins'],
+                                output=arguments["--format"],
+                                order=["name", "description", "url"],
+                                sort_keys="name"))
 
 
     # noinspection PyUnusedLocal
