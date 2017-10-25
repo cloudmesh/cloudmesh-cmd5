@@ -4,8 +4,7 @@ plugins:
         name: sys
         description: >
             management of cloudmesh release
-        url:
-            - https://github.com/cloudmesh/cloudmesh.sys
+        url: https://github.com/cloudmesh/cloudmesh.sys
         pip:
             - pip install cloudmesh.sys
         uninstall:
@@ -20,8 +19,7 @@ plugins:
         name: comet
         description: >
             management of cloudmesh comet
-        url:
-            - https://github.com/cloudmesh/cloudmesh.comet
+        url: https://github.com/cloudmesh/cloudmesh.comet
         pip:
             - pip install cloudmesh.comet
         uninstall:
