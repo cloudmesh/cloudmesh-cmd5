@@ -35,6 +35,7 @@ import cloudmesh
 import cloudmesh.common
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
+from cloudmesh.shell.plugin import PluginManager
 from cloudmesh.shell.variables import Variables
 
 
@@ -500,7 +501,7 @@ class CMShell(Cmd, PluginCommandClasses):
     def do_plugin(self, args, arguments):
         """
         Usage:
-           plugin install PLUGIN
+           plugin install PLUGIN [-s]
            plugin uninstall PLUGIN
            plugin list
            plugin ? [--format=FORMAT]
@@ -522,25 +523,30 @@ class CMShell(Cmd, PluginCommandClasses):
         if arguments['--format'] is None:
             arguments['--format'] = 'table'
 
-        print (arguments)
-
+        # print (arguments)
 
         if arguments.install:
-            print ("joy")
-        elif arguments.uninstall:
-            print("sad")
-        elif '?' in arguments:
-            print("available")
+            plugins = PluginManager()
+            plugins.load()
+            if arguments["-s"]:
+                plugins.source_install(arguments.PLUGIN)
+            else:
+                plugins.pip_install(arguments.PLUGIN)
 
-            url = 'https://raw.githubusercontent.com/cloudmesh/cloudmesh.cmd5/install/plugins.yml'
-            r = requests.get(url)
-            data = yaml.load(r.text)
-            for key in data['plugins']:
-                entry = data['plugins'][key]
-                entry['description'] = entry['description'].strip()
-            print(Printer.write(data['plugins'],
+        elif arguments.uninstall:
+            plugins = PluginManager()
+            plugins.load()
+            plugins.uninstall(arguments.PLUGIN)
+
+
+        elif '?' in arguments:
+
+            plugins = PluginManager()
+            plugins.load()
+
+            print(Printer.write(plugins.data['plugins'],
                                 output=arguments["--format"],
-                                order=["name", "description"],
+                                order=["name", "status", "description"],
                                 sort_keys="name"))
 
 
