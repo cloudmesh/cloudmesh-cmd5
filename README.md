@@ -73,8 +73,8 @@ Instalation from pip
 
 ---
 
-:warning: we do recommend that you install cmd5 from source as not all 
-features will be accessible to you if you do a pip install
+> :warning: we do recommend that you install cmd5 from source as not all 
+> features will be accessible to you if you do a pip install
 
 ---
 
@@ -208,8 +208,7 @@ Features
 The following changes are available in the cloudmesh.cmd5 and cloudmesh.common,
 that are available as source. So you must clone them. They are not yet available in pypi
 
-Execution shell commands
-^^^^^^^^^^^^^^^^^^^^^^^^
+### Execution shell commands
 
 You can execute shell commands when the beginning charater is ! ::
 
@@ -217,8 +216,7 @@ You can execute shell commands when the beginning charater is ! ::
   cms shell pwd
 
 
-Timers
-^^^^^^
+### Timers
 
 To switch timers on or off you can use
 
@@ -233,8 +231,7 @@ Than every command you type is timed::
     ######################################################################
     Timer: 0.0011s (banner hallo)
 
-Variables
-^^^^^^^^^
+### Variables
 
 you can store variables with::
 
@@ -255,8 +252,7 @@ with the HOME variable from the shell, try it with::
   cms banner os.HOME
 
 
-Defaults
-^^^^^^^^^
+### Defaults
 
 Defaults are variables with a context in which the default applies.
 For example we can set default images for a cloud. General defaults
@@ -277,8 +273,7 @@ is missing, the `general` context will be used. Examples::
   banner default.chameleon.image
 
 
-Stopwatch
-^^^^^^^^^
+### Stopwatch
 
 for some (not all) benchmarks this could be helpful. It only works in script mode of cmd5
 
