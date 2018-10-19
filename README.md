@@ -322,10 +322,20 @@ You can run teh image and enter a shell with
 
     make shell
 
-THis allows you to try things out in the image from bash which is good
-for development and debugging.
-You can directly enter the cms shell with
+This allows you to try things out in the image from bash which is good
+for development and debugging.  You can directly enter the cloudmesh
+shell `cms` with
+
+    make cms
+
+or say
 
     docker run -it cloudmesh/cmd5:1.0
 
-    
+It will create a default .cloudmesh/yaml file whihc your would have to
+modify. The reason we have not mounted the yaml file in the make files
+form your directory is that we need a clean image to test the initial
+setup.
+
+If you have an example on how to mount teh yaml file please let us
+know and we add it here.
