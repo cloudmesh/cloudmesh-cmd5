@@ -285,3 +285,27 @@ You will get something like this::
     cms> Timer g started ...
     cms> Timer g: 0.000274181365967 s
 
+
+## Docker
+
+Cloudmesh can be run easily in a container with the help of docker. A
+Dockefile is provided as an example that you may adapt for your needs
+
+To use the docker file we have included a numbe or convenient
+targets also in our makefile.
+
+You can create the image with
+
+    make image
+
+You can run teh image and enter a shell with
+
+    make shell
+
+THis allows you to try things out in the image from bash which is good
+for development and debugging.
+You can directly enter the cms shell with
+
+    docker run -it cloudmesh/cmd5:1.0
+
+    
