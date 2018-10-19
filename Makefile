@@ -79,6 +79,9 @@ image:
 shell:
 	docker run --rm -it cloudmesh/cmd5:1.0  /bin/bash 
 
+cms:
+	docker run --rm -it cloudmesh/cmd5:1.0
+
 clean:
 	-docker kill $$(docker ps -q)
 	-docker rm $$(docker ps -a -q)
