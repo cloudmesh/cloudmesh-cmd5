@@ -42,7 +42,7 @@ pyyaml
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
 version = readfile("VERSION").strip()
-readme = readfile('README.rst')
+readme = readfile('README.md')
 
 NAME = "cloudmesh.cmd5"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
