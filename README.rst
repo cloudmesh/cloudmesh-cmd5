@@ -18,6 +18,17 @@ pyenv
 
 https://cloudmesh.github.io/classes/lesson/prg/python.html?managing-custom-python-installs#managing-custom-python-installs
 
+    virtualenv ~/ENV2
+
+pyenv::
+
+    pyenev virtualenv 2.7.13 ENV2
+
+First you must install cloudmesh_client. You must do this before
+working with cloudmesh cmd5.  At this time it is best to use pip::
+
+    pip install cloudmesh_client
+    
 
 Now you need to get two source directories. We assume yo place them in
 ~/github::
@@ -102,7 +113,7 @@ To see the list of commands you can say::
 
     cms> help
 
-To see the manula page for a specific command, please use::
+To see the manual page for a specific command, please use::
 
     help COMMANDNAME
 
