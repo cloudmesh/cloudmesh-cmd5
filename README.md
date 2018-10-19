@@ -6,8 +6,8 @@ An dynamically extensible CMD based command shell
 Requirements
 ------------
 
-* Python 3.6.2
-* Python 2.7.13
+* > Python 3.6.2
+* > Python 2.7.13
 
 Installation from source
 ------------------------
