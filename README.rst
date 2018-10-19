@@ -22,7 +22,7 @@ If you followed our tutorial of installing and using pyenv you can simpley use::
 
     pyenev virtualenv 2.7.13 ENV2
 
-If you use virtualenv you can simply use
+If you use virtualenv you can simply use::
 
     virtualenv ~/ENV2
     
