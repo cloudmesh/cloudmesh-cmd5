@@ -58,14 +58,14 @@ example you want as source as you want to modify the code at one point::
 
 > In case you like to install the cloudmesh client, you can isna\stall it either from source
 >
->    git clone https://github.com/cloudmesh/cloudmesh.client.git
->    cd ~/github/cloudmesh.client
->    python setup.py install
->    pip install .
+>     git clone https://github.com/cloudmesh/cloudmesh.client.git
+>     cd ~/github/cloudmesh.client
+>     python setup.py install
+>     pip install .
 >
 > or from pip:
 >
->    pip install cloudmesh_client
+>     pip install cloudmesh_client
     
 
 Instalation from pip
