@@ -80,14 +80,14 @@ Instalation from pip
 
 To install cmd5 from pip please use::
 
-  pip install cloudmesh.cmd5
+    pip install cloudmesh.cmd5
 
 The cloudmesh.bar repository you want to download as source so you can
 learn how to write your own commands::
 
-  mkdir ~/github
-  cd ~/github
-  git clone https://github.com/cloudmesh/cloudmesh.bar.git
+    mkdir ~/github
+    cd ~/github
+    git clone https://github.com/cloudmesh/cloudmesh.bar.git
 
 Commands are shared in the `cloudmesh` namespace.
 
@@ -95,7 +95,7 @@ The better method on writing a command is to install cloudmesh.sys and use the
 sys command to generate a new command template via a program. You can generate 
 a new command with::
 
-	cms sys command generate NAME
+    cms sys command generate NAME
 	
 A directory with the name cloudmesh.NAME will be generated that contains the template
 for the command NAME. 
