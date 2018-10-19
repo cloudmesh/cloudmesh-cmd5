@@ -14,41 +14,44 @@
 # See the License for the specific language governing permissions and     #
 # limitations under the License.                                          #
 # ------------------------------------------------------------------------#
-
-from setuptools import find_packages, setup
+"""
+Cloudmesh CMD5 setup.
+"""
 import io
 
+from setuptools import find_packages, setup
+
+
 def readfile(filename):
+    """
+    Read a file
+    :param filename: name of the file
+    :return: returns the content of the file as string
+    """
     with io.open(filename, encoding="utf-8") as stream:
-        return stream.read().split()
+        return stream.read()
 
 
 requiers = """
-pygments
-tox
-detox
-coverage
-flake8
-cloudmesh_client
-eve
-psutil
+cloudmesh.common
+docopt
+requests
+pyyaml
 """.split("\n")
 
-#dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
+# dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
-version = readfile("VERSION")[0].strip()
+version = readfile("VERSION").strip()
 readme = readfile('README.rst')
 
-NAME = "cloudmesh shell CMD5"
+NAME = "cloudmesh.cmd5"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
-URL = "https://github.com/cloudmesh/cmd5"
-LONG_DESCRIPTION = "\n".join(readme)
+URL = "https://github.com/cloudmesh/cloudmesh.cmd5"
+LONG_DESCRIPTION = readme
 
-
-setup \
-(
+setup(
     name=NAME,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
@@ -58,11 +61,6 @@ setup \
     license="Apache 2.0",
     url=URL,
     packages=find_packages(),
-    #package_data={
-    #    "cloudmesh.data": [
-    #        "templates/cloudmesh/data.txt",
-    #    ]
-    #},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -74,8 +72,6 @@ setup \
         "Programming Language :: Python :: 3",
     ],
     install_requires=requiers,
-    # dependency_links = dependency_links,
-    # test_suite="runtests.runtests",
     tests_require=[
         "flake8",
         "coverage",

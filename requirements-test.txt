@@ -1,0 +1,6 @@
+pygments
+tox
+detox
+coverage
+flake8
+
