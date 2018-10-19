@@ -6,8 +6,8 @@ An dynamically extensible CMD based command shell
 Requirements
 ------------
 
-* Python 3.6.2
-* Python 2.7.13
+* Python greater 3.6.2
+* Python greater 2.7.13
 
 Installation from source
 ------------------------
@@ -18,7 +18,14 @@ pyenv
 
 https://cloudmesh.github.io/classes/lesson/prg/python.html?managing-custom-python-installs#managing-custom-python-installs
 
+If you followed our tutorial of installing and using pyenv you can simpley use::
 
+    pyenev virtualenv 2.7.13 ENV2
+
+If you use virtualenv you can simply use::
+
+    virtualenv ~/ENV2
+    
 Now you need to get two source directories. We assume yo place them in
 ~/github::
 
@@ -46,23 +53,41 @@ example you want as source as you want to modify the code at one point::
     cd ~/github/cloudmesh.sys
     python setup.py install
     pip install .
+  
+:o: The following has to  be tested (pip instaltion not yet working):
+
+> In case you like to install the cloudmesh client, you can isna\stall it either from source
+>
+>     git clone https://github.com/cloudmesh/cloudmesh.client.git
+>     cd ~/github/cloudmesh.client
+>     python setup.py install
+>     pip install .
+>
+> or from pip:
+>
+>     pip install cloudmesh_client
+    
 
 Instalation from pip
 --------------------
 
-.. note:: we do recommend that you install cmd5 from source as not all 
-          features will be accessible to you if you do a pip install
+---
+
+> :warning: we do recommend that you install cmd5 from source as not all 
+> features will be accessible to you if you do a pip install
+
+---
 
 To install cmd5 from pip please use::
 
-  pip install cloudmesh.cmd5
+    pip install cloudmesh.cmd5
 
 The cloudmesh.bar repository you want to download as source so you can
 learn how to write your own commands::
 
-  mkdir ~/github
-  cd ~/github
-  git clone https://github.com/cloudmesh/cloudmesh.bar.git
+    mkdir ~/github
+    cd ~/github
+    git clone https://github.com/cloudmesh/cloudmesh.bar.git
 
 Commands are shared in the `cloudmesh` namespace.
 
@@ -70,7 +95,7 @@ The better method on writing a command is to install cloudmesh.sys and use the
 sys command to generate a new command template via a program. You can generate 
 a new command with::
 
-	cms sys command generate NAME
+    cms sys command generate NAME
 	
 A directory with the name cloudmesh.NAME will be generated that contains the template
 for the command NAME. 
@@ -102,7 +127,7 @@ To see the list of commands you can say::
 
     cms> help
 
-To see the manula page for a specific command, please use::
+To see the manual page for a specific command, please use::
 
     help COMMANDNAME
 
@@ -183,21 +208,19 @@ Features
 The following changes are available in the cloudmesh.cmd5 and cloudmesh.common,
 that are available as source. So you must clone them. They are not yet available in pypi
 
-Execution shell commands
-^^^^^^^^^^^^^^^^^^^^^^^^
+### Execution shell commands
 
 You can execute shell commands when the beginning charater is ! ::
 
-  cms \!pwd
-  cms shell pwd
+    cms \!pwd
+    cms shell pwd
 
 
-Timers
-^^^^^^
+### Timers
 
 To switch timers on or off you can use
 
-cms var timer=on
+    cms var timer=on
 
 Than every command you type is timed::
 
@@ -208,64 +231,61 @@ Than every command you type is timed::
     ######################################################################
     Timer: 0.0011s (banner hallo)
 
-Variables
-^^^^^^^^^
+### Variables
 
 you can store variables with::
 
-  var a=1
+    var a=1
 
 you can access them on the commandline with ::
 
-  var.a
-  \$a
+    var.a
+    \$a
 
 You can list all variables with::
 
-  var list
+    var list
 
 OS Variables can also be integrated. `os.HOME` will be replaced
 with the HOME variable from the shell, try it with::
 
-  cms banner os.HOME
+     cms banner os.HOME
 
 
-Defaults
-^^^^^^^^^
+### Defaults
 
 Defaults are variables with a context in which the default applies.
 For example we can set default images for a cloud. General defaults
 are placed in the context `general`. To set the default cloud you can use::
 
-  default cloud=kilo
+    default cloud=kilo
 
 To List the defaults use::
 
-   default list
+     default list
 
 To use the defaults in a command preceed it with the the keyword `default.`
 and append the context and the name of the default variable. If the context
 is missing, the `general` context will be used. Examples::
 
-  banner default.cloud
-  default image=ubnuntu --context=chameleon
-  banner default.chameleon.image
+    banner default.cloud
+    default image=ubnuntu --context=chameleon
+    banner default.chameleon.image
 
 
-Stopwatch
-^^^^^^^^^
+### Stopwatch
 
 for some (not all) benchmarks this could be helpful. It only works in script mode of cmd5
 
 put this in a file called s.cm::
 
-  stopwatch start g
-  stopwatch stop g
-  stopwatch print g
+    stopwatch start g
+    stopwatch stop g
+    stopwatch print g
 
 Then execute::
 
-  cat s.cm | cms
+    cat s.cm | cms
 
 You will get something like this::
 
