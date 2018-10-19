@@ -32,6 +32,9 @@ clean:
 # PYPI
 ######################################################################
 
+twine:
+	pip install -U twine
+
 dist: clean
 	@echo "######################################"
 	@echo "# $(VERSION)"
@@ -40,8 +43,12 @@ dist: clean
 	python setup.py bdist
 	python setup.py bdist_wheel
 
-upload_test:
-	python setup.py	 sdist bdist bdist_wheel upload -r https://testpypi.python.org/pypi
+upload_test: twine dist
+#	python setup.py	 sdist bdist bdist_wheel upload -r https://test.pypi.org/legacy/
+	twine upload --repository pypitest dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl	dist/cloudmesh.$(package)-$(VERSION).tar.gz
+
+
+# python -m pip install --index-url https://test.pypi.org/simple/ cloudmesh.cmd5
 
 log:
 	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog

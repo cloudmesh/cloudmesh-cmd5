@@ -2,3 +2,4 @@ requests
 cloudmesh.common
 pyyaml
 docopt
+bumpversion
