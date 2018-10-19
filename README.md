@@ -212,15 +212,15 @@ that are available as source. So you must clone them. They are not yet available
 
 You can execute shell commands when the beginning charater is ! ::
 
-  cms \!pwd
-  cms shell pwd
+    cms \!pwd
+    cms shell pwd
 
 
 ### Timers
 
 To switch timers on or off you can use
 
-cms var timer=on
+    cms var timer=on
 
 Than every command you type is timed::
 
@@ -235,21 +235,21 @@ Than every command you type is timed::
 
 you can store variables with::
 
-  var a=1
+    var a=1
 
 you can access them on the commandline with ::
 
-  var.a
-  \$a
+    var.a
+    \$a
 
 You can list all variables with::
 
-  var list
+    var list
 
 OS Variables can also be integrated. `os.HOME` will be replaced
 with the HOME variable from the shell, try it with::
 
-  cms banner os.HOME
+     cms banner os.HOME
 
 
 ### Defaults
@@ -258,19 +258,19 @@ Defaults are variables with a context in which the default applies.
 For example we can set default images for a cloud. General defaults
 are placed in the context `general`. To set the default cloud you can use::
 
-  default cloud=kilo
+    default cloud=kilo
 
 To List the defaults use::
 
-   default list
+     default list
 
 To use the defaults in a command preceed it with the the keyword `default.`
 and append the context and the name of the default variable. If the context
 is missing, the `general` context will be used. Examples::
 
-  banner default.cloud
-  default image=ubnuntu --context=chameleon
-  banner default.chameleon.image
+    banner default.cloud
+    default image=ubnuntu --context=chameleon
+    banner default.chameleon.image
 
 
 ### Stopwatch
@@ -279,13 +279,13 @@ for some (not all) benchmarks this could be helpful. It only works in script mod
 
 put this in a file called s.cm::
 
-  stopwatch start g
-  stopwatch stop g
-  stopwatch print g
+    stopwatch start g
+    stopwatch stop g
+    stopwatch print g
 
 Then execute::
 
-  cat s.cm | cms
+    cat s.cm | cms
 
 You will get something like this::
 
