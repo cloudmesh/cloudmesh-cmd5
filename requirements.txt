@@ -2,4 +2,3 @@ requests
 cloudmesh.common
 pyyaml
 docopt
-pyyaml
