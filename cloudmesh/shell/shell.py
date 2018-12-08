@@ -290,7 +290,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 print("ERROR: command error while executing '", cmd, "'", sep='')
                 cmd = None
                 line = oldline
-                # Error.traceback(error=e, debug=True, trace=True)
+                Error.traceback(error=e, debug=True, trace=True)
         return ""
 
     # noinspection PyUnusedLocal
@@ -350,7 +350,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
             Usage:
                 help
-                help COMMAND 
+                help COMMAND
 
             Description:
                 List available commands with "help" or detailed help with
@@ -577,7 +577,8 @@ class CMShell(Cmd, PluginCommandClasses):
            
         """
 
-        # print (arguments)
+        print (arguments)
+        print (">", args, "<")
 
         if arguments["pip"]:
             # noinspection PyBroadException
@@ -635,13 +636,28 @@ class CMShell(Cmd, PluginCommandClasses):
             # python 3 returns byte sequence so the decode is necessary
             output = subprocess.check_output(('grep', "cloudmesh"), stdin=pipcheck.stdout).decode("utf-8")
             pkglines = output.strip().split("\n")
+
             for pkgline in pkglines:
-                values = pkgline.split("==")
-                pkg = values[0]
-                version = values[1].strip()
-                versions[pkg] = {"name": pkg,
-                                 "version": version
-                                }
+                if "==" in pkgline:
+                    values = pkgline.split("==")
+                    pkg = values[0]
+                    version = values[1].strip()
+                    versions[pkg] = {
+                        "name": pkg,
+                        "version": version
+                    }
+                elif "git" in pkgline:
+
+                    pkgline = pkgline.replace("-e git+git@github.com:cloudmesh-community/", "")
+                    pkgline = pkgline.replace("-e git+https://github.com/cloudmesh/", "")
+                    pkgline = pkgline.replace("egg=", "")
+
+                    version, pkg = pkgline.split("#")
+
+                    versions[pkg] = {
+                        "name": pkg,
+                        "version": version
+                    }
         except subprocess.CalledProcessError as e:
             pass
         pipcheck.wait()
