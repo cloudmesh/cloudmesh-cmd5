@@ -59,7 +59,9 @@ def command(func):
         # noinspection PyUnusedLocal
         try:
             argv = shlex.split(args)
+            print(argv)
             arguments = dotdict(docopt(doc, help=True, argv=argv))
+            print(argument)
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
