@@ -722,12 +722,6 @@ def inheritors(klass):
                 work.append(child)
     return subclasses
 
-
-# TODO: remove this as it seems to be a test
-def do_gregor(line):
-    print("gregor")
-
-
 # noinspection PyBroadException,PyUnusedLocal
 def main():
     """cms.
@@ -817,6 +811,7 @@ def main():
         print(e)
         d = Default()
         trace = d["global", "trace"] == "True"
+        trace = True
         Error.traceback(error=e, debug=True, trace=trace)
         d.close()
         print(70 * "=")

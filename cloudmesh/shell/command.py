@@ -5,7 +5,7 @@ import textwrap
 from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
 from cloudmesh.common.console import Console
-
+from pprint import pprint
 
 class PluginCommand(object):
     pass
@@ -59,13 +59,14 @@ def command(func):
         # noinspection PyUnusedLocal
         try:
             argv = shlex.split(args)
-            print(argv)
+            # pprint(argv)
             arguments = dotdict(docopt(doc, help=True, argv=argv))
-            print(argument)
+            # pprint(arguments)
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
                 Console.error("Could not execute the command.")
+                Console.error("Check usage..")
                 # print (args)
                 # print(e)
                 # print(doc)
@@ -112,11 +113,13 @@ def basecommand(func):
         except docopt.DocoptExit as e:
             if args not in ('-h', '--help'):
                 Console.error("Could not execute the command.")
+                Console.error("Check usage..")
             print(doc)
 
         except SystemExit as e:
             if args not in ('-h', '--help'):
                 Console.error("Could not execute the command.")
+                Console.error("Check usage..")
                 print(e)
             print(doc)
 
