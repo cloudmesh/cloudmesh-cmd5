@@ -92,7 +92,7 @@ class DefaultCommand(PluginCommand):
                 cloud kilo
 
         """
-        print(arguments)
+        # print(arguments)
         # print (">", args, "<")
 
         context = arguments["--context"] or "global"
