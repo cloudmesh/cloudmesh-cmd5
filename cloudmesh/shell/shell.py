@@ -577,8 +577,8 @@ class CMShell(Cmd, PluginCommandClasses):
            
         """
 
-        print (arguments)
-        print (">", args, "<")
+        # print (arguments)
+        # print (">", args, "<")
 
         if arguments["pip"]:
             # noinspection PyBroadException
