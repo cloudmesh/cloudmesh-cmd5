@@ -344,6 +344,9 @@ class CMShell(Cmd, PluginCommandClasses):
 
     '''
 
+    def do_x(self, arg):
+        print ("x")
+
     def do_help(self, arg):
         """
         ::
@@ -354,7 +357,8 @@ class CMShell(Cmd, PluginCommandClasses):
 
             Description:
                 List available commands with "help" or detailed help with
-                "help COMMAND"."""
+                "help COMMAND".
+        """
 
         if arg:
             try:
@@ -363,7 +367,11 @@ class CMShell(Cmd, PluginCommandClasses):
                 try:
                     doc = getattr(self, 'do_' + arg).__doc__
                     if doc:
-                        doc = doc.replace("::\n\n", "")
+                        self.stdout.write("Command {arg}\n".format(arg=arg))
+                        self.stdout.write(len("Command " + arg) * "=")
+                        self.stdout.write("\n")
+
+                        # doc = doc.replace("::\n\n", "")
                         self.stdout.write("%s\n" % str(doc))
                         return
                 except AttributeError:
@@ -406,9 +414,12 @@ class CMShell(Cmd, PluginCommandClasses):
         ::
 
             Usage:
-               help NAME
+                help
+                help COMMAND
 
-            Prints out the help message for a given function
+            Description:
+                List available commands with "help" or detailed help with
+                "help COMMAND".
         """
         print(textwrap.dedent(self.help_help.__doc__))
 
