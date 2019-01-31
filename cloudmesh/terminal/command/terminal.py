@@ -17,15 +17,17 @@ class TerminalCommand(PluginCommand):
     @command
     def do_stopwatch(self, args, arguments):
         """
-        Usage:
+        ::
+
+          Usage:
             stopwatch start TIMER
             stopwatch stop TIMER
             stopwatch print [TIMER]
             
-        Arguments:
+          Arguments:
             TIMER  the name of the timer
 
-        Description:
+          Description:
             THIS IS NOT YET WORKING
             starts and stops named timers and prints them
         """
@@ -45,10 +47,12 @@ class TerminalCommand(PluginCommand):
     @command
     def do_clear(self, args, arguments):
         """
-        Usage:
+        ::
+
+          Usage:
             clear
 
-        Clears the screen."""
+          Clears the screen."""
 
         sys.stdout.write(os.popen('clear').read())
 
@@ -56,10 +60,12 @@ class TerminalCommand(PluginCommand):
     @command
     def do_sleep(self, args, arguments):
         """
-        Usage:
+        ::
+
+          Usage:
             sleep SECONDS
 
-        Clears the screen."""
+          Clears the screen."""
 
         seconds = arguments["SECONDS"]
         time.sleep(float(seconds))
@@ -70,8 +76,8 @@ class TerminalCommand(PluginCommand):
         """
         ::
 
-            Usage:
-                echo  [-r COLOR] TEXT
+          Usage:
+            echo  [-r COLOR] TEXT
 
             Arguments:
                 TEXT   The text message to print
@@ -98,15 +104,15 @@ class TerminalCommand(PluginCommand):
         """
         ::
 
-            Usage:
-                banner [-c CHAR] [-n WIDTH] [-i INDENT] [-r COLOR] TEXT...
+          Usage:
+            banner [-c CHAR] [-n WIDTH] [-i INDENT] [-r COLOR] TEXT...
 
-            Arguments:
-                TEXT...   The text message from which to create the banner
-                CHAR   The character for the frame.
-                WIDTH  Width of the banner
-                INDENT indentation of the banner
-                COLOR  the color
+          Arguments:
+            TEXT...   The text message from which to create the banner
+            CHAR      The character for the frame.
+            WIDTH     Width of the banner
+            INDENT    indentation of the banner
+            COLOR     the color
 
             Options:
                 -c CHAR   The character for the frame. [default: #]
@@ -134,13 +140,15 @@ class TerminalCommand(PluginCommand):
         """
         ::
 
-            Usage:
-                pause [MESSAGE]
+          Usage:
+            pause [MESSAGE]
 
+          Arguments:
+            MESSAGE  message to be displayed
+
+          Description:
             Displays the specified text then waits for the user to press RETURN.
 
-            Arguments:
-               MESSAGE  message to be displayed
         """
 
         if arguments["MESSAGE"] is None:

@@ -13,18 +13,21 @@ class SetCommand(PluginCommand):
     @command
     def do_set(self, args, arguments):
         """
-        Usage:
+        ::
+
+          Usage:
             set list
             set clear
             set delete NAME
             set NAME=VALUE
             set NAME
                           
-        Arguments:
+          Arguments:
             NAME      the name of the setiable
             VALUE     the value of the setiable
             FILENAME  the filename of the setiable
-        Description:
+
+          Description:
             Manage persistent setiables
             
             set NAME=VALUE

@@ -31,7 +31,7 @@ class DefaultCommand(PluginCommand):
              --format=FORMAT  the output format. Values include
                               table, json, csv, yaml.
 
-        Description:
+          Description:
             Cloudmesh has the ability to manage easily multiple
             clouds. One of the key concepts to manage multiple clouds
             is to use defaults for the cloud, the images, flavors,
@@ -64,7 +64,7 @@ class DefaultCommand(PluginCommand):
             cloud with the --cloud=CLOUD option. The list command can
             print the information in various formats iv specified.
 
-        Examples:
+          Examples:
             default list --all
                 lists all default values
 
