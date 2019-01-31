@@ -298,6 +298,7 @@ class CMShell(Cmd, PluginCommandClasses):
     def do_shell(self, args, arguments):
         """
         ::
+
            Usage:
                 shell COMMAND
                 
@@ -344,8 +345,6 @@ class CMShell(Cmd, PluginCommandClasses):
 
     '''
 
-    def do_x(self, arg):
-        print ("x")
 
     def do_help(self, arg):
         """
@@ -482,11 +481,11 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         ::
 
-            Usage:
-                EOF
+          Usage:
+            EOF
 
-            Description:
-                Command to the shell to terminate reading a script.
+          Description:
+            Command to the shell to terminate reading a script.
         """
         return True
 
@@ -495,11 +494,12 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         ::
 
-            Usage:
-                quit
+          Usage:
+            quit
 
-            Description:
-                Action to be performed when quit is typed
+          Description:
+            Action to be performed when quit is typed
+
         """
         return True
 
@@ -511,16 +511,18 @@ class CMShell(Cmd, PluginCommandClasses):
     @command
     def do_plugin(self, args, arguments):
         """
-        Usage:
-           plugin install PLUGIN [-s]
-           plugin uninstall PLUGIN
-           plugin list
-           plugin ? [--format=FORMAT]
+        ::
 
-        Arguments:
+          Usage:
+            plugin install PLUGIN [-s]
+            plugin uninstall PLUGIN
+            plugin list
+            plugin ? [--format=FORMAT]
+
+          Arguments:
             PLUGIN   the name of the plugin
 
-        Description:
+          Description:
             plugin available
                 lists the available plugins
             plugin list
@@ -565,24 +567,26 @@ class CMShell(Cmd, PluginCommandClasses):
     @basecommand
     def do_version(self, args, arguments):
         """
-        Usage:
-           version pip [PACKAGE]
-           version [--format=FORMAT] [--check=CHECK]
+        ::
+
+          Usage:
+            version pip [PACKAGE]
+            version [--format=FORMAT] [--check=CHECK]
            
 
-        Options:
+          Options:
             --format=FORMAT  the format to print the versions in [default: table]
             --check=CHECK    boolean tp conduct an additional check [default: True]
 
-        Description:
+          Description:
             version 
                 Prints out the version number
             version pip
                 Prints the contents of pip list
                 
-        Limitations:
-           Package names must not have a . in them instead you need to use -
-           Thus to query for cloudmesh.cmd5 use
+          Limitations:
+            Package names must not have a . in them instead you need to use -
+            Thus to query for cloudmesh.cmd5 use
             
               cms version pip cloudmesh-cmd5
            
