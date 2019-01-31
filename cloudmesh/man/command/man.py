@@ -81,19 +81,12 @@ class ManCommand(PluginCommand):
                 man COMMAND
                     Prints out the help page for a specific command
         """
-        print ("AAA")
         arguments.kind = arguments["--kind"]
-
-        pprint(arg)
-        pprint (arguments)
 
         if arguments.COMMAND is None:
 
-            print("PRINT ALL")
-
             names = self.get_names()
 
-            pprint(names)
             cmds_doc = []
             cmds_undoc = []
             help_page = {}

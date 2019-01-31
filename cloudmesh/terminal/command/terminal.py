@@ -52,6 +52,8 @@ class TerminalCommand(PluginCommand):
           Usage:
             clear
 
+
+
           Clears the screen."""
 
         sys.stdout.write(os.popen('clear').read())

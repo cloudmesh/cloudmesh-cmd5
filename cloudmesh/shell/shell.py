@@ -30,6 +30,7 @@ from cloudmesh.common.dotdict import dotdict
 from cloudmesh.common.util import path_expand
 from cloudmesh.common.default import Default
 from cloudmesh.common.error import Error
+from cloudmesh.common.console import Console
 
 import cloudmesh
 import cloudmesh.common
@@ -287,10 +288,20 @@ class CMShell(Cmd, PluginCommandClasses):
                 func = getattr(self, 'do_' + cmd)
                 return func(arg)
             except AttributeError as e:
-                print("ERROR: command error while executing '", cmd, "'", sep='')
+
+                vars = Variables()
+                trace = "T" in vars['trace']
+                debug = "T" in vars['debug']
+
+                Console.error("command error while executing '{cmd}'".format(cmd=cmd),
+                              traceflag=trace)
                 cmd = None
                 line = oldline
-                Error.traceback(error=e, debug=True, trace=True)
+
+
+
+
+                Error.traceback(error=e, debug=debug, trace=trace)
         return ""
 
     # noinspection PyUnusedLocal
