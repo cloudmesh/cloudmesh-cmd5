@@ -71,7 +71,7 @@ upload: dist
 #
 
 tag:
-	touch README.rst
+	touch README.md
 	git tag $(VERSION)
 	git commit -a -m "$(VERSION)"
 	git push
