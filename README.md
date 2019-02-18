@@ -1,30 +1,47 @@
 Cloudmesh cmd5
 ==============
 
-An dynamically extensible CMD based command shell
+An dynamically extensible CMD based command shell. For en extensive
+documentation please see
+
+* <https://github.com/cloudmesh-community/book/blob/master/vonLaszewski-cloud.epub?raw=true>
+
+where we also document how to use pyenv virtualenv.
 
 Requirements
 ------------
 
-* Python greater 3.6.2
-* Python greater 2.7.13
+* Python greater 3.7.2
+* Python greater 2.7.15
 
 Installation from source
 ------------------------
 
 Setup a virtualenv either with virtualenv or pyenv.
 We have a tutorial on cloudmesh classes for the use of
-pyenv
+pyenv. Pyenv is easy to unstall via the installer documented at
 
-https://cloudmesh.github.io/classes/lesson/prg/python.html?managing-custom-python-installs#managing-custom-python-installs
+* <https://github.com/pyenv/pyenv-installer>
 
-If you followed our tutorial of installing and using pyenv you can simpley use::
+```bash
+$ curl https://pyenv.run | bash
+```
 
-    pyenev virtualenv 2.7.13 ENV2
+Add the following lines to your .bashrc or .bash_profile
 
-If you use virtualenv you can simply use::
+```
+export PATH="~/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
 
-    virtualenv ~/ENV2
+to install 3.7.2 use and activate it 
+
+```
+pyenv install 3.7.2
+pyenv activate 3.7.2
+```
+
     
 Now you need to get two source directories. We assume yo place them in
 ~/github::
