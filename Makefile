@@ -17,12 +17,12 @@ source:
 
 clean:
 	$(call banner, "CLEAN")
+	rm -rf dist
 	rm -rf *.zip
 	rm -rf *.egg-info
 	rm -rf *.eggs
 	rm -rf docs/build
 	rm -rf build
-	rm -rf dist
 	find . -name '__pycache__' -delete
 	find . -name '*.pyc' -delete
 	rm -rf .tox
@@ -39,8 +39,8 @@ dist: clean
 	@echo "######################################"
 	@echo "# $(VERSION)"
 	@echo "######################################"
-	python setup.py sdist --formats=gztar,zip
-	python setup.py bdist
+	python setup.py sdist --formats=zip
+	#python setup.py bdist
 	python setup.py bdist_wheel
 
 upload_test: twine dist
@@ -89,7 +89,7 @@ shell:
 cms:
 	docker run --rm -it cloudmesh/cmd5:1.0
 
-clean:
+dockerclean:
 	-docker kill $$(docker ps -q)
 	-docker rm $$(docker ps -a -q)
 	-docker rmi $$(docker images -q)
