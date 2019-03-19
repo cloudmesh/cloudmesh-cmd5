@@ -5,7 +5,10 @@ import textwrap
 from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
 from cloudmesh.common.console import Console
-from pprint import pprint
+from pprint import pprint, pformat
+from cloudmesh.shell.variables import Variables
+from cloudmesh.common.util import banner
+
 
 class PluginCommand(object):
     pass
@@ -62,6 +65,10 @@ def command(func):
             # pprint(argv)
             arguments = dotdict(docopt(doc, help=True, argv=argv))
             # pprint(arguments)
+            verbose = int(Variables()["verbose"] or 0)
+            if verbose > 9:
+                s = pformat(arguments)
+                banner(s, label="Arguments", color="BLUE")
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
