@@ -52,7 +52,13 @@ class SetCommand(PluginCommand):
                
             The previous command copy the value from b to a. The val command
             was added to avoid quoting.
-            
+
+            A special variable is the variable verbose. It results in additional
+            debug output. The following values apply
+
+               0 - no additional output
+              10 - most visible.
+                   Prints all arguments from commands
             
         """
         c = VarCommand()
