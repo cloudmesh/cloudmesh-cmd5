@@ -7,7 +7,6 @@ from cloudmesh.shell.command import command
 from cloudmesh.var.command.var import VarCommand
 
 
-
 class SetCommand(PluginCommand):
     # noinspection PyUnusedLocal
     @command
@@ -23,15 +22,15 @@ class SetCommand(PluginCommand):
             set NAME
                           
           Arguments:
-            NAME      the name of the setiable
-            VALUE     the value of the setiable
-            FILENAME  the filename of the setiable
+            NAME      the name of the set variable
+            VALUE     the value of the set variable
+            FILENAME  the filename of the set variable
 
           Description:
-            Manage persistent setiables
+            Manage persistent set variables
             
             set NAME=VALUE
-               sets the setiable with the name to the value
+               sets the set variable with the name to the value
                if the value is one of data, time, now it will be 
                replaced with the value at this time, the format will be
                 date    2017-04-14
@@ -42,7 +41,7 @@ class SetCommand(PluginCommand):
             The value can also refer to another setiable name.
             In this case the current value will be copied in the named
             setiable. As we use the $ sign it is important to distinguish
-            shell setiables from cms setiables while using proper quoting.
+            shell set variables from cms setiables while using proper quoting.
             
             Examples include:
             

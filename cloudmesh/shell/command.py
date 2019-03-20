@@ -111,6 +111,7 @@ def basecommand(func):
 
     def new(instance, args):
         # instance.new.__doc__ = doc
+        # noinspection PyUnusedLocal
         try:
             # print("ARGS", args)
             argv = shlex.split(args)

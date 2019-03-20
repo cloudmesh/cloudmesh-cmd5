@@ -100,7 +100,7 @@ class TerminalCommand(PluginCommand):
 
         return ""
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyIncorrectDocstring
     @command
     def do_banner(self, args, arguments):
         """
