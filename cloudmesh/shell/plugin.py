@@ -2,6 +2,7 @@ import yaml
 import requests
 import os
 
+
 class PluginManager(object):
 
     def __init(self):
@@ -16,16 +17,14 @@ class PluginManager(object):
             entry['description'] = entry['description'].strip()
 
     def uninstall(self, name):
-        plugin = "cloudmesh."+name
-        print ("Uninstalling:" , )
+        plugin = "cloudmesh." + name
+        print("Uninstalling:", )
         os.system("pip uninstall {name}".format(name=plugin))
 
     def pip_install(self, name):
-        plugin = "cloudmesh."+name
-        print ("Installing:" , )
+        plugin = "cloudmesh." + name
+        print("Installing:", )
         os.system("pip install {name}".format(name=plugin))
-
-
 
     def source_install(self, name):
         pass

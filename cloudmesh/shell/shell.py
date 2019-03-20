@@ -62,9 +62,10 @@ class Plugin(object):
         """
         module_list = []
         package = cloudmesh
-        for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
-                                                              prefix=package.__name__ + '.',
-                                                              onerror=lambda x: None):
+        for importer, modname, ispkg in pkgutil.walk_packages(
+                path=package.__path__,
+                prefix=package.__name__ + '.',
+                onerror=lambda x: None):
             module_list.append(modname)
         return module_list
 
@@ -77,7 +78,8 @@ class Plugin(object):
         module_list = cls.modules()
         commands = []
         for module_name in module_list:
-            if module_name.startswith('cloudmesh.') and '.command.' in module_name:
+            if module_name.startswith(
+                    'cloudmesh.') and '.command.' in module_name:
                 commands.append(module_name)
         return commands
 
@@ -169,7 +171,8 @@ class CMShell(Cmd, PluginCommandClasses):
             if "timer" not in variable:
                 variable["timer"] = "off"
             if variable["timer"].lower() in ['on', 'true']:
-                print("Timer: {:.4f}s ({})".format(StopWatch.get("command"), line.strip()))
+                print("Timer: {:.4f}s ({})".format(StopWatch.get("command"),
+                                                   line.strip()))
             variable.close()
         except Exception as e:
             Error.traceback(error=e)
@@ -290,9 +293,9 @@ class CMShell(Cmd, PluginCommandClasses):
 
             except AttributeError as e:
 
-                vars = Variables()
-                trace = "T" in vars['trace']
-                debug = "T" in vars['debug']
+                variables = Variables()
+                trace = "T" in variables['trace']
+                debug = "T" in variables['debug']
 
                 command_missing = "'CMShell' object has no attribute 'do_{cmd}'".format(
                     cmd=cmd)
@@ -304,11 +307,9 @@ class CMShell(Cmd, PluginCommandClasses):
                 else:
                     Error.traceback(error=e, debug=debug, trace=trace)
 
+                # noinspection PyUnusedLocal
                 cmd = None
                 line = oldline
-
-
-
 
         return ""
 
@@ -363,7 +364,6 @@ class CMShell(Cmd, PluginCommandClasses):
         return ""
 
     '''
-
 
     def do_help(self, arg):
         """
@@ -479,7 +479,8 @@ class CMShell(Cmd, PluginCommandClasses):
                 help_string = p + " not found."
                 # noinspection PyBroadException
                 try:
-                    help_string = pydoc.render_doc(p, "Help on %s" + "\n" + 79 * "=")
+                    help_string = pydoc.render_doc(p,
+                                                   "Help on %s" + "\n" + 79 * "=")
                 except Exception as e:
                     pass
                 print(help_string)
@@ -527,6 +528,7 @@ class CMShell(Cmd, PluginCommandClasses):
     def emptyline(self):
         return
 
+    # noinspection PyUnusedLocal
     @command
     def do_plugin(self, args, arguments):
         """
@@ -570,7 +572,6 @@ class CMShell(Cmd, PluginCommandClasses):
             plugins.load()
             plugins.uninstall(arguments.PLUGIN)
 
-
         elif '?' in arguments:
 
             plugins = PluginManager()
@@ -581,8 +582,7 @@ class CMShell(Cmd, PluginCommandClasses):
                                 order=["name", "status", "description"],
                                 sort_keys="name"))
 
-
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyPep8
     @basecommand
     def do_version(self, args, arguments):
         """
@@ -620,12 +620,14 @@ class CMShell(Cmd, PluginCommandClasses):
                 package = arguments["PACKAGE"]
 
                 if package is None:
-                    result = Shell.execute('pip', ['list', '--format=columns'], traceflag=False, witherror=False)
+                    result = Shell.execute('pip', ['list', '--format=columns'],
+                                           traceflag=False, witherror=False)
                     print(result)
                 else:
                     if "." in package:
                         package = package.replace(".", "-")
-                    result = Shell.execute('pip', ['show', package], traceflag=False, witherror=False)
+                    result = Shell.execute('pip', ['show', package],
+                                           traceflag=False, witherror=False)
                     print(result)
 
             except Exception as e:
@@ -636,7 +638,8 @@ class CMShell(Cmd, PluginCommandClasses):
 
         # noinspection PyBroadException
         try:
-            git_hash_version = Shell.execute('git', 'log -1 --format=%h', traceflag=False, witherror=False)
+            git_hash_version = Shell.execute('git', 'log -1 --format=%h',
+                                             traceflag=False, witherror=False)
         except:
             git_hash_version = 'N/A'
 
@@ -668,7 +671,9 @@ class CMShell(Cmd, PluginCommandClasses):
         pipcheck = subprocess.Popen(('pip', 'freeze'), stdout=subprocess.PIPE)
         try:
             # python 3 returns byte sequence so the decode is necessary
-            output = subprocess.check_output(('grep', "cloudmesh"), stdin=pipcheck.stdout).decode("utf-8")
+            output = subprocess.check_output(('grep', "cloudmesh"),
+                                             stdin=pipcheck.stdout).decode(
+                "utf-8")
             pkglines = output.strip().split("\n")
 
             for pkgline in pkglines:
@@ -682,8 +687,10 @@ class CMShell(Cmd, PluginCommandClasses):
                     }
                 elif "git" in pkgline:
 
-                    pkgline = pkgline.replace("-e git+git@github.com:cloudmesh-community/", "")
-                    pkgline = pkgline.replace("-e git+https://github.com/cloudmesh/", "")
+                    pkgline = pkgline.replace(
+                        "-e git+git@github.com:cloudmesh-community/", "")
+                    pkgline = pkgline.replace(
+                        "-e git+https://github.com/cloudmesh/", "")
                     pkgline = pkgline.replace("egg=", "")
 
                     version, pkg = pkgline.split("#")
@@ -696,7 +703,7 @@ class CMShell(Cmd, PluginCommandClasses):
             pass
         pipcheck.wait()
 
-        #installedpkgs = []
+        # installedpkgs = []
         #
         # for a preset set of named packages
         '''
@@ -755,6 +762,7 @@ def inheritors(klass):
                 subclasses.add(child)
                 work.append(child)
     return subclasses
+
 
 # noinspection PyBroadException,PyUnusedLocal
 def main():

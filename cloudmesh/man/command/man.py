@@ -11,6 +11,7 @@ from cloudmesh.shell.command import command
 
 from pprint import pprint
 
+
 class ManCommand(PluginCommand):
     # noinspection PyUnusedLocal
 
@@ -21,11 +22,10 @@ class ManCommand(PluginCommand):
         :type what: string
         """
         h = None
-        data = {}
-        data["name"] = what
+        data = {"name": what}
         h = eval("self.do_{what}.__doc__".format(what=what))
         # noinspection PyUnboundLocalVariable
-        data["help"]= h
+        data["help"] = h
         return data
 
     def _print_rst(self, data):
@@ -40,14 +40,14 @@ class ManCommand(PluginCommand):
         print(data['name'])
         print("=" * 79)
         print()
-        print(textwrap.dedent(data['help'].replace("::\n\n","")).strip())
+        print(textwrap.dedent(data['help'].replace("::\n\n", "")).strip())
         print()
 
     def _print_md(self, data):
         print("# " + data['name'])
         print()
         print("```")
-        print(textwrap.dedent(data['help'].replace("::\n\n","")).strip())
+        print(textwrap.dedent(data['help'].replace("::\n\n", "")).strip())
         print("```")
         print()
 
@@ -59,7 +59,7 @@ class ManCommand(PluginCommand):
         elif kind == "rst":
             self._print_rst(data)
 
-
+    # noinspection PyUnusedLocal
     @command
     def do_man(self, arg, arguments):
         """
@@ -113,7 +113,6 @@ class ManCommand(PluginCommand):
             for command in cmds_doc:
                 data = self._get_help(command)
                 self._print(data, arguments.kind)
-
 
             # self.stdout.write("%s\n" % str(self.doc_leader))
             # self.print_topics(self.doc_header, cmds_doc, 15, 80)

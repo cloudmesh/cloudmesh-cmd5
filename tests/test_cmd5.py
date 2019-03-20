@@ -56,7 +56,7 @@ class Test_cmd5(object):
         d = {"a": "1", "b": "2"}
         v = Variables()
         v + d
-        print (v)
+        print(v)
         assert "a" in v and "b" in v
         del v["a"]
         del v["b"]
@@ -66,7 +66,7 @@ class Test_cmd5(object):
         v - d
         assert "a" not in v and "b" not in v
 
-        print (v)
+        print(v)
         v.close()
 
     def test_004(self):
@@ -74,10 +74,10 @@ class Test_cmd5(object):
         d = {"a": "1", "b": "2"}
         v = Variables()
         v + d
-        print (v)
+        print(v)
         assert "a" in v and "b" in v
         v - d.keys()
         assert "a" not in v and "b" not in v
 
-        print (v)
+        print(v)
         v.close()
