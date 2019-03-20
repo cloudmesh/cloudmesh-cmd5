@@ -287,21 +287,29 @@ class CMShell(Cmd, PluginCommandClasses):
             try:
                 func = getattr(self, 'do_' + cmd)
                 return func(arg)
+
             except AttributeError as e:
 
                 vars = Variables()
                 trace = "T" in vars['trace']
                 debug = "T" in vars['debug']
 
-                Console.error("command error while executing '{cmd}'".format(cmd=cmd),
-                              traceflag=trace)
+                command_missing = "'CMShell' object has no attribute 'do_{cmd}'".format(
+                    cmd=cmd)
+
+                if e.args[0] == command_missing:
+                    Console.error(
+                        "this command does not exist: '{cmd}'".format(cmd=cmd),
+                        traceflag=False)
+                else:
+                    Error.traceback(error=e, debug=debug, trace=trace)
+
                 cmd = None
                 line = oldline
 
 
 
 
-                Error.traceback(error=e, debug=debug, trace=trace)
         return ""
 
     # noinspection PyUnusedLocal
