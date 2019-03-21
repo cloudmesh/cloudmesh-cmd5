@@ -30,6 +30,35 @@ class CometPluginCommand(object):
     pass
 
 
+def map_parameters(arguments, *args):
+    """
+    This command is useful to map parameters with -- to regular argument dicts for easier processing.
+
+    :param arguments:
+    :param args:
+    :return:
+
+    an example is
+
+    map_parameters(arguments,
+                       'active',
+                       'cloud')
+
+    where --active=ACTIVE is mapped to arguments["active"]
+    and  --cloud=CLOUD is mapped to arguments["cloud"]
+
+    as arguments is a dotdict, they can than for example be called as
+
+    arguments.cloud
+
+    """
+    for arg in args:
+        flag = "--" + arg
+        if flag in arguments:
+            arguments[arg] = arguments[flag]
+        else:
+            arguments[arg] = None
+
 # noinspection PySingleQuotedDocstring,PyUnusedLocal
 def command(func):
     '''
