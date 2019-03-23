@@ -110,8 +110,8 @@ class ManCommand(PluginCommand):
                     else:
                         cmds_undoc.append(cmd)
 
-            for command in cmds_doc:
-                data = self._get_help(command)
+            for entry in cmds_doc:
+                data = self._get_help(entry)
                 self._print(data, arguments.kind)
 
             # self.stdout.write("%s\n" % str(self.doc_leader))
@@ -121,6 +121,6 @@ class ManCommand(PluginCommand):
 
         else:
 
-            command = arguments.COMMAND
-            data = self._get_help(command)
+            entry = arguments.COMMAND
+            data = self._get_help(entry)
             self._print(data, arguments.kind)

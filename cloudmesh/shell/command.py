@@ -59,6 +59,7 @@ def map_parameters(arguments, *args):
         else:
             arguments[arg] = None
 
+
 # noinspection PySingleQuotedDocstring,PyUnusedLocal
 def command(func):
     '''
