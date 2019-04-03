@@ -11,7 +11,7 @@ endef
 
 source: 
 	cd ../cloudmesh.common; make source
-	$(call banner, "Install cloudmesh.cmd5")
+	$(call banner, "Install cloudmesh-cmd5")
 	pip install -e . -U
 	cms help
 
@@ -45,10 +45,10 @@ dist: clean
 
 upload_test: twine dist
 #	python setup.py	 sdist bdist bdist_wheel upload -r https://test.pypi.org/legacy/
-	twine upload --repository pypitest dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl	dist/cloudmesh.$(package)-$(VERSION).tar.gz
+	twine upload --repository pypitest dist/cloudmesh-$(package)-$(VERSION)-py2.py3-none-any.whl	dist/cloudmesh-$(package)-$(VERSION).tar.gz
 
 
-# python -m pip install --index-url https://test.pypi.org/simple/ cloudmesh.cmd5
+# python -m pip install --index-url https://test.pypi.org/simple/ cloudmesh-cmd5
 
 log:
 	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
@@ -59,8 +59,8 @@ register: dist
 	@echo "######################################"
 	@echo "# $(VERSION)"
 	@echo "######################################"
-	twine register dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl
-	# twine register dist/cloudmesh.$(package)-$(VERSION).tar.gz
+	twine register dist/cloudmesh-$(package)-$(VERSION)-py2.py3-none-any.whl
+	# twine register dist/cloudmesh-$(package)-$(VERSION).tar.gz
 
 
 upload: dist
