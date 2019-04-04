@@ -1,6 +1,15 @@
 Cloudmesh cmd5
 ==============
 
+
+[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-cmd5)
+
+[![image](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5)
+
+[![image](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5/)
+
+[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-cmd5.svg)](https://github.com/TankerHQ/python-cloudmesh-cmd5/blob/master/LICENSE)
+
 An dynamically extensible CMD based command shell. For en extensive
 documentation please see
 
