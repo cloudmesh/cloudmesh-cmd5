@@ -34,7 +34,7 @@ def readfile(filename):
 
 requiers = """
 pyyaml
-cloudmesh.common
+cloudmesh-common
 docopt
 requests
 """.split("\n")

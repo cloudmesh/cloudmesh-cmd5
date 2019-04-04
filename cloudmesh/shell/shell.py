@@ -605,7 +605,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 
           Limitations:
             Package names must not have a . in them instead you need to use -
-            Thus to query for cloudmesh.cmd5 use
+            Thus to query for cloudmesh-cmd5 use
             
               cms version pip cloudmesh-cmd5
            
@@ -707,7 +707,7 @@ class CMShell(Cmd, PluginCommandClasses):
         #
         # for a preset set of named packages
         '''
-        #pkgs = ['cloudmesh.common', 'cloudmesh.cmd5', 'cloudmesh.comet']
+        #pkgs = ['cloudmesh-common', 'cloudmesh-cmd5', 'cloudmesh.comet']
         for package in pkgs:
             # check version from pip
             pipcheck = subprocess.Popen(('pip', 'freeze'), stdout=subprocess.PIPE)
