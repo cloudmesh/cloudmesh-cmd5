@@ -1,6 +1,4 @@
 pygments
-tox
-detox
 coverage
 flake8
-
+twine
