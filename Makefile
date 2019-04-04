@@ -32,48 +32,38 @@ clean:
 # PYPI
 ######################################################################
 
+
 twine:
 	pip install -U twine
 
-dist: clean
-	@echo "######################################"
-	@echo "# $(VERSION)"
-	@echo "######################################"
-	python setup.py sdist --formats=zip
-	#python setup.py bdist
-	python setup.py bdist_wheel
+dist:
+	python setup.py sdist bdist_wheel
+	twine check dist/*
 
-upload_test: twine dist
-#	python setup.py	 sdist bdist bdist_wheel upload -r https://test.pypi.org/legacy/
-	twine upload --repository pypitest dist/cloudmesh-$(package)-$(VERSION)-py2.py3-none-any.whl	dist/cloudmesh-$(package)-$(VERSION).tar.gz
+patch: clean
+	$(call banner, patch to testpypi)
+	bumpversion --allow-dirty patch
+	python setup.py sdist bdist_wheel
+	git push origin master --tags
+	twine check dist/*
+	twine upload --repository testpypi https://test.pypi.org/legacy/ dist/*
 
-
-# python -m pip install --index-url https://test.pypi.org/simple/ cloudmesh-cmd5
-
-log:
-	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
-	git commit -m "chg: dev: Update ChangeLog" ChangeLog
-	git push
-
-register: dist
-	@echo "######################################"
-	@echo "# $(VERSION)"
-	@echo "######################################"
-	twine register dist/cloudmesh-$(package)-$(VERSION)-py2.py3-none-any.whl
-	# twine register dist/cloudmesh-$(package)-$(VERSION).tar.gz
-
-
-upload: dist
+release: clean dist
+	$(call banner, release to pypi)
+	bumpversion release
+	python setup.py sdist bdist_wheel
+	git push origin master --tags
+	twine check dist/*
 	twine upload dist/*
 
-#
-# GIT
-#
+pip: patch
+	pip install --index-url https://test.pypi.org/simple/ \
+	    --extra-index-url https://pypi.org/simple cloudmesh-$(package)
 
-tag:
-	touch README.md
-	git tag $(VERSION)
-	git commit -a -m "$(VERSION)"
+log:
+	$(call banner, log)
+	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
+	git commit -m "chg: dev: Update ChangeLog" ChangeLog
 	git push
 
 ######################################################################
