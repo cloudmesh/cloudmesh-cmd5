@@ -64,7 +64,7 @@ setup(
     version=version,
     license="Apache 2.0",
     url=URL,
-    packages=find_packages(),
+    packages=find_packages(exclude=("tests","deprecated","propose", "examples", "conda")),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
