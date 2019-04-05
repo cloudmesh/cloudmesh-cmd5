@@ -11,7 +11,7 @@ endef
 
 source: 
 	cd ../cloudmesh.common; make source
-	$(call banner, "Install cloudmesh.cmd5")
+	$(call banner, "Install cloudmesh-cmd5")
 	pip install -e . -U
 	cms help
 
@@ -32,50 +32,68 @@ clean:
 # PYPI
 ######################################################################
 
+
 twine:
 	pip install -U twine
 
-dist: clean
-	@echo "######################################"
-	@echo "# $(VERSION)"
-	@echo "######################################"
-	python setup.py sdist --formats=zip
-	#python setup.py bdist
-	python setup.py bdist_wheel
+dist:
+	python setup.py sdist bdist_wheel
+	twine check dist/*
 
-upload_test: twine dist
-#	python setup.py	 sdist bdist bdist_wheel upload -r https://test.pypi.org/legacy/
-	twine upload --repository pypitest dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl	dist/cloudmesh.$(package)-$(VERSION).tar.gz
+patch: clean
+	$(call banner, "bbuild")
+	bump2version --allow-dirty patch
+	python setup.py sdist bdist_wheel
+	# git push origin master --tags
+	twine check dist/*
+	twine upload --repository testpypi  dist/*
+	$(call banner, "install")
+	sleep 10
+	pip install --index-url https://test.pypi.org/simple/ cloudmesh-$(package) -U
+
+minor: clean
+	$(call banner, "minor")
+	bump2version minor --allow-dirty
+	@cat VERSION
+	@echo
+
+release: clean
+	$(call banner, "release")
+	git tag "v$(VERSION)"
+	git push origin master --tags
+	python setup.py sdist bdist_wheel
+	twine check dist/*
+	twine upload --repository pypi dist/*
+	$(call banner, "install")
+	@cat VERSION
+	@echo
+	sleep 10
+	pip install -U cloudmesh-common
 
 
-# python -m pip install --index-url https://test.pypi.org/simple/ cloudmesh.cmd5
+dev:
+	bump2version --new-version "$(VERSION)-dev0" part --allow-dirty
+	bump2version patch --allow-dirty
+	@cat VERSION
+	@echo
+
+reset:
+	bump2version --new-version "4.0.0-dev0" part --allow-dirty
+
+upload:
+	twine check dist/*
+	twine upload dist/*
+
+pip:
+	pip install --index-url https://test.pypi.org/simple/ cloudmesh-$(package) -U
+
+#	    --extra-index-url https://test.pypi.org/simple
 
 log:
+	$(call banner, log)
 	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
 	git commit -m "chg: dev: Update ChangeLog" ChangeLog
 	git push
-
-register: dist
-	@echo "######################################"
-	@echo "# $(VERSION)"
-	@echo "######################################"
-	twine register dist/cloudmesh.$(package)-$(VERSION)-py2.py3-none-any.whl
-	# twine register dist/cloudmesh.$(package)-$(VERSION).tar.gz
-
-
-upload: dist
-	twine upload dist/*
-
-#
-# GIT
-#
-
-tag:
-	touch README.md
-	git tag $(VERSION)
-	git commit -a -m "$(VERSION)"
-	git push
-
 ######################################################################
 # DOCKER
 ######################################################################

@@ -9,7 +9,7 @@ class PluginManager(object):
         self.data = None
 
     def load(self):
-        url = 'https://raw.githubusercontent.com/cloudmesh/cloudmesh.cmd5/install/plugins.yml'
+        url = 'https://raw.githubusercontent.com/cloudmesh/cloudmesh-cmd5/install/plugins.yml'
         r = requests.get(url)
         self.data = yaml.load(r.text)
         for key in self.data['plugins']:
