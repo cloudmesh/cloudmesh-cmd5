@@ -681,9 +681,15 @@ class CMShell(Cmd, PluginCommandClasses):
                     values = pkgline.split("==")
                     pkg = values[0]
                     version = values[1].strip()
+
+                    pname = pkg.replace("cloudmesh-", "cloudmesh.")
+                    i = importlib.import_module(pname)
+
                     versions[pkg] = {
+                        "package": pname,
                         "name": pkg,
-                        "version": version
+                        "version": version,
+                        "source": i.__file__
                     }
                 elif "git" in pkgline:
 
@@ -694,10 +700,14 @@ class CMShell(Cmd, PluginCommandClasses):
                     pkgline = pkgline.replace("egg=", "")
 
                     version, pkg = pkgline.split("#")
+                    pname = pkg.replace("cloudmesh-", "cloudmesh.")
 
+                    i = importlib.import_module(pname)
                     versions[pkg] = {
                         "name": pkg,
-                        "version": version
+                        "package": pname,
+                        "version": version,
+                        "source": i.__file__
                     }
         except subprocess.CalledProcessError as e:
             pass
@@ -742,8 +752,9 @@ class CMShell(Cmd, PluginCommandClasses):
         print (versions)
         '''
 
-        print(Printer.write(versions, output=arguments["--format"],
-                            order=["name", "version"],
+        print(Printer.write(versions,
+                            output=arguments["--format"],
+                            order=["name", "package", "version", "source"],
                             sort_keys="name"))
         if arguments["--check"] in ["True"]:
             Shell.check_python()
