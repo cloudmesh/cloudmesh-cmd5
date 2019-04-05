@@ -34,7 +34,7 @@ def readfile(filename):
 
 requiers = """
 pyyaml
-cloudmesh.common
+cloudmesh-common
 docopt
 requests
 """.split("\n")
@@ -47,11 +47,11 @@ with open('README.md') as f:
     long_description = f.read()
 
 
-NAME = "cloudmesh.cmd5"
+NAME = "cloudmesh-cmd5"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
-URL = "https://github.com/cloudmesh/cloudmesh.cmd5"
+URL = "https://github.com/cloudmesh/cloudmesh-cmd5"
 
 
 setup(
