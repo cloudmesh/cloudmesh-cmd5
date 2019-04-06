@@ -148,7 +148,10 @@ def basecommand(func):
             # print ("ARGV", argv)
             arguments = docopt(doc, help=True, argv=argv)
             func(instance, args, arguments)
-        except docopt.DocoptExit as e:
+        # except docopt.DocoptExit as e:
+        except Exception as e:
+            import traceback, sys
+            traceback.print_exc(file=sys.stdout)
             if args not in ('-h', '--help'):
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")
