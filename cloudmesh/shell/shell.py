@@ -1,12 +1,3 @@
-#
-# in our rest architecture we want to interface to the backend systems while
-# using a secure rest service. I
-# Internally we will use the many functions that cloudmesh_client provides.
-# Before we use them we need to implement some elementary functions
-# lets first do administrative functions in an admin command
-
-# pseudo code: task implement plugin
-
 from __future__ import print_function
 
 import importlib
@@ -693,6 +684,10 @@ class CMShell(Cmd, PluginCommandClasses):
 
                     version, pkg = pkgline.split("#")
                     pname = pkg.replace("cloudmesh-", "cloudmesh.")
+                    #
+                    # The next line needed to be added as for some reason the is an _ here
+                    #
+                    pname = pkg.replace("cloudmesh_", "cloudmesh.")
 
                     i = importlib.import_module(pname)
                     versions[pkg] = {
