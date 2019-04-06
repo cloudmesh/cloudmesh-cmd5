@@ -1,4 +1,3 @@
 requests
-cloudmesh-common
 pyyaml
 docopt
