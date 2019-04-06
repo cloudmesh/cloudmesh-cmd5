@@ -7,9 +7,7 @@ THIS DOCUMENTATION IS OUTDATED DO NOT INSTALL THE CLIENT
 [![image](https://img.shields.io/travis/TankerHQ/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-cmd5)
 [![image](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5)
 [![image](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5/)
-[![image](https://img.shields.io/github/cloudmesh/license/cloudmesh-cmd5.svg)](https://github.com/cloudmesh-cmd5/blob/master/LICENSE)
-
-https://github.com/cloudmesh/cloudmesh-cmd5/blob/master/LICENSE
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 An dynamically extensible CMD based command shell. For en extensive
 documentation please see
