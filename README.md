@@ -1,13 +1,12 @@
 Cloudmesh cmd5
 ==============
 
+THIS DOCUMENTATION IS OUTDATED DO NOT INSTALL THE CLIENT
+
 
 [![image](https://img.shields.io/travis/TankerHQ/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-cmd5)
-
 [![image](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5)
-
 [![image](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5/)
-
 [![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-cmd5.svg)](https://github.com/TankerHQ/python-cloudmesh-cmd5/blob/master/LICENSE)
 
 An dynamically extensible CMD based command shell. For en extensive
@@ -23,7 +22,8 @@ Requirements
 * Python greater equal 3.7.2
 * Python greater equal 2.7.15
 
-Cloudmesh was able to run on earlier versions of python, but we do prefer to test it on the newest version.
+Cloudmesh was able to run on earlier versions of python, but we do prefer to
+test it on the newest version.
 
 Installation from source
 ------------------------
@@ -46,78 +46,21 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 ```
 
-to install 3.7.2 use and activate it 
 
-```
-pyenv install 3.7.2
-pyenv activate 3.7.2
-```
+How to install cloudmesh is documented at 
 
-    
-Now you need to get two source directories. We assume yo place them in
-~/github::
+* <https://github.com/cloudmesh/get/blob/gh-pages/README.md>
 
-    mkdir ~/github
-    cd ~/github
-    git clone https://github.com/cloudmesh/cloudmesh.common.git
-    git clone https://github.com/cloudmesh/cloudmesh.cmd5.git
-    git clone https://github.com/cloudmesh/cloudmesh.bar.git
-    git clone https://github.com/cloudmesh/cloudmesh.sys.git
 
-The cmd5 repository contains the shell, while the extbar directory
+cmd5 contains the shell, while the extbar directory
 contains the sample commands foo and bar. The common library contains
 some useful classes and methods that we also share with other
 cloudmesh code.
 
-To install them from source simply to the following. The cloudmesh.bar
-example you want as source as you want to modify the code at one point::
-
-    cd ~/github/cloudmesh.common
-    python setup.py install
-    pip install .
-    cd ~/github/cloudmesh.cmd5
-    python setup.py install
-    pip install .
-    cd ~/github/cloudmesh.sys
-    python setup.py install
-    pip install .
-  
 :o: The following has to  be tested (pip instaltion not yet working):
-
-> In case you like to install the cloudmesh client, you can isna\stall it either from source
->
->     git clone https://github.com/cloudmesh/cloudmesh.client.git
->     cd ~/github/cloudmesh.client
->     python setup.py install
->     pip install .
->
-> or from pip:
->
->     pip install cloudmesh_client
     
-
-Instalation from pip
---------------------
-
----
-
-> :warning: we do recommend that you install cmd5 from source as not all 
-> features will be accessible to you if you do a pip install
-
----
-
-To install cmd5 from pip please use::
-
-    pip install cloudmesh.cmd5
-
-The cloudmesh.bar repository you want to download as source so you can
-learn how to write your own commands::
-
-    mkdir ~/github
-    cd ~/github
-    git clone https://github.com/cloudmesh/cloudmesh.bar.git
-
-Commands are shared in the `cloudmesh` namespace.
+The cloudmesh-bar repository you want to download as source so you can
+learn how to write your own commands. Commands are shared in the `cloudmesh` namespace.
 
 The better method on writing a command is to install cloudmesh.sys and use the 
 sys command to generate a new command template via a program. You can generate 
@@ -167,7 +110,7 @@ with new commands.  This is done via packaged name spaces. This is
 defined in the setup.py file of your enhancement. The best way to
 create an enhancement is to take a look at the code in
 
-* https://github.com/cloudmesh/cloudmesh.bar.git
+* https://github.com/cloudmesh/cloudmesh-bar.git
 
 Simply copy the code and modify the bar and foo commands to fit yor
 needs. 

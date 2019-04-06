@@ -644,14 +644,6 @@ class CMShell(Cmd, PluginCommandClasses):
             git_hash_version = 'N/A'
 
         versions = {
-            # "cloudmesh_client": {
-            #    "name": "cloudmesh_client",
-            #    "version": str(cloudmesh_client.__version__)
-            # },
-            # "cloudmesh_base": {
-            #     "name": "cloudmesh_base",
-            #     "version": str(cloudmesh_base.__version__)
-            # },
             "python": {
                 "name": "python",
                 "version": str(python_version)
