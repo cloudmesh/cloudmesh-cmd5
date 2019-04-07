@@ -1,15 +1,8 @@
-""" run with
-
-python setup.py install; pip install . ; nosetests -v --nocapture tests/cmd5/test_cmd5.py
-python setup.py install; pip install . ; nosetests -v --nocapture tests/cmd5/test_cmd5.py:Test_cmd5.test_001
-
-nosetests -v --nocapture tests/cm_basic/test_var.py
-
-or
-
-nosetests -v tests/cm_basic/test_var.py
-
-"""
+###############################################################
+# pip install .; pytest -v --capture=no -v --nocapture tests/test_configdict.py:Test_configdict.test_001
+# pytest -v --capture=no tests/test_configdictr.py
+# pytest -v  tests/test_configdict.py
+###############################################################
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
@@ -28,12 +21,6 @@ def run(command):
 
 # noinspection PyMethodMayBeStatic,PyPep8Naming
 class Test_cmd5(object):
-    """
-
-    """
-
-    # def tearDown(self):
-    #    print (self.v.close())
 
     def test_001(self):
         HEADING("assign key=value")
