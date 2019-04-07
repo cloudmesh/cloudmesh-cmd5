@@ -179,6 +179,21 @@ The following highlighted features are available:
 * multi cloud envirdonments (under development) though cloudmesh-cloud plugin
 * openapi integration through cloudmesh-openapi plugin
 * general commands as documented at
-  <https://cloudmesh.github.io/cloudmesh-cloud/manual.html> such as admin,
-  banner, clear, echo, default, info, pause, plugin, q, quit, shell, sleep,
-  stopwatch, sys, var, version, open, set
+  <https://cloudmesh.github.io/cloudmesh-cloud/manual.html> such as 
+  [admin](https://cloudmesh.github.io/cloudmesh-cloud/manual/admin.html),
+  [banner](https://cloudmesh.github.io/cloudmesh-cloud/manual/banner.html),
+  [clear](https://cloudmesh.github.io/cloudmesh-cloud/manual/clear.html),
+  [echo](https://cloudmesh.github.io/cloudmesh-cloud/manual/echo.html),
+  [default](https://cloudmesh.github.io/cloudmesh-cloud/manual/default.html),
+  [info](https://cloudmesh.github.io/cloudmesh-cloud/manual/info.html),
+  [pause](https://cloudmesh.github.io/cloudmesh-cloud/manual/pause.html),
+  [plugin](https://cloudmesh.github.io/cloudmesh-cloud/manual/plugin.html),
+  [quit](https://cloudmesh.github.io/cloudmesh-cloud/manual/quit.html),
+  [shell](https://cloudmesh.github.io/cloudmesh-cloud/manual/shell.html),
+  [sleep](https://cloudmesh.github.io/cloudmesh-cloud/manual/sleep.html),
+  [stopwatch](https://cloudmesh.github.io/cloudmesh-cloud/manual/stopwatch.html),
+  [sys](https://cloudmesh.github.io/cloudmesh-cloud/manual/sys.html),
+  [var](https://cloudmesh.github.io/cloudmesh-cloud/manual/var.html),
+  [version](https://cloudmesh.github.io/cloudmesh-cloud/manual/version.html),
+  [open](https://cloudmesh.github.io/cloudmesh-cloud/manual/open.html),
+  set
