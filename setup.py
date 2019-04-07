@@ -53,6 +53,8 @@ AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cloudmesh-cmd5"
 
 
+
+
 setup(
     name=NAME,
     author=AUTHOR,
@@ -63,16 +65,40 @@ setup(
     version=version,
     license="Apache 2.0",
     url=URL,
-    packages=find_packages(exclude=("tests","deprecated","propose", "examples", "conda")),
+    packages=find_packages(
+        exclude=("tests",
+                 "deprecated",
+                 "propose",
+                 "examples",
+                 "conda")),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
-        "Environment :: Web Environment",
+        "Environment :: Console",
+        "Environment :: MacOS X",
+        "Environment :: OpenStack",
+        "Environment :: Other Environment",
+        "Environment :: Plugins",
+        "Intended Audience :: Information Technology",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: BSD License",
+        "Intended Audience :: Education",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: System Administrators",
+        "License :: OSI Approved :: Apache Software License",
+        "Natural Language :: English",
         "Operating System :: OS Independent",
+        "Operating System :: MacOS",
+        "Operating System :: Microsoft :: Windows :: Windows 10",
+        "Operating System :: Unix",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Topic :: Internet",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development :: User Interfaces",
+        "Topic :: System",
+        "Topic :: System :: Distributed Computing",
+        "Topic :: System :: Shells",
+        "Topic :: Utilities",
     ],
     install_requires=requiers,
     tests_require=[
@@ -85,5 +111,5 @@ setup(
         'console_scripts': [
             'cms = cloudmesh.shell.shell:main',
         ],
-    },
+    }
 )

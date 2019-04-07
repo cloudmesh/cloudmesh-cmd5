@@ -4,11 +4,24 @@ Cloudmesh cmd5
 THIS DOCUMENTATION IS OUTDATED DO NOT INSTALL THE CLIENT
 
 
-[![image](https://img.shields.io/travis/TankerHQ/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.org/TankerHQ/cloudmesn-cmd5)
-[![image](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5)
-[![image](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5/)
-[![image](https://img.shields.io/github/license/TankerHQ/python-cloudmesh-cmd5.svg)](https://github.com/TankerHQ/python-cloudmesh-cmd5/blob/master/LICENSE)
+[![Version](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-cmd5/blob/master/LICENSE)
+[![Python](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
+[![Format](https://img.shields.io/pypi/format/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
+[![Format](https://img.shields.io/pypi/status/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
+[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-cmd5/jobs)
 
+
+## Instalation and Documentation
+
+Please note that several packages are available which are pointed to in the
+instalation documentation.
+
+|  | Links |
+|---------------|-------|
+| Documentation | <https://cloudmesh.github.io/cloudmesh-cloud> |
+| Code | <https://github.com/cloudmesh/cloudmesh-cloud> |
+| Instalation Instructions | <https://github.com/cloudmesh/get> |
 An dynamically extensible CMD based command shell. For en extensive
 documentation please see
 
