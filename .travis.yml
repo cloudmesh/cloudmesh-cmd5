@@ -10,10 +10,11 @@ python:
 #  - "nightly"  # nightly build
 
 install:
+  - pip install --user pip -U
   - pwd
   - pip install --user -r requirements.txt
   - pip install --user -r requirements-dev.txt
-  - pip install cloudmesh-common
+  - pip install --user cloudmesh-common
   - pip install --user .
   - mkdir ~/.cloudmesh
   - cms help
