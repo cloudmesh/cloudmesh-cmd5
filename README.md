@@ -1,8 +1,4 @@
-Cloudmesh cmd5
-==============
-
-THIS DOCUMENTATION IS OUTDATED DO NOT INSTALL THE CLIENT
-
+# Cloudmesh cmd5
 
 [![Version](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-cmd5/blob/master/LICENSE)
