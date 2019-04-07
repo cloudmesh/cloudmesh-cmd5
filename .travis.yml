@@ -17,6 +17,8 @@ install:
   - pip install --user cloudmesh-common
   - pip install --user .
   - mkdir ~/.cloudmesh
+  - wget -P ~/.cloudmesh https://raw.githubusercontent.com/cloudmesh/cloudmesh-common/master/cloudmesh/etc/cloudmesh.yaml
   - cms help
 
 script: pytest -v tests/test_cmd5.py
+
