@@ -22,6 +22,7 @@ from cloudmesh.common.util import path_expand
 from cloudmesh.common.default import Default
 from cloudmesh.common.error import Error
 from cloudmesh.common.console import Console
+from cloudmesh.common.util import readfile
 
 import cloudmesh
 import cloudmesh.common
@@ -668,11 +669,17 @@ class CMShell(Cmd, PluginCommandClasses):
                     pname = pkg.replace("cloudmesh-", "cloudmesh.")
                     i = importlib.import_module(pname)
 
+                    location = i.__file__
+
+                    vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                    v = readfile(vlocation).split('"')[1].strip()
+
                     versions[pkg] = {
-                        "package": pname,
                         "name": pkg,
+                        "package": pname,
                         "version": version,
-                        "source": i.__file__
+                        "source": location,
+                        "VERSION": v
                     }
                 elif "git" in pkgline:
 
@@ -690,11 +697,19 @@ class CMShell(Cmd, PluginCommandClasses):
                     pname = pkg.replace("cloudmesh_", "cloudmesh.")
 
                     i = importlib.import_module(pname)
+
+                    location = i.__file__
+
+
+                    vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                    v = readfile(vlocation).split('"')[1].strip()
+
                     versions[pkg] = {
                         "name": pkg,
                         "package": pname,
                         "version": version,
-                        "source": i.__file__
+                        "source": location,
+                        "VERSION": v
                     }
         except subprocess.CalledProcessError as e:
             pass
@@ -741,7 +756,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         print(Printer.write(versions,
                             output=arguments["--format"],
-                            order=["name", "package", "version", "source"],
+                            order=["name", "package", "version", "source", "VERSION"],
                             sort_keys="name"))
         if arguments["--check"] in ["True"]:
             Shell.check_python()
