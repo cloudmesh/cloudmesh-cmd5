@@ -671,8 +671,11 @@ class CMShell(Cmd, PluginCommandClasses):
 
                     location = i.__file__
 
-                    vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
-                    v = readfile(vlocation).split('"')[1].strip()
+                    try:
+                        vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                        v = readfile(vlocation).split('"')[1].strip()
+                    except:
+                        v = "not found"
 
                     versions[pkg] = {
                         "name": pkg,
@@ -700,9 +703,11 @@ class CMShell(Cmd, PluginCommandClasses):
 
                     location = i.__file__
 
-
-                    vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
-                    v = readfile(vlocation).split('"')[1].strip()
+                    try:
+                        vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                        v = readfile(vlocation).split('"')[1].strip()
+                    except:
+                        v = "not found"
 
                     versions[pkg] = {
                         "name": pkg,
@@ -756,7 +761,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         print(Printer.write(versions,
                             output=arguments["--format"],
-                            order=["name", "package", "version", "source", "VERSION"],
+                            order=["name", "package", "VERSION", "version", "source"],
                             sort_keys="name"))
         if arguments["--check"] in ["True"]:
             Shell.check_python()
