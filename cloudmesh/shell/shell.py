@@ -665,25 +665,25 @@ class CMShell(Cmd, PluginCommandClasses):
                     values = pkgline.split("==")
                     pkg = values[0]
                     version = values[1].strip()
+                    if pkg != 'cloudmesh-installer':
+                        pname = pkg.replace("cloudmesh-", "cloudmesh.")
+                        i = importlib.import_module(pname)
 
-                    pname = pkg.replace("cloudmesh-", "cloudmesh.")
-                    i = importlib.import_module(pname)
+                        location = i.__file__
 
-                    location = i.__file__
+                        try:
+                            vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                            v = readfile(vlocation).split('"')[1].strip()
+                        except:
+                            v = "not found"
 
-                    try:
-                        vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
-                        v = readfile(vlocation).split('"')[1].strip()
-                    except:
-                        v = "not found"
-
-                    versions[pkg] = {
-                        "name": pkg,
-                        "package": pname,
-                        "version": version,
-                        "source": location,
-                        "VERSION": v
-                    }
+                        versions[pkg] = {
+                            "name": pkg,
+                            "package": pname,
+                            "version": version,
+                            "source": location,
+                            "VERSION": v
+                        }
                 elif "git" in pkgline:
 
                     pkgline = pkgline.replace(
