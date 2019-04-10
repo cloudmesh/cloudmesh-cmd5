@@ -7,7 +7,7 @@ from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
 from cloudmesh.shell.variables import Variables
-
+import pytest
 
 def run(command):
     print(command)
@@ -19,7 +19,7 @@ def run(command):
     return result
 
 
-# noinspection PyMethodMayBeStatic,PyPep8Naming
+@pytest.mark.incremental
 class Test_cmd5(object):
 
     def test_001(self):
