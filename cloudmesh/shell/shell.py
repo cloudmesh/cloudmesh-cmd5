@@ -29,7 +29,7 @@ import cloudmesh.common
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 from cloudmesh.shell.plugin import PluginManager
-from cloudmesh.shell.variables import Variables
+from cloudmesh.variables import Variables
 
 
 def print_list(elements):
