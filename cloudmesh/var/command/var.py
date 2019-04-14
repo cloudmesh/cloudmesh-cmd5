@@ -4,7 +4,7 @@ from datetime import datetime
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
-from cloudmesh.shell.variables import Variables
+from cloudmesh.variables import Variables
 
 
 class VarCommand(PluginCommand):

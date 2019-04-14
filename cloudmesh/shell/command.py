@@ -6,7 +6,7 @@ from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
 from cloudmesh.common.console import Console
 from pprint import pprint, pformat
-from cloudmesh.shell.variables import Variables
+from cloudmesh.variables import Variables
 from cloudmesh.common.util import banner
 
 

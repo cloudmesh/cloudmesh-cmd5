@@ -6,7 +6,7 @@
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
-from cloudmesh.shell.variables import Variables
+from cloudmesh.variables import Variables
 import pytest
 
 def run(command):
