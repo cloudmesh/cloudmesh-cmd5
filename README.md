@@ -6,7 +6,7 @@
 [![Format](https://img.shields.io/pypi/format/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Format](https://img.shields.io/pypi/status/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-cmd5)
-
+[![DOI](https://zenodo.org/badge/82920490.svg)](https://zenodo.org/badge/latestdoi/82920490)
 
 ## Instalation and Documentation
 
