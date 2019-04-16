@@ -102,6 +102,21 @@ def command(func):
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
+                if "::" in doc:
+                    usage = textwrap.dedent(doc.split("::")[1])
+                else:
+                    usage = doc
+
+                usage = textwrap.dedent(doc.split("Usage:")[1])
+                print()
+                print ("Usage:")
+
+                for line in usage.split("\n"):
+                    if ":" in line:
+                        kind = line.split(":")[0]
+                        if kind in ["Arguments", "Options", "Example", "Descriptiom"]:
+                            break
+                    print(line)
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")
                 # print (args)
@@ -153,12 +168,14 @@ def basecommand(func):
             import traceback, sys
             traceback.print_exc(file=sys.stdout)
             if args not in ('-h', '--help'):
+                print (args)
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")
             print(doc)
 
         except SystemExit as e:
             if args not in ('-h', '--help'):
+                print(args)
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")
                 print(e)
