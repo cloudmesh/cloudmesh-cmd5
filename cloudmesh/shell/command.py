@@ -117,8 +117,10 @@ def command(func):
                         if kind in ["Arguments", "Options", "Example", "Descriptiom"]:
                             break
                     print(line)
-                Console.error("Could not execute the command.")
-                Console.error("Check usage..")
+                Console.error("Could not execute the command. Please check usage with")
+                print ()
+                Console.msg("    cms help", name.replace("do_", ""))
+                print ()
                 # print (args)
                 # print(e)
                 # print(doc)
