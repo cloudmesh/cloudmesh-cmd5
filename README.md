@@ -35,7 +35,7 @@ Cloudmesh was able to run on earlier versions of python, but we do prefer to
 test it on the newest version.
 
 We recommend that you use pyenv or venv first before you install cloudmesh. This
-will make sure the version of cmd5 is installed in teh user space.
+will make sure the version of cmd5 is installed in the user space.
 
 
 Setup a virtualenv either with virtualenv or pyenv.
@@ -96,15 +96,15 @@ To see the manual page for a specific command, please use::
 Cmd5 comes with a sophisticated plugin mechanism. Commands can be readily
 designed from the sys command.
 
-The sys command can be installed oither from source (as discussed previously) or
+The sys command can be installed either from source (as discussed previously) or
 via pip
 
 ```bash
 $ pip install cloudmesh-sys
 ```
 
-Once you have installed it and execute `cms help sys` to see the usage. Now you
-simply can in a new directory execute the sys commane as follows, where
+Once you have installed it, execute `cms help sys` to see the usage. Now you
+simply can in a new directory execute the sys command as follows, where
 `mycommnad` is than name of the command you like to implement.
 
 ```bash
@@ -113,10 +113,10 @@ $ cd mycommand
 $ cms sys command generate mycommand
 ```
 
-A directory with the name cloudmesh.mycommand will be generated that contains
-the template for the command. You cen enter this template and modify the
+A directory with the name cloudmesh-mycommand will be generated that contains
+the template for the command. You can enter this template and modify the
 implementation in the folders `cloudmesh/mycommand/api` and
-`cloudmesh/mycommand/command` whne installing it with
+`cloudmesh/mycommand/command` when installing it with
 
 ```
 $ pip install .
