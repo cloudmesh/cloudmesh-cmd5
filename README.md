@@ -1,12 +1,12 @@
 # Cloudmesh cmd5
 
+[![DOI](https://zenodo.org/badge/82920490.svg)](https://zenodo.org/badge/latestdoi/82920490)
 [![Version](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-cmd5/blob/master/LICENSE)
 [![Python](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Format](https://img.shields.io/pypi/format/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Format](https://img.shields.io/pypi/status/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-cmd5)
-[![DOI](https://zenodo.org/badge/82920490.svg)](https://zenodo.org/badge/latestdoi/82920490)
 
 ## Instalation and Documentation
 

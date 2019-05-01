@@ -4,95 +4,95 @@ plugins:
         name: sys
         description: >
             management of cloudmesh release
-        url: https://github.com/cloudmesh/cloudmesh.sys
+        url: https://github.com/cloudmesh/cloudmesh-sys
         pip:
-            - pip install cloudmesh.sys
+            - pip install cloudmesh-sys
         uninstall:
-            - pip uninstall cloudmesh.sys
+            - pip uninstall cloudmesh-sys
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.sys#egg=cloudmesh.sys"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh-sys#egg=cloudmesh-sys"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.sys.git
-            - cd cloudmesh.sys
+            - git clone https://github.com/cloudmesh/cloudmesh-sys.git
+            - cd cloudmesh-sys
             - pip install .
         status: production
     comet:
         name: comet
         description: >
             management of cloudmesh comet
-        url: https://github.com/cloudmesh/cloudmesh.comet
+        url: https://github.com/cloudmesh/cloudmesh-comet
         pip:
-            - pip install cloudmesh.comet
+            - pip install cloudmesh-comet
         uninstall:
-            - pip uninstall cloudmesh.comet
+            - pip uninstall cloudmesh-comet
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.comet#egg=cloudmesh.comet"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh-comet#egg=cloudmesh-comet"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.comet.git
-            - cd cloudmesh.comet
+            - git clone https://github.com/cloudmesh/cloudmesh-comet.git
+            - cd cloudmesh-comet
             - pip install .
         status: production
     aws:
         name: aws
         description: >
             management of cloudmesh aws
-        url: https://github.com/cloudmesh/cloudmesh.aws
+        url: https://github.com/cloudmesh/cloudmesh-aws
         pip:
-            - pip install cloudmesh.aws
+            - pip install cloudmesh-aws
         uninstall:
-            - pip uninstall cloudmesh.aws
+            - pip uninstall cloudmesh-aws
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.aws#egg=cloudmesh.aws"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh-aws#egg=cloudmesh-aws"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.aws.git
-            - cd cloudmesh.aws
+            - git clone https://github.com/cloudmesh/cloudmesh-aws.git
+            - cd cloudmesh-aws
             - pip install .
         status: draft
     azure:
         name: azure
         description: >
             management of cloudmesh azure
-        url: https://github.com/cloudmesh/cloudmesh.azure
+        url: https://github.com/cloudmesh/cloudmesh-azure
         pip:
-            - pip install cloudmesh.azure
+            - pip install cloudmesh-azure
         uninstall:
-            - pip uninstall cloudmesh.azure
+            - pip uninstall cloudmesh-azure
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.azure#egg=cloudmesh.azure"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh-azure#egg=cloudmesh-azure"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.azure.git
-            - cd cloudmesh.azure
+            - git clone https://github.com/cloudmesh/cloudmesh-azure.git
+            - cd cloudmesh-azure
             - pip install .
         status: draft
     batch:
         name: batch
         description: >
             management of cloudmesh batch
-        url: https://github.com/cloudmesh/cloudmesh.batch
+        url: https://github.com/cloudmesh/cloudmesh-batch
         pip:
-            - pip install cloudmesh.batch
+            - pip install cloudmesh-batch
         uninstall:
-            - pip uninstall cloudmesh.batch
+            - pip uninstall cloudmesh-batch
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.batch#egg=cloudmesh.batch"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh-batch#egg=cloudmesh-batch"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.batch.git
-            - cd cloudmesh.batch
+            - git clone https://github.com/cloudmesh/cloudmesh-batch.git
+            - cd cloudmesh-batch
             - pip install .
         status: draft
     openstack:
         name: openstack
         description: >
             management of cloudmesh openstack
-        url: https://github.com/cloudmesh/cloudmesh.openstack
+        url: https://github.com/cloudmesh/cloudmesh-openstack
         pip:
-            - pip install cloudmesh.openstack
+            - pip install cloudmesh-openstack
         uninstall:
-            - pip uninstall cloudmesh.openstack
+            - pip uninstall cloudmesh-openstack
         git-broken:
-            - pip install -e "git+https://github.com/cloudmesh/cloudmesh.openstack#egg=cloudmesh.openstack"
+            - pip install -e "git+https://github.com/cloudmesh/cloudmesh-openstack#egg=cloudmesh-openstack"
         source:
-            - git clone https://github.com/cloudmesh/cloudmesh.openstack.git
-            - cd cloudmesh.openstack
+            - git clone https://github.com/cloudmesh/cloudmesh-openstack.git
+            - cd cloudmesh-openstack
             - pip install .
         status: draft
