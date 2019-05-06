@@ -36,6 +36,7 @@ requiers = """
 pyyaml
 docopt
 requests
+cloudmesh-common
 """.split("\n")
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
