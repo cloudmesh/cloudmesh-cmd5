@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from datetime import datetime
 
 from cloudmesh.shell.command import PluginCommand
