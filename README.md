@@ -28,7 +28,7 @@ where we also document how to use pyenv virtualenv.
 
 ## Requirements
 
-* Python greater equal 3.7.2
+* Python greater equal 3.7.3
 * Python greater equal 2.7.15
 
 Cloudmesh was able to run on earlier versions of python, but we do prefer to
