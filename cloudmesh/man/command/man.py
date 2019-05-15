@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.console import Console
 from cloudmesh.common.default import Default
