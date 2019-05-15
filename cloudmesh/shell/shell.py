@@ -11,6 +11,7 @@ import textwrap
 import subprocess
 import requests
 import yaml
+from pprint import pprint
 
 from cmd import Cmd
 
@@ -31,6 +32,7 @@ from cloudmesh.shell.command import command, basecommand
 from cloudmesh.shell.plugin import PluginManager
 from cloudmesh.variables import Variables
 
+from cloudmesh.DEBUG import VERBOSE
 
 def print_list(elements):
     """
@@ -41,10 +43,36 @@ def print_list(elements):
         print("*", name)
 
 
+def inheritors(klass):
+    subclasses = set()
+    work = [klass]
+    while work:
+        parent = work.pop()
+        for child in parent.__subclasses__():
+            if child not in subclasses:
+                subclasses.add(child)
+                work.append(child)
+    return subclasses
+
+def get_class(str):
+    return getattr(sys.modules[__name__], str)
+
 class Plugin(object):
     """
     Some simple methods to manage dynamic namespace plugins for cloudmesh.
     """
+
+    @staticmethod
+    def list():
+        subclasses = set()
+        work = [PluginCommand]
+        while work:
+            parent = work.pop()
+            for child in parent.__subclasses__():
+                if child not in subclasses and child.__name__ not in ["CMShell", "CommandProxyClass"]:
+                    subclasses.add(child)
+                    work.append(child)
+        return subclasses
 
     @classmethod
     def modules(cls):
@@ -64,15 +92,18 @@ class Plugin(object):
     @classmethod
     def classes(cls):
         """
-        list of the commands in the cloudmesh namespace under cloudmesh.ext.command
+        list of the commands in the cloudmesh namespace under cloudmesh.command
         :return: list of the commands
         """
         module_list = cls.modules()
+        # VERBOSE(module_list)
         commands = []
         for module_name in module_list:
             if module_name.startswith(
                     'cloudmesh.') and '.command.' in module_name:
                 commands.append(module_name)
+        # VERBOSE(commands)
+
         return commands
 
     @classmethod
@@ -107,8 +138,8 @@ class Plugin(object):
                          Otherwise the commands can be explicitly specified with
 
                           commands = [
-                            'cloudmesh.ext.command.bar.BarCommand',
-                            'cloudmesh.ext.command.foo.FooCommand',
+                            'cloudmesh.bar.command.bar.BarCommand',
+                            'cloudmesh.foo.command.foo.FooCommand',
                             ]
                           A namespace package must exists. Foo and Bar ar just examples
 
@@ -150,6 +181,45 @@ class CMShell(Cmd, PluginCommandClasses):
     |                  Cloudmesh CMD5 Shell                 |
     +-------------------------------------------------------+
     """)
+
+    '''
+    # experimenting
+    @command
+    def do_commands(self, args, arguments):
+        """
+        ::
+
+          Usage:
+                commands
+
+
+        """
+        arguments = dotdict(arguments)
+
+        for command in Plugin.list():
+            print(command)
+
+        names = self.get_names()
+        print(names)
+
+        for name in names:
+            if name[:3] == 'do_':
+                print(name)
+
+        d = []
+        for e in dir(cloudmesh):
+            if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
+                d.append(e)
+        print(d)
+        VERBOSE(inheritors(PluginCommand))
+        modules = Plugin.modules()
+        VERBOSE(modules)
+        for m in modules:
+            print (m)
+        for m in sys.modules:
+            if str(m).startswith("cloudmesh.") and :
+                print (m)
+    '''
 
     def precmd(self, line):
         StopWatch.start("command")
@@ -480,6 +550,8 @@ class CMShell(Cmd, PluginCommandClasses):
         else:
             print_list(module_list)
 
+
+
     def preloop(self):
         """adds the banner to the preloop"""
 
@@ -767,19 +839,7 @@ class CMShell(Cmd, PluginCommandClasses):
             Shell.check_python()
 
 
-# def main():
-#    CMShell().cmdloop()
 
-def inheritors(klass):
-    subclasses = set()
-    work = [klass]
-    while work:
-        parent = work.pop()
-        for child in parent.__subclasses__():
-            if child not in subclasses:
-                subclasses.add(child)
-                work.append(child)
-    return subclasses
 
 
 # noinspection PyBroadException,PyUnusedLocal
