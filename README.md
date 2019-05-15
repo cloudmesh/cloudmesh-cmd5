@@ -113,7 +113,7 @@ $ cd mycommand
 $ cms sys command generate mycommand
 ```
 
-A directory with the name cloudmesh-mycommand will be generated that contains
+A directory with the name `cloudmesh-mycommand` will be generated that contains
 the template for the command. You can enter this template and modify the
 implementation in the folders `cloudmesh/mycommand/api` and
 `cloudmesh/mycommand/command` when installing it with
@@ -167,7 +167,7 @@ documented or the developers delivered ambiguous commands that
 resulted in confusion and wrong ussage by the users. Hence, we do
 recommend that you use docopts.
 
-The transformation is enabled by the @command decorator that takes
+The transformation is enabled by the `@command` decorator that takes
 also the manual page and creates a proper help message for the shell
 automatically. Thus there is no need to introduce a sepaarte help
 method as would normally be needed in CMD.
