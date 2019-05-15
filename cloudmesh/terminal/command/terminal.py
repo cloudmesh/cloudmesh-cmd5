@@ -23,6 +23,7 @@ class TerminalCommand(PluginCommand):
             stopwatch start TIMER
             stopwatch stop TIMER
             stopwatch print [TIMER]
+            stopwatch benchmark
             
           Arguments:
             TIMER  the name of the timer
@@ -36,6 +37,8 @@ class TerminalCommand(PluginCommand):
             StopWatch.start(t)
         elif arguments.stop:
             StopWatch.stop(t)
+        elif arguments.benchmark:
+            StopWatch.benchmark()
         elif arguments.print:
             t = arguments.TIMER
             if t is None:
