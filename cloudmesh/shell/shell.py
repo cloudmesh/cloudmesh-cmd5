@@ -182,44 +182,43 @@ class CMShell(Cmd, PluginCommandClasses):
     +-------------------------------------------------------+
     """)
 
-    '''
+
     # experimenting
-    @command
-    def do_commands(self, args, arguments):
-        """
-        ::
-
-          Usage:
-                commands
-
-
-        """
-        arguments = dotdict(arguments)
-
-        for command in Plugin.list():
-            print(command)
-
-        names = self.get_names()
-        print(names)
-
-        for name in names:
-            if name[:3] == 'do_':
-                print(name)
-
-        d = []
-        for e in dir(cloudmesh):
-            if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
-                d.append(e)
-        print(d)
-        VERBOSE(inheritors(PluginCommand))
-        modules = Plugin.modules()
-        VERBOSE(modules)
-        for m in modules:
-            print (m)
-        for m in sys.modules:
-            if str(m).startswith("cloudmesh.") and :
-                print (m)
-    '''
+    # @command
+    # def do_commands(self, args, arguments):
+    #    """
+    #    ::
+    #
+    #      Usage:
+    #            commands
+    #
+    #
+    #    """
+    #    arguments = dotdict(arguments)
+    #
+    #    for command in Plugin.list():
+    #        print(command)
+    #
+    #    names = self.get_names()
+    #    print(names)
+    #
+    #   for name in names:
+    #        if name[:3] == 'do_':
+    #            print(name)
+    #
+    #    d = []
+    #    for e in dir(cloudmesh):
+    #        if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
+    #            d.append(e)
+    #    print(d)
+    #    VERBOSE(inheritors(PluginCommand))
+    #    modules = Plugin.modules()
+    #    VERBOSE(modules)
+    #    for m in modules:
+    #        print (m)
+    #    for m in sys.modules:
+    #        if str(m).startswith("cloudmesh.") and :
+    #            print (m)
 
     def precmd(self, line):
         StopWatch.start("command")
