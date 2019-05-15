@@ -10,6 +10,11 @@ class PluginManager(object):
         self.data = None
 
     def load(self):
+        """
+        loads the plugins form the plugin.yml file in github
+
+        :return:
+        """
         url = 'https://raw.githubusercontent.com/cloudmesh/cloudmesh-cmd5/install/plugins.yml'
         r = requests.get(url)
         self.data = yaml.load(r.text)
