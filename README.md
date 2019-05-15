@@ -179,22 +179,22 @@ The following highlighted features are available:
 * easy command integration through seterate modules
 * multi cloud envirdonments (under development) though cloudmesh-cloud plugin
 * openapi integration through cloudmesh-openapi plugin
-* general commands as documented at
-  <https://cloudmesh.github.io/cloudmesh-cloud/manual.html> such as 
-  [admin](https://cloudmesh.github.io/cloudmesh-cloud/manual/admin.html),
-  [banner](https://cloudmesh.github.io/cloudmesh-cloud/manual/banner.html),
-  [clear](https://cloudmesh.github.io/cloudmesh-cloud/manual/clear.html),
-  [echo](https://cloudmesh.github.io/cloudmesh-cloud/manual/echo.html),
-  [default](https://cloudmesh.github.io/cloudmesh-cloud/manual/default.html),
-  [info](https://cloudmesh.github.io/cloudmesh-cloud/manual/info.html),
-  [pause](https://cloudmesh.github.io/cloudmesh-cloud/manual/pause.html),
-  [plugin](https://cloudmesh.github.io/cloudmesh-cloud/manual/plugin.html),
-  [quit](https://cloudmesh.github.io/cloudmesh-cloud/manual/quit.html),
-  [shell](https://cloudmesh.github.io/cloudmesh-cloud/manual/shell.html),
-  [sleep](https://cloudmesh.github.io/cloudmesh-cloud/manual/sleep.html),
-  [stopwatch](https://cloudmesh.github.io/cloudmesh-cloud/manual/stopwatch.html),
-  [sys](https://cloudmesh.github.io/cloudmesh-cloud/manual/sys.html),
-  [var](https://cloudmesh.github.io/cloudmesh-cloud/manual/var.html),
-  [version](https://cloudmesh.github.io/cloudmesh-cloud/manual/version.html),
-  [open](https://cloudmesh.github.io/cloudmesh-cloud/manual/open.html),
+* general commands as documented at in the 
+  [manual](https://cloudmesh.github.io/cloudmesh-manual/) such as 
+  [admin](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/admin.html),
+  [banner](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/banner.html),
+  [clear](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/clear.html),
+  [echo](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/echo.html),
+  [default](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/default.html),
+  [info](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/info.html),
+  [pause](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/pause.html),
+  [plugin](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/plugin.html),
+  [quit](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/quit.html),
+  [shell](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/shell.html),
+  [sleep](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/sleep.html),
+  [stopwatch](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/stopwatch.html),
+  [sys](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/sys.html),
+  [var](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/var.html),
+  [version](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/version.html),
+  [open](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/open.html),
   set
