@@ -3,6 +3,8 @@
 # pytest -v --capture=no tests/test_configdictr.py
 # pytest -v  tests/test_configdict.py
 ###############################################################
+from __future__ import print_function
+
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
