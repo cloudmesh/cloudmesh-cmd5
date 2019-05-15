@@ -197,4 +197,4 @@ The following highlighted features are available:
   [var](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/var.html),
   [version](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/version.html),
   [open](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/open.html),
-  set
+  and others
