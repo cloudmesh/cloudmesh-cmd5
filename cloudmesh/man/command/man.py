@@ -52,6 +52,10 @@ class ManCommand(PluginCommand):
             self._print_txt(data)
         elif kind == "rst":
             self._print_rst(data)
+        else:
+            print (data["name"])
+            print ("=" * len(data["name"]))
+            print(data["help"].replace("::\n\n", "", 1))
 
     # noinspection PyUnusedLocal
     @command
@@ -60,8 +64,8 @@ class ManCommand(PluginCommand):
         ::
 
             Usage:
-                   man [--kind=FORMAT] COMMAND
-                   man [--kind=FORMAT] [--noheader]
+                   man [--format=FORMAT] COMMAND
+                   man [--format=FORMAT] [--noheader]
 
             Options:
                    --noheader  no rst header
@@ -75,13 +79,11 @@ class ManCommand(PluginCommand):
                 man COMMAND
                     Prints out the help page for a specific command
         """
-        arguments.kind = arguments["--kind"]
+        arguments.kind = arguments["--format"]
 
         if arguments.COMMAND is None:
 
             names = self.get_names()
-
-
 
             cmds_doc = []
             cmds_undoc = []
@@ -108,7 +110,7 @@ class ManCommand(PluginCommand):
 
             for entry in cmds_doc:
                 data = self._get_help(entry)
-                self._print(data, arguments.kind)
+                self._print(data, arguments["--format"])
 
             # self.stdout.write("%s\n" % str(self.doc_leader))
             # self.print_topics(self.doc_header, cmds_doc, 15, 80)
@@ -119,4 +121,4 @@ class ManCommand(PluginCommand):
 
             entry = arguments.COMMAND
             data = self._get_help(entry)
-            self._print(data, arguments.kind)
+            self._print(data, arguments["--format"])
