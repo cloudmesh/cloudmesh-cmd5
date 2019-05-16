@@ -5,13 +5,9 @@ import inspect
 import os
 import pkgutil
 import pydoc
-import shelve
 import sys
 import textwrap
 import subprocess
-import requests
-import yaml
-from pprint import pprint
 
 from cmd import Cmd
 
@@ -30,9 +26,8 @@ import cloudmesh.common
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 from cloudmesh.shell.plugin import PluginManager
-from cloudmesh.variables import Variables
+from cloudmesh.common.variables import Variables
 
-from cloudmesh.DEBUG import VERBOSE
 
 def print_list(elements):
     """

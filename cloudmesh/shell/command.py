@@ -6,8 +6,8 @@ import textwrap
 from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
 from cloudmesh.common.console import Console
-from pprint import pprint, pformat
-from cloudmesh.variables import Variables
+from pprint import pformat
+from cloudmesh.common.variables import Variables
 from cloudmesh.common.util import banner
 
 

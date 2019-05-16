@@ -8,7 +8,7 @@ from __future__ import print_function
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
-from cloudmesh.variables import Variables
+from cloudmesh.common.variables import Variables
 import pytest
 
 def run(command):

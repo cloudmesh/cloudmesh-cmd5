@@ -1,15 +1,9 @@
 from __future__ import print_function
 
-from cloudmesh.common.Printer import Printer
-from cloudmesh.common.console import Console
-from cloudmesh.common.default import Default
-
 import textwrap
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
-
-from pprint import pprint
 
 
 class ManCommand(PluginCommand):
@@ -86,6 +80,8 @@ class ManCommand(PluginCommand):
         if arguments.COMMAND is None:
 
             names = self.get_names()
+
+
 
             cmds_doc = []
             cmds_undoc = []
