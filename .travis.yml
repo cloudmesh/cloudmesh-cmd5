@@ -20,5 +20,8 @@ install:
   - wget -P ~/.cloudmesh https://raw.githubusercontent.com/cloudmesh/cloudmesh-common/master/cloudmesh/etc/cloudmesh.yaml
   - cms help
 
-script: pytest -v tests/test_cmd5.py
+script:
+  - pytest -v --capture=no tests/test_variables.py
+  - pytest -v --capture=no tests/test_cms.py
+
 
