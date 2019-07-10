@@ -5,11 +5,13 @@ sudo: required
 # language: python
 
 python:
+  - "2.7"
   - "3.7"
 #  - "3.8-dev"  # 3.8 development branch
 #  - "nightly"  # nightly build
 
 install:
+  - python --version
   - pip install --user pip -U
   - pwd
   - pip install --user -r requirements.txt
