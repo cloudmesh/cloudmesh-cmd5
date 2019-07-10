@@ -1,7 +1,7 @@
 ###############################################################
-# pip install .; pytest -v --capture=no -v --nocapture tests/test_configdict.py:Test_configdict.test_001
-# pytest -v --capture=no tests/test_configdictr.py
-# pytest -v  tests/test_configdict.py
+# pip install .; pytest -v --capture=no -v --nocapture tests/test_cmd5.py:Test_cmd5.test_001
+# pytest -v --capture=no tests/test_cmd5.py
+# pytest -v  tests/test_cmd5.py
 ###############################################################
 from __future__ import print_function
 
@@ -24,7 +24,7 @@ def run(command):
 @pytest.mark.incremental
 class Test_cmd5(object):
 
-    def test_001(self):
+    def test_variables_assign(self):
         HEADING("assign key=value")
         v = Variables()
         n = len(v)
@@ -33,14 +33,14 @@ class Test_cmd5(object):
         assert "gregor" in v
         v.close()
 
-    def test_002(self):
+    def test_variables_delete(self):
         HEADING("delete")
         v = Variables()
         del v["gregor"]
         assert "gregor" not in v
         v.close()
 
-    def test_003(self):
+    def test_variables_add(self):
         HEADING("directory add ")
         d = {"a": "1", "b": "2"}
         v = Variables()
@@ -58,7 +58,7 @@ class Test_cmd5(object):
         print(v)
         v.close()
 
-    def test_004(self):
+    def test_test_variable_remove(self):
         HEADING("directory and key subtract ")
         d = {"a": "1", "b": "2"}
         v = Variables()
@@ -70,3 +70,4 @@ class Test_cmd5(object):
 
         print(v)
         v.close()
+

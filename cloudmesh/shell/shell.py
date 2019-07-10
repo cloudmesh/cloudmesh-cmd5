@@ -9,6 +9,7 @@ import sys
 import textwrap
 import subprocess
 
+from pprint import pprint
 from cmd import Cmd
 
 from cloudmesh.common.Printer import Printer
@@ -27,7 +28,20 @@ from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command, basecommand
 from cloudmesh.shell.plugin import PluginManager
 from cloudmesh.common.variables import Variables
+from cloudmesh.common.debug import VERBOSE
 
+#import cloudmesh.plugin
+
+
+def iter_namespace(ns_pkg):
+    return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
+
+
+#cloudmesh_plugins = {
+#    name: importlib.import_module(name)
+#    for finder, name, ispkg
+#    in iter_namespace(cloudmesh.plugin)
+#}
 
 def print_list(elements):
     """
@@ -37,6 +51,11 @@ def print_list(elements):
     for name in elements:
         print("*", name)
 
+def import_class(cl):
+    d = cl.rfind(".")
+    classname = cl[d+1:len(cl)]
+    m = __import__(cl[0:d], globals(), locals(), [classname])
+    return getattr(m, classname)
 
 def inheritors(klass):
     subclasses = set()
@@ -97,6 +116,8 @@ class Plugin(object):
             if module_name.startswith(
                     'cloudmesh.') and '.command.' in module_name:
                 commands.append(module_name)
+            # elif module_name.startswith('cloudmesh.plugin.'):
+            #    commands.append(module_name)
         # VERBOSE(commands)
 
         return commands
@@ -144,11 +165,10 @@ class Plugin(object):
         if commands is None:
             commands = [c.split('.')[-1] for c in cls.classes()]
 
-        # print_list(commands)
-
         class_commands = [cls.class_name(c) for c in commands]
         commands = [getattr(importlib.import_module(mod), cls) for (mod, cls) in
                     (commands.rsplit(".", 1) for commands in class_commands)]
+
         return commands
 
 
@@ -177,43 +197,41 @@ class CMShell(Cmd, PluginCommandClasses):
     +-------------------------------------------------------+
     """)
 
+    @command
+    def do_commands(self, args, arguments):
+       """
+       ::
 
-    # experimenting
-    # @command
-    # def do_commands(self, args, arguments):
-    #    """
-    #    ::
-    #
-    #      Usage:
-    #            commands
-    #
-    #
-    #    """
-    #    arguments = dotdict(arguments)
-    #
-    #    for command in Plugin.list():
-    #        print(command)
-    #
-    #    names = self.get_names()
-    #    print(names)
-    #
-    #   for name in names:
-    #        if name[:3] == 'do_':
-    #            print(name)
-    #
-    #    d = []
-    #    for e in dir(cloudmesh):
-    #        if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
-    #            d.append(e)
-    #    print(d)
-    #    VERBOSE(inheritors(PluginCommand))
-    #    modules = Plugin.modules()
-    #    VERBOSE(modules)
-    #    for m in modules:
-    #        print (m)
-    #    for m in sys.modules:
-    #        if str(m).startswith("cloudmesh.") and :
-    #            print (m)
+         Usage:
+               commands
+
+       """
+       arguments = dotdict(arguments)
+
+       for command in Plugin.list():
+           print(command)
+
+       names = self.get_names()
+       print("\n".join(names))
+
+       #sys.exit(1)
+       for name in names:
+           if name[:3] == 'do_':
+               print(name)
+
+       d = []
+       for e in dir(cloudmesh):
+           if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
+               d.append(e)
+       print(d)
+       VERBOSE(inheritors(PluginCommand))
+       modules = Plugin.modules()
+       VERBOSE(modules)
+       for m in modules:
+           print (m)
+       for m in sys.modules:
+           if str(m).startswith("cloudmesh."):
+               print (m)
 
     def precmd(self, line):
         StopWatch.start("command")
