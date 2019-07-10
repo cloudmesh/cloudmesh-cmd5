@@ -25,8 +25,8 @@ class TestConfig:
     def test_invalid_command(self):
         HEADING()
 
-        result = Shell.execute("cms help vm", shell=True)
+        result = Shell.execute("cms help wrong", shell=True)
 
         VERBOSE(result)
 
-        assert "['sample1', 'sample2', 'sample3', 'sample18']" in result
+        assert "No help on wrong" in result
