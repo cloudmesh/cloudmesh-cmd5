@@ -97,9 +97,9 @@ def command(func):
             arguments = dotdict(docopt(doc, help=True, argv=argv))
             # pprint(arguments)
             verbose = int(Variables()["verbose"] or 0)
-            if verbose > 9:
-                s = pformat(arguments)
-                banner(s, label="Arguments", color="BLUE")
+            #if verbose > 9:
+            #    s = pformat(arguments)
+            #    banner(s, label="Arguments", color="BLUE")
             func(instance, args, arguments)
         except SystemExit as e:
             if args not in ('-h', '--help'):
