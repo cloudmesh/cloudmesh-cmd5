@@ -96,7 +96,7 @@ def command(func):
             # pprint(argv)
             arguments = dotdict(docopt(doc, help=True, argv=argv))
             # pprint(arguments)
-            verbose = int(Variables()["verbose"] or 0)
+            # verbose = int(Variables()["verbose"] or 0)
             #if verbose > 9:
             #    s = pformat(arguments)
             #    banner(s, label="Arguments", color="BLUE")
