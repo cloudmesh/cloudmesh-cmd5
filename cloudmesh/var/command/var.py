@@ -82,7 +82,7 @@ class VarCommand(PluginCommand):
             del database[arguments.NAME]
 
         elif name and not value:
-            Console.error(f"variable {name} does not exist")
+            Console.error("variable {name} does not exist".format(name=name))
 
         elif name and not value:
             print(database[arguments.NAME])
