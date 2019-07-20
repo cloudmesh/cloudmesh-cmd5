@@ -53,7 +53,7 @@ class VarCommand(PluginCommand):
 
             
         """
-        from pprint import pprint; pprint (arguments)
+        
         database = Variables(filename="~/.cloudmesh/var-data")
 
         if arguments["NAME=VALUE"]:
@@ -65,10 +65,6 @@ class VarCommand(PluginCommand):
                     value = database[name]
                 except:
                     value = None
-
-            print ("N", name)
-            print ("v", value)
-
 
         if arguments["clear"]:
             database.clear()
