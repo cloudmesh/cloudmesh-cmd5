@@ -10,6 +10,7 @@ from cloudmesh.common.util import HEADING
 
 from cloudmesh.common.variables import Variables
 import pytest
+from cloudmesh.common.run.subprocess import run
 
 def run(command):
     print(command)
@@ -70,4 +71,39 @@ class Test_cmd5(object):
 
         print(v)
         v.close()
+
+    def test_cli_set(self):
+        r = run("cms var deleteme=abc")
+        v = Variables()
+        print (r)
+        assert v['deleteme'] == 'abc'
+
+    def test_cli_get(self):
+        r = run("cms var deleteme")
+        v = Variables()
+        print (r)
+        assert v['deleteme'] == 'abc'
+
+    def test_cli_list(self):
+        r = run("cms var list")
+        v = Variables()
+        print (r)
+        assert v['deleteme'] == 'abc'
+        assert "deleteme='abc'" in r
+
+    def test_cli_delete(self):
+        r = run("cms var delete deleteme")
+        v = Variables()
+        print ("Result:", r)
+        print ("Variable:", v)
+
+        assert v['deleteme'] != 'abc'
+
+    def test_cli_delete(self):
+        r = run("cms var delete deleteme")
+        v = Variables()
+        print ("Result:", r)
+        print ("Variable:", v)
+
+        assert v['deleteme'] != 'abc'
 

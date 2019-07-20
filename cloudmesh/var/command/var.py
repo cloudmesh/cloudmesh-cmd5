@@ -5,7 +5,7 @@ from datetime import datetime
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.common.variables import Variables
-
+from cloudmesh.common.console import Console
 
 class VarCommand(PluginCommand):
     # noinspection PyUnusedLocal
@@ -53,21 +53,41 @@ class VarCommand(PluginCommand):
 
             
         """
-        # print (arguments)
+        from pprint import pprint; pprint (arguments)
         database = Variables(filename="~/.cloudmesh/var-data")
+
+        if arguments["NAME=VALUE"]:
+            if '=' in arguments["NAME=VALUE"]:
+                name, value = arguments["NAME=VALUE"].split("=", 1)
+            else:
+                name = arguments["NAME=VALUE"]
+                try:
+                    value = database[name]
+                except:
+                    value = None
+
+            print ("N", name)
+            print ("v", value)
+
 
         if arguments["clear"]:
             database.clear()
+
         elif arguments["list"]:
             for name in database:
                 value = database[name]
                 print(name, "=", "'", value, "'", sep="")
+
         elif arguments.delete:
             del database[arguments.NAME]
-        elif arguments.NAME is not None:
+
+        elif name and not value:
+            Console.error(f"variable {name} does not exist")
+
+        elif name and not value:
             print(database[arguments.NAME])
-        elif arguments["NAME=VALUE"] is not None:
-            name, value = arguments["NAME=VALUE"].split("=", 1)
+
+        elif name and value:
             if value == "time":
                 value = datetime.now().strftime("%H:%M:%S")
             elif value == "date":
