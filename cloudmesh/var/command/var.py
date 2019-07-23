@@ -53,7 +53,7 @@ class VarCommand(PluginCommand):
 
             
         """
-        
+
         database = Variables(filename="~/.cloudmesh/var-data")
 
         if arguments["NAME=VALUE"]:
