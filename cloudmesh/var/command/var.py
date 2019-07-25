@@ -59,6 +59,10 @@ class VarCommand(PluginCommand):
         if arguments["NAME=VALUE"]:
             if '=' in arguments["NAME=VALUE"]:
                 name, value = arguments["NAME=VALUE"].split("=", 1)
+
+                if name in ['debug', 'trace', 'timer']:
+                    value = str(str(value).lower() in ['1', 'on', 'true'])
+
             else:
                 name = arguments["NAME=VALUE"]
                 try:

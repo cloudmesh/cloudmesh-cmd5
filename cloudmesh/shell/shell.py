@@ -243,8 +243,8 @@ class CMShell(Cmd, PluginCommandClasses):
         try:
             variable = Variables()
             if "timer" not in variable:
-                variable["timer"] = "off"
-            if variable["timer"].lower() in ['on', 'true']:
+                variable["timer"] = "False"
+            if str(variable["timer"].lower()) in ['on', 'true']:
                 print("Timer: {:.4f}s ({})".format(StopWatch.get("command"),
                                                    line.strip()))
             variable.close()

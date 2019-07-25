@@ -11,7 +11,7 @@ You can execute shell commands when the beginning charater is ! ::
 
 To switch timers on or off you can use
 
-    cms var timer=on
+    cms var timer=True
 
 Than every command you type is timed::
 
