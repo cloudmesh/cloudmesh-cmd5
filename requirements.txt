@@ -4,7 +4,7 @@
 #
 #    pip-compile setup.py
 #
-cloudmesh-common==4.1.15
+cloudmesh-common
 docopt==0.6.2
 pyyaml==5.1.1
 requests==2.22.0
