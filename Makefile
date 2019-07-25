@@ -18,8 +18,6 @@ source:
 requirements:
 	echo "cloudmesh-common" > tmp.txt
 	echo "cloudmesh-cmd5" >> tmp.txt
-	echo "cloudmesh-sys" >> tmp.txt
-	echo "cloudmesh-inventory" >> tmp.txt
 	# as pip-compile does not work with the latest pip, we use an older one
 	pip install 'pip<19.2'
 	pip-compile setup.py
