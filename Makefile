@@ -16,9 +16,19 @@ source:
 	cms help
 
 requirements:
+	echo "cloudmesh-common" > tmp.txt
+	echo "cloudmesh-cmd5" >> tmp.txt
+	echo "cloudmesh-sys" >> tmp.txt
+	echo "cloudmesh-inventory" >> tmp.txt
+	# as pip-compile does not work with the latest pip, we use an older one
+	pip install 'pip<19.2'
 	pip-compile setup.py
-	fgrep -v "# via" requirements.txt > tmp.txt
+	# reset to the latest pip
+	pip install pip -U
+	fgrep -v "# via" requirements.txt | fgrep -v "cloudmesh" >> tmp.txt
 	mv tmp.txt requirements.txt
+	git commit -m "update requirements" requirements.txt
+	git push
 
 clean:
 	$(call banner, "CLEAN")
@@ -45,7 +55,7 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
-patch: clean
+patch: clean requirements
 	$(call banner, "bbuild")
 	bump2version --no-tag --allow-dirty patch
 	python setup.py sdist bdist_wheel
