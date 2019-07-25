@@ -8,16 +8,16 @@
 [![Format](https://img.shields.io/pypi/status/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-cmd5)
 
-## Instalation and Documentation
+## Installation and Documentation
 
 Please note that several packages are available which are pointed to in the
-instalation documentation.
+installation documentation.
 
 |  | Links |
 |---------------|-------|
 | Documentation | <https://cloudmesh.github.io/cloudmesh-cloud> |
 | Code | <https://github.com/cloudmesh/cloudmesh-cloud> |
-| Instalation Instructions | <https://github.com/cloudmesh/get> |
+| Installation Instructions | <https://github.com/cloudmesh/get> |
 
 An dynamically extensible CMD based command shell. For en extensive
 documentation please see
@@ -40,7 +40,7 @@ will make sure the version of cmd5 is installed in the user space.
 
 Setup a virtualenv either with virtualenv or pyenv.
 We have a tutorial on cloudmesh classes for the use of
-pyenv. Pyenv is easy to unstall via the installer documented at
+pyenv. Pyenv is easy to uninstall via the installer documented at
 
 * <https://github.com/pyenv/pyenv-installer>
 
@@ -156,7 +156,7 @@ class BarCommand(PluginCommand):
 ```
 
 An important difference to other CMD solutions is that our commands
-can leverage (besides the standrad definition), docopts as a way to
+can leverage (besides the standard definition), docopts as a way to
 define the manual page. This allows us to use arguments as dict and
 use simple if conditions to interpret the command. Using docopts has
 the advantage that contributors are forced to think about the command
@@ -164,20 +164,20 @@ and its options and document them from the start. Previously we used
 not to use docopts and argparse was used. However we noticed that for
 some contributions the lead to commands that were either not properly
 documented or the developers delivered ambiguous commands that
-resulted in confusion and wrong ussage by the users. Hence, we do
+resulted in confusion and wrong usage by the users. Hence, we do
 recommend that you use docopts.
 
 The transformation is enabled by the `@command` decorator that takes
 also the manual page and creates a proper help message for the shell
-automatically. Thus there is no need to introduce a sepaarte help
+automatically. Thus there is no need to introduce a separate help
 method as would normally be needed in CMD.
 
 ## Features
 
 The following highlighted features are available:
 
-* easy command integration through seterate modules
-* multi cloud envirdonments (under development) though cloudmesh-cloud plugin
+* easy command integration through separate modules
+* multi cloud environments (under development) though cloudmesh-cloud plugin
 * openapi integration through cloudmesh-openapi plugin
 * general commands as documented at in the 
   [manual](https://cloudmesh.github.io/cloudmesh-manual/) such as 
