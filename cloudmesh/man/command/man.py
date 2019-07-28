@@ -26,7 +26,9 @@ class ManCommand(PluginCommand):
         print(data['name'])
         print("=" * len(data['name']))
         print()
-        print(textwrap.dedent(data['help']).strip())
+        print(textwrap.dedent(data['help']) \
+              .replace("::\n\n", ".. parsed-literal::\n\n") \
+              .strip())
         print()
 
     def _print_txt(self, data):
