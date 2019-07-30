@@ -5,7 +5,7 @@ sudo: required
 # language: python
 
 python:
-  - "2.7"
+#  - "2.7"
   - "3.7"
 #  - "3.8-dev"  # 3.8 development branch
 #  - "nightly"  # nightly build
@@ -18,8 +18,8 @@ install:
   - pip install --user -r requirements-dev.txt
   - pip install --user cloudmesh-common
   - pip install --user .
-  - mkdir ~/.cloudmesh
-  - wget -P ~/.cloudmesh https://raw.githubusercontent.com/cloudmesh/cloudmesh-common/master/cloudmesh/etc/cloudmesh.yaml
+  # - mkdir ~/.cloudmesh
+  # - wget -P ~/.cloudmesh https://raw.githubusercontent.com/cloudmesh/cloudmesh-common/master/cloudmesh/etc/cloudmesh.yaml
   - cms help
 
 script:
