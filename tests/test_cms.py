@@ -30,3 +30,12 @@ class TestConfig:
         VERBOSE(result)
 
         assert "No help on wrong" in result
+
+    def test_version(self):
+        HEADING()
+
+        result = Shell.execute("cms version", shell=True)
+
+        VERBOSE(result)
+
+#        assert "No help on wrong" in result

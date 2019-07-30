@@ -18,7 +18,4 @@ install:
   - cms help
 
 script:
-  - pytest -v --capture=no tests/test_variables.py
-  - pytest -v --capture=no tests/test_cms.py
-
-
+  - pytest -v --capture=no tests
