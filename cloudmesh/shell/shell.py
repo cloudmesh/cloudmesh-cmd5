@@ -178,6 +178,7 @@ PluginCommandClasses = type(
     tuple(PluginCommand.__subclasses__()),
     {})
 
+Console.init()
 
 class CMShell(Cmd, PluginCommandClasses):
     """

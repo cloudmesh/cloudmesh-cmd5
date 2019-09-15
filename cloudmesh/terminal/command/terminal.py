@@ -89,17 +89,17 @@ class TerminalCommand(PluginCommand):
                 COLOR  the color
 
             Options:
-                -r COLOR  The color of the text. [default: BLACK]
+                -r COLOR  The color of the text. [default: NORMAL]
 
             Prints a text in the given color
         """
-        color = arguments["-r"] or "black"
+        color = arguments["-r"] or "normal"
         color = color.upper()
         text = arguments["TEXT"]
-        if color is "black":
+        if color is "NORMAL":
             Console.msg(text)
         else:
-            Console.cprint(color, "", text)
+            Console.cprint(color=color, prefix="", message=text)
 
         return ""
 
@@ -123,7 +123,7 @@ class TerminalCommand(PluginCommand):
                 -c CHAR   The character for the frame. [default: #]
                 -n WIDTH  The width of the banner. [default: 70]
                 -i INDENT  The width of the banner. [default: 0]
-                -r COLOR  The color of the banner. [default: BLACK]
+                -r COLOR  The color of the banner. [default: NORMAL]
 
             Prints a banner form a one line text message.
         """
@@ -134,9 +134,12 @@ class TerminalCommand(PluginCommand):
         color = arguments['-r'].upper()
 
         line = ' '.join(arguments['TEXT'])
-        Console.cprint(color, "", i * " " + str((n - i) * c))
-        Console.cprint(color, "", i * " " + c + " " + line)
-        Console.cprint(color, "", i * " " + str((n - i) * c))
+
+        Console.init()
+        hline = i * " " + str((n - i) * c)
+        Console.cprint(color=color, prefix="", message=hline)
+        Console.cprint(color=color, prefix="", message=i * " " + c + " " + line)
+        Console.cprint(color=color, prefix="", message=hline)
 
         return ""
 
