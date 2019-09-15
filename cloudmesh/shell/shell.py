@@ -166,11 +166,10 @@ class Plugin(object):
             commands = [c.split('.')[-1] for c in cls.classes()]
 
         class_commands = [cls.class_name(c) for c in commands]
+
         commands = [getattr(importlib.import_module(mod), cls) for (mod, cls) in
                     (commands.rsplit(".", 1) for commands in class_commands)]
-
         return commands
-
 
 Plugin.load()
 

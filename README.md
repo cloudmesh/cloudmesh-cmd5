@@ -198,3 +198,8 @@ The following highlighted features are available:
   [version](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/version.html),
   [open](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/open.html),
   and others
+
+
+## Changes
+
+* added support for terminals with dark background
