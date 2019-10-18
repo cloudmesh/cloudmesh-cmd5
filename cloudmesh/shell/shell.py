@@ -924,16 +924,17 @@ def main():
     #
     # trick for the removal of the ", ' in the set command
     #
-    if len(sys.argv) == 3:
-        if sys.argv[1] == 'set' and "=" in sys.argv[2]:
-            command = command.replace("\"","")
-            command = command.replace("=","='",1)
-            command = command + "'"
-    if len(sys.argv) >= 4:
-        if sys.argv[1] == 'config' and sys.argv[2] == 'set' and "=" in sys.argv[3]:
-            command = command.replace("\"","")
-            command = command.replace("=","='",1)
-            command = command + "'"
+    if sys.platform != 'win32':
+        if len(sys.argv) == 3:
+            if sys.argv[1] == 'set' and "=" in sys.argv[2]:
+                command = command.replace("\"","")
+                command = command.replace("=","='",1)
+                command = command + "'"
+        if len(sys.argv) >= 4:
+            if sys.argv[1] == 'config' and sys.argv[2] == 'set' and "=" in sys.argv[3]:
+                command = command.replace("\"","")
+                command = command.replace("=","='",1)
+                command = command + "'"
 
     # import ctypes
     # ctypes.windll.kernel32.GetCommandLineA.restype = ctypes.c_char_p
