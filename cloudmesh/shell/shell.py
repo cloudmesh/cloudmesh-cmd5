@@ -8,6 +8,7 @@ import pydoc
 import sys
 import textwrap
 import subprocess
+import shlex
 
 from pprint import pprint
 from cmd import Cmd
@@ -405,6 +406,7 @@ class CMShell(Cmd, PluginCommandClasses):
         """
         # print ("Executing>", args, "<", sep='')
         # os.system(args)
+
         os.system(str(args))
         return ""
 
@@ -918,6 +920,24 @@ def main():
     interactive = arguments['-i']
     script = arguments["SCRIPT"]
     command = arguments["COMMAND"]
+
+    #
+    # trick for the removal of the ", ' in the set command
+    #
+    if len(sys.argv) == 3:
+        if sys.argv[1] == 'set' and "=" in sys.argv[2]:
+            command = command.replace("\"","")
+            command = command.replace("=","='",1)
+            command = command + "'"
+    if len(sys.argv) >= 4:
+        if sys.argv[1] == 'config' and sys.argv[2] == 'set' and "=" in sys.argv[3]:
+            command = command.replace("\"","")
+            command = command.replace("=","='",1)
+            command = command + "'"
+
+    # import ctypes
+    # ctypes.windll.kernel32.GetCommandLineA.restype = ctypes.c_char_p
+    # print (ctypes.windll.kernel32.GetCommandLineA())
 
     # context = CloudmeshContext(
     #    interactive=interactive,
