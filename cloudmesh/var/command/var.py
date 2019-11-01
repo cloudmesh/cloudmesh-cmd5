@@ -9,6 +9,7 @@ from cloudmesh.common.console import Console
 
 class VarCommand(PluginCommand):
     # noinspection PyUnusedLocal
+
     @command
     def do_var(self, args, arguments):
         """
