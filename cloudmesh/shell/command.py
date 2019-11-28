@@ -97,7 +97,7 @@ def command(func):
             arguments = dotdict(docopt(doc, help=True, argv=argv))
             # pprint(arguments)
             # verbose = int(Variables()["verbose"] or 0)
-            #if verbose > 9:
+            # if verbose > 9:
             #    s = pformat(arguments)
             #    banner(s, label="Arguments", color="BLUE")
             func(instance, args, arguments)
@@ -110,18 +110,20 @@ def command(func):
 
                 usage = textwrap.dedent(doc.split("Usage:")[1])
                 print()
-                print ("Usage:")
+                print("Usage:")
 
                 for line in usage.split("\n"):
                     if ":" in line:
                         kind = line.split(":")[0]
-                        if kind in ["Arguments", "Options", "Example", "Descriptiom"]:
+                        if kind in ["Arguments", "Options", "Example",
+                                    "Descriptiom"]:
                             break
                     print(line)
-                Console.error("Could not execute the command. Please check usage with")
-                print ()
+                Console.error(
+                    "Could not execute the command. Please check usage with")
+                print()
                 Console.msg("    cms help", name.replace("do_", ""))
-                print ()
+                print()
                 # print (args)
                 # print(e)
                 # print(doc)
@@ -171,7 +173,7 @@ def basecommand(func):
             import traceback, sys
             traceback.print_exc(file=sys.stdout)
             if args not in ('-h', '--help'):
-                print (args)
+                print(args)
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")
             print(doc)

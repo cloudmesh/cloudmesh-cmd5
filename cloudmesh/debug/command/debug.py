@@ -7,6 +7,7 @@ from cloudmesh.shell.command import command
 from cloudmesh.common.variables import Variables
 from cloudmesh.common.console import Console
 
+
 class DebugCommand(PluginCommand):
     # noinspection PyUnusedLocal
 
@@ -56,4 +57,3 @@ class DebugCommand(PluginCommand):
             database["trace"] = False
             database["verbose"] = '0'
             database["timer"] = False
-

@@ -3,6 +3,7 @@ import yaml
 import requests
 import os
 
+
 class PluginManager(object):
 
     def __init(self):

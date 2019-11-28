@@ -31,18 +31,19 @@ from cloudmesh.shell.plugin import PluginManager
 from cloudmesh.common.variables import Variables
 from cloudmesh.common.debug import VERBOSE
 
-#import cloudmesh.plugin
+
+# import cloudmesh.plugin
 
 
 def iter_namespace(ns_pkg):
     return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
 
 
-#cloudmesh_plugins = {
+# cloudmesh_plugins = {
 #    name: importlib.import_module(name)
 #    for finder, name, ispkg
 #    in iter_namespace(cloudmesh.plugin)
-#}
+# }
 
 def print_list(elements):
     """
@@ -52,11 +53,13 @@ def print_list(elements):
     for name in elements:
         print("*", name)
 
+
 def import_class(cl):
     d = cl.rfind(".")
-    classname = cl[d+1:len(cl)]
+    classname = cl[d + 1:len(cl)]
     m = __import__(cl[0:d], globals(), locals(), [classname])
     return getattr(m, classname)
+
 
 def inheritors(klass):
     subclasses = set()
@@ -69,8 +72,10 @@ def inheritors(klass):
                 work.append(child)
     return subclasses
 
+
 def get_class(str):
     return getattr(sys.modules[__name__], str)
+
 
 class Plugin(object):
     """
@@ -84,7 +89,8 @@ class Plugin(object):
         while work:
             parent = work.pop()
             for child in parent.__subclasses__():
-                if child not in subclasses and child.__name__ not in ["CMShell", "CommandProxyClass"]:
+                if child not in subclasses and child.__name__ not in ["CMShell",
+                                                                      "CommandProxyClass"]:
                     subclasses.add(child)
                     work.append(child)
         return subclasses
@@ -98,9 +104,9 @@ class Plugin(object):
         module_list = []
         package = cloudmesh
         for importer, modname, ispkg in pkgutil.walk_packages(
-                path=package.__path__,
-                prefix=package.__name__ + '.',
-                onerror=lambda x: None):
+            path=package.__path__,
+            prefix=package.__name__ + '.',
+            onerror=lambda x: None):
             module_list.append(modname)
         return module_list
 
@@ -115,7 +121,7 @@ class Plugin(object):
         commands = []
         for module_name in module_list:
             if module_name.startswith(
-                    'cloudmesh.') and '.command.' in module_name:
+                'cloudmesh.') and '.command.' in module_name:
                 commands.append(module_name)
             # elif module_name.startswith('cloudmesh.plugin.'):
             #    commands.append(module_name)
@@ -172,6 +178,7 @@ class Plugin(object):
                     (commands.rsplit(".", 1) for commands in class_commands)]
         return commands
 
+
 Plugin.load()
 
 PluginCommandClasses = type(
@@ -180,6 +187,7 @@ PluginCommandClasses = type(
     {})
 
 Console.init()
+
 
 class CMShell(Cmd, PluginCommandClasses):
     """
@@ -200,39 +208,39 @@ class CMShell(Cmd, PluginCommandClasses):
 
     @command
     def do_commands(self, args, arguments):
-       """
-       ::
+        """
+        ::
 
-         Usage:
-               commands
+          Usage:
+                commands
 
-       """
-       arguments = dotdict(arguments)
+        """
+        arguments = dotdict(arguments)
 
-       for command in Plugin.list():
-           print(command)
+        for command in Plugin.list():
+            print(command)
 
-       names = self.get_names()
-       print("\n".join(names))
+        names = self.get_names()
+        print("\n".join(names))
 
-       #sys.exit(1)
-       for name in names:
-           if name[:3] == 'do_':
-               print(name)
+        # sys.exit(1)
+        for name in names:
+            if name[:3] == 'do_':
+                print(name)
 
-       d = []
-       for e in dir(cloudmesh):
-           if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
-               d.append(e)
-       print(d)
-       VERBOSE(inheritors(PluginCommand))
-       modules = Plugin.modules()
-       VERBOSE(modules)
-       for m in modules:
-           print (m)
-       for m in sys.modules:
-           if str(m).startswith("cloudmesh."):
-               print (m)
+        d = []
+        for e in dir(cloudmesh):
+            if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
+                d.append(e)
+        print(d)
+        VERBOSE(inheritors(PluginCommand))
+        modules = Plugin.modules()
+        VERBOSE(modules)
+        for m in modules:
+            print(m)
+        for m in sys.modules:
+            if str(m).startswith("cloudmesh."):
+                print(m)
 
     def precmd(self, line):
         StopWatch.start("command")
@@ -313,8 +321,8 @@ class CMShell(Cmd, PluginCommandClasses):
         # print comment lines, but do not execute them
         # -----------------------------
         if line.startswith('#') \
-                or line.startswith('//') \
-                or line.startswith('/*'):
+            or line.startswith('//') \
+            or line.startswith('/*'):
             print(line)
             return ""
 
@@ -564,8 +572,6 @@ class CMShell(Cmd, PluginCommandClasses):
         else:
             print_list(module_list)
 
-
-
     def preloop(self):
         """adds the banner to the preloop"""
 
@@ -758,7 +764,9 @@ class CMShell(Cmd, PluginCommandClasses):
                         location = i.__file__
 
                         try:
-                            vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                            vlocation = path_expand(
+                                os.path.join(os.path.dirname(location),
+                                             "__version__.py"))
                             v = readfile(vlocation).split('"')[1].strip()
                         except:
                             v = "not found"
@@ -790,7 +798,9 @@ class CMShell(Cmd, PluginCommandClasses):
                     location = i.__file__
 
                     try:
-                        vlocation = path_expand(os.path.join(os.path.dirname(location), "__version__.py"))
+                        vlocation = path_expand(
+                            os.path.join(os.path.dirname(location),
+                                         "__version__.py"))
                         v = readfile(vlocation).split('"')[1].strip()
                     except:
                         v = "not found"
@@ -847,13 +857,11 @@ class CMShell(Cmd, PluginCommandClasses):
 
         print(Printer.write(versions,
                             output=arguments["--format"],
-                            order=["name", "package", "VERSION", "version", "source"],
+                            order=["name", "package", "VERSION", "version",
+                                   "source"],
                             sort_keys="name"))
         if arguments["--check"] in ["True"]:
             Shell.check_python()
-
-
-
 
 
 # noinspection PyBroadException,PyUnusedLocal
@@ -876,8 +884,6 @@ def main():
 
     def manual():
         print(main.__doc__)
-
-
 
     args = sys.argv[1:]
 
@@ -929,13 +935,14 @@ def main():
     if sys.platform != 'win32':
         if len(sys.argv) == 3:
             if sys.argv[1] == 'set' and "=" in sys.argv[2]:
-                command = command.replace("\"","")
-                command = command.replace("=","='",1)
+                command = command.replace("\"", "")
+                command = command.replace("=", "='", 1)
                 command = command + "'"
         if len(sys.argv) >= 4:
-            if sys.argv[1] == 'config' and sys.argv[2] == 'set' and "=" in sys.argv[3]:
-                command = command.replace("\"","")
-                command = command.replace("=","='",1)
+            if sys.argv[1] == 'config' and sys.argv[2] == 'set' and "=" in \
+                sys.argv[3]:
+                command = command.replace("\"", "")
+                command = command.replace("=", "='", 1)
                 command = command + "'"
 
     # import ctypes

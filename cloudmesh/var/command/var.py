@@ -7,6 +7,7 @@ from cloudmesh.shell.command import command
 from cloudmesh.common.variables import Variables
 from cloudmesh.common.console import Console
 
+
 class VarCommand(PluginCommand):
     # noinspection PyUnusedLocal
 

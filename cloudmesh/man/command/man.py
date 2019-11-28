@@ -55,8 +55,8 @@ class ManCommand(PluginCommand):
         elif kind == "rst":
             self._print_rst(data)
         else:
-            print (data["name"])
-            print ("=" * len(data["name"]))
+            print(data["name"])
+            print("=" * len(data["name"]))
             print(data["help"].replace("::\n\n", "", 1))
 
     # noinspection PyUnusedLocal

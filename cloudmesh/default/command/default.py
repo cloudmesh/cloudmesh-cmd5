@@ -115,7 +115,8 @@ class DefaultCommand(PluginCommand):
 
         if arguments.KEY is not None:
             if "=" not in arguments.KEY:
-                print(arguments.KEY, "=", defaults[context, arguments.KEY], sep='')
+                print(arguments.KEY, "=", defaults[context, arguments.KEY],
+                      sep='')
             else:
                 key, value = arguments["KEY"].split("=", 1)
                 defaults[context, key] = value
@@ -123,7 +124,8 @@ class DefaultCommand(PluginCommand):
 
         if arguments["list"]:
 
-            output_format = arguments["--format"] or defaults["global", "output"] or 'table'
+            output_format = arguments["--format"] or defaults[
+                "global", "output"] or 'table'
 
             if defaults is None:
                 Console.error("No default values found")
