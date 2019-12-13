@@ -6,7 +6,7 @@ from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.common.variables import Variables
 from cloudmesh.common.console import Console
-
+from cloudmesh.common.Shell import Shell
 
 class VarCommand(PluginCommand):
     # noinspection PyUnusedLocal
@@ -101,7 +101,11 @@ class VarCommand(PluginCommand):
                 except:
                     Console.error(f"problem reading {value}")
                     return ""
-                
+            elif value.startswith("!"):
+                # cms set a=\!pwd
+                command = value[1:]
+                value = Shell.run(command)
+
             elif value == "time":
                 value = datetime.now().strftime("%H:%M:%S")
             elif value == "date":
