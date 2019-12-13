@@ -4,6 +4,8 @@ import textwrap
 
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.util import writefile
 
 
 class ManCommand(PluginCommand):
@@ -22,42 +24,60 @@ class ManCommand(PluginCommand):
         data["help"] = h
         return data
 
-    def _print_rst(self, data):
-        print(data['name'])
-        print("=" * len(data['name']))
-        print()
-        print(textwrap.dedent(data['help']) \
+
+    def _man_rst(self, data):
+        result = [
+            data['name'],
+            "=" * len(data['name']),
+            "",
+            textwrap.dedent(data['help']) \
               .replace("::\n\n", ".. parsed-literal::\n\n") \
-              .strip())
-        print()
+              .strip(),
+            ""]
+        return ("\n".join(result))
 
-    def _print_txt(self, data):
-        print("=" * 79)
-        print(data['name'])
-        print("=" * 79)
-        print()
-        print(textwrap.dedent(data['help'].replace("::\n\n", "")).strip())
-        print()
+    def _man_txt(self, data):
+        result = [
+            "=" * 79,
+            data['name'],
+            "=" * 79,
+            "",
+            textwrap.dedent(data['help'].replace("::\n\n", "")).strip(),
+            ""
+        ]
+        return ("\n".join(result))
 
-    def _print_md(self, data):
-        print("# " + data['name'])
-        print()
-        print("```")
-        print(textwrap.dedent(data['help'].replace("::\n\n", "")).strip())
-        print("```")
-        print()
+    def _man_md(self, data):
+        result = [
+            "# " + data['name'],
+            "",
+            "```",
+            textwrap.dedent(data['help'].replace("::\n\n", "")).strip(),
+            "```",
+            ""
+        ]
+        return ("\n".join(result))
+
+    def _man_content(self, data, kind):
+        result = ""
+        if kind == "md":
+            result = self._man_md(data)
+        elif kind == "txt":
+            result = self._man_txt(data)
+        elif kind == "rst":
+            result = self._man_rst(data)
+        else:
+            tmp = [
+            data["name"],
+            "=" * len(data["name"]),
+            data["help"].replace("::\n\n", "", 1)
+            ]
+            result = "\n".join(tmp)
+
+        return result
 
     def _print(self, data, kind):
-        if kind == "md":
-            self._print_md(data)
-        elif kind == "txt":
-            self._print_txt(data)
-        elif kind == "rst":
-            self._print_rst(data)
-        else:
-            print(data["name"])
-            print("=" * len(data["name"]))
-            print(data["help"].replace("::\n\n", "", 1))
+        print (self._man_content(data, kind))
 
     # noinspection PyUnusedLocal
     @command
@@ -66,8 +86,9 @@ class ManCommand(PluginCommand):
         ::
 
             Usage:
-                   man [--format=FORMAT] COMMAND
+                   man COMMAND [--format=FORMAT]
                    man [--format=FORMAT] [--noheader]
+                   man --dir=DIR [COMMANDS...] [--format=FORMAT]
 
             Options:
                    --noheader  no rst header
@@ -81,15 +102,15 @@ class ManCommand(PluginCommand):
                 man COMMAND
                     Prints out the help page for a specific command
         """
-        arguments.kind = arguments["--format"]
 
-        if arguments.COMMAND is None:
+        cmds_doc = []
+        cmds_undoc = []
+        help_page = {}
+
+        def get_manual_pages():
 
             names = self.get_names()
 
-            cmds_doc = []
-            cmds_undoc = []
-            help_page = {}
             for name in names:
                 if name[:5] == 'help_':
                     help_page[name[5:]] = 1
@@ -109,6 +130,29 @@ class ManCommand(PluginCommand):
                         cmds_doc.append(cmd)
                     else:
                         cmds_undoc.append(cmd)
+
+
+        arguments.kind = arguments["--format"] or "md"
+        print(arguments)
+        if arguments["--dir"]:
+            d = arguments["--dir"]
+            if len(arguments.COMMANDS) == 0:
+                get_manual_pages()
+            else:
+                names = arguments.COMMANDS
+            print (d, cmds_doc)
+
+            Shell.mkdir(d)
+
+            for entry in cmds_doc:
+                print (f"Printing Manual page for {entry}")
+                data = self._get_help(entry)
+                content = self._man_content(data, arguments.kind)
+                writefile(f"{d}/{entry}.{arguments.kind}", content)
+
+        elif arguments.COMMAND is None:
+
+            get_manual_pages()
 
             for entry in cmds_doc:
                 data = self._get_help(entry)
