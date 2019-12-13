@@ -90,7 +90,19 @@ class VarCommand(PluginCommand):
             print(database[arguments.NAME])
 
         elif name and value:
-            if value == "time":
+            if value.startswith("cloudmesh."):
+                try:
+                    from cloudmesh.configuration.Config import Config
+                    config = Config()
+                except:
+                    Console.error("cloudmesh configuration not loaded.")
+                try:
+                    value = config[value]
+                except:
+                    Console.error(f"problem reading {value}")
+                    return ""
+                
+            elif value == "time":
                 value = datetime.now().strftime("%H:%M:%S")
             elif value == "date":
                 value = datetime.now().strftime("%Y-%m-%d")
