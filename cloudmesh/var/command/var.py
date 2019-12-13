@@ -105,6 +105,10 @@ class VarCommand(PluginCommand):
                 # cms set a=\!pwd
                 command = value[1:]
                 value = Shell.run(command)
+            elif value.startswith("py "):
+                # cms set a=\!pwd
+                command = value.split("py ")[1]
+                value = eval(command)
 
             elif value == "time":
                 value = datetime.now().strftime("%H:%M:%S")

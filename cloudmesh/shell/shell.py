@@ -398,6 +398,26 @@ class CMShell(Cmd, PluginCommandClasses):
 
     # noinspection PyUnusedLocal
     @command
+    def do_py(self, args, arguments):
+        """
+        ::
+
+           Usage:
+                py PROGRAM...
+
+            Arguments:
+                PROGRAM...  the command to be executed
+
+           Description:
+                py PROGRAM...  executes the command
+
+        """
+        result = eval(args)
+        print (result)
+        return ""
+
+    # noinspection PyUnusedLocal
+    @command
     def do_shell(self, args, arguments):
         """
         ::
@@ -412,9 +432,6 @@ class CMShell(Cmd, PluginCommandClasses):
                 shell COMMAND  executes the command 
 
         """
-        # print ("Executing>", args, "<", sep='')
-        # os.system(args)
-
         os.system(str(args))
         return ""
 

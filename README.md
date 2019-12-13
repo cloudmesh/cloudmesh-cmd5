@@ -203,3 +203,36 @@ The following highlighted features are available:
 ## Changes
 
 * added support for terminals with dark background
+* addes support for python in variable assignments
+
+  ```
+  cms set a=\"py 1 + 1\"
+  a='2'
+  ```
+* added support for executing python in a py command
+
+  ```
+  cms py 1 + 1
+  2
+  ```
+  
+* added support for shell commands in the variabe value
+
+  ```
+  cms set a=\!pwd
+  ```
+  
+* added support for reading values from a yaml configuration file in 
+  `~/.cloudmesh/cloudmesh.yaml`
+
+  ```  
+  cms set a=cloudmesh.profile.user
+  ```
+  
+  where it is defined as
+  
+  ```
+  cloudmesh:
+    profile:
+      user: gregor
+  ```
