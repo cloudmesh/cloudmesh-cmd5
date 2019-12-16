@@ -413,7 +413,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         """
         result = eval(args)
-        print (result)
+        print(result)
         return ""
 
     # noinspection PyUnusedLocal

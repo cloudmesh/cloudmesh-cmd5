@@ -33,7 +33,8 @@ class CometPluginCommand(object):
 
 def map_parameters(arguments, *args):
     """
-    This command is useful to map parameters with -- to regular argument dicts for easier processing.
+    This command is useful to map parameters with -- to regular argument dicts
+    for easier processing.
 
     :param arguments:
     :param args:
@@ -170,7 +171,8 @@ def basecommand(func):
             func(instance, args, arguments)
         # except docopt.DocoptExit as e:
         except Exception as e:
-            import traceback, sys
+            import traceback
+            import sys
             traceback.print_exc(file=sys.stdout)
             if args not in ('-h', '--help'):
                 print(args)

@@ -6,6 +6,8 @@ from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import writefile
+from pprint import pprint
+from cloudmesh.common.console import Console
 
 
 class ManCommand(PluginCommand):
@@ -24,15 +26,14 @@ class ManCommand(PluginCommand):
         data["help"] = h
         return data
 
-
     def _man_rst(self, data):
         result = [
             data['name'],
             "=" * len(data['name']),
             "",
             textwrap.dedent(data['help']) \
-              .replace("::\n\n", ".. parsed-literal::\n\n") \
-              .strip(),
+                .replace("::\n\n", ".. parsed-literal::\n\n") \
+                .strip(),
             ""]
         return ("\n".join(result))
 
@@ -68,16 +69,20 @@ class ManCommand(PluginCommand):
             result = self._man_rst(data)
         else:
             tmp = [
-            data["name"],
-            "=" * len(data["name"]),
-            data["help"].replace("::\n\n", "", 1)
+                data["name"],
+                "=" * len(data["name"]),
+                data["help"].replace("::\n\n", "", 1)
             ]
             result = "\n".join(tmp)
 
         return result
 
-    def _print(self, data, kind):
-        print (self._man_content(data, kind))
+    def _print(self, name, data, kind, directory=None):
+        content = self._man_content(data, kind)
+        if directory is None:
+            print(content)
+        else:
+            writefile(f"{directory}/{name}.{kind}", content)
 
     # noinspection PyUnusedLocal
     @command
@@ -86,15 +91,14 @@ class ManCommand(PluginCommand):
         ::
 
             Usage:
-                   man COMMAND [--format=FORMAT]
-                   man [--format=FORMAT] [--noheader]
-                   man --dir=DIR [COMMANDS...] [--format=FORMAT]
+                man [--dir=DIR] [--format=FORMAT] [--noheader]
+                man COMMANDS... [--dir=DIR] [--format=FORMAT]
 
             Options:
-                   --noheader  no rst header
+                --noheader  no rst header
 
             Arguments:
-                   COMMAND   the command to be printed
+                COMMANDS   the command manual pages to be printed
 
             Description:
                 man
@@ -102,6 +106,8 @@ class ManCommand(PluginCommand):
                 man COMMAND
                     Prints out the help page for a specific command
         """
+
+        print(arguments)
 
         cmds_doc = []
         cmds_undoc = []
@@ -131,40 +137,34 @@ class ManCommand(PluginCommand):
                     else:
                         cmds_undoc.append(cmd)
 
-
         arguments.kind = arguments["--format"] or "md"
-        print(arguments)
+        arguments.directory = arguments["--dir"]
+
+        get_manual_pages()
+
         if arguments["--dir"]:
             d = arguments["--dir"]
-            if len(arguments.COMMANDS) == 0:
-                get_manual_pages()
-            else:
-                names = arguments.COMMANDS
-            print (d, cmds_doc)
-
             Shell.mkdir(d)
 
-            for entry in cmds_doc:
-                print (f"Printing Manual page for {entry}")
-                data = self._get_help(entry)
-                content = self._man_content(data, arguments.kind)
-                writefile(f"{d}/{entry}.{arguments.kind}", content)
-
-        elif arguments.COMMAND is None:
-
-            get_manual_pages()
+        if len(arguments.COMMANDS) == 0:
 
             for entry in cmds_doc:
                 data = self._get_help(entry)
-                self._print(data, arguments["--format"])
-
-            # self.stdout.write("%s\n" % str(self.doc_leader))
-            # self.print_topics(self.doc_header, cmds_doc, 15, 80)
-            # self.print_topics(self.misc_header, list(help_page.keys()), 15, 80)
-            # self.print_topics(self.undoc_header, cmds_undoc, 15, 80)
+                self._print(entry, data, arguments.kind, arguments.directory)
 
         else:
 
-            entry = arguments.COMMAND
-            data = self._get_help(entry)
-            self._print(data, arguments["--format"])
+            commands = arguments.COMMANDS
+
+            for entry in commands:
+                if entry in cmds_doc:
+
+                    data = self._get_help(entry)
+                    self._print(entry, data, arguments.kind, arguments.directory)
+
+                else:
+                    Console.error(f"Cloud not firn man page for {entry}")
+
+
+
+        return ""
