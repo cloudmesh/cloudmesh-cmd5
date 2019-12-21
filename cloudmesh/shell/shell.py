@@ -477,9 +477,18 @@ class CMShell(Cmd, PluginCommandClasses):
             Description:
                 List available commands with "help" or detailed help with
                 "help COMMAND".
-        """
 
-        if arg:
+                In addition to the commands it also allows to print the api.
+                The classes that help is available for can be listed with
+
+                    cms info
+        """
+        print ("AAAA", arg)
+        if arg and "cloudmesh." in arg:
+            r = eval (f"help('{arg}')")
+            print (r)
+            return ""
+        elif arg:
             try:
                 func = getattr(self, 'help_' + arg)
             except AttributeError:
