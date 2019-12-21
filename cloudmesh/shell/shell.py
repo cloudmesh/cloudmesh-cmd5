@@ -483,7 +483,6 @@ class CMShell(Cmd, PluginCommandClasses):
 
                     cms info
         """
-        print ("AAAA", arg)
         if arg and "cloudmesh." in arg:
             r = eval (f"help('{arg}')")
             print (r)
