@@ -561,7 +561,7 @@ class CMShell(Cmd, PluginCommandClasses):
             info commands
             info files [errors] [--output=FORMAT]
             info cloudmesh
-            info errors [--output=FORMAT]
+            info errors [--trace]
             info
 
           Options:
@@ -609,7 +609,16 @@ class CMShell(Cmd, PluginCommandClasses):
                     })
                 except Exception as e:
                     if arguments.errors:
-                        Console.error(str(e))
+                        if not "got str" in str(e) and "__version__" not in module:
+                            if "module" not in str(e):
+                                print()
+                                Console.error(f"Problem for {module}")
+                                Console.error(str(e),
+                                          traceflag=arguments["--trace"])
+                                print()
+                            else:
+                                Console.error(str(e), traceflag=arguments["--trace"])
+
             _format = arguments["--output"] or "table"
             if arguments.files:
                 print(Printer.write(data,
