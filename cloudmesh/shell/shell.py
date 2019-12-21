@@ -12,7 +12,7 @@ import shlex
 
 from pprint import pprint
 from cmd import Cmd
-
+from cloudmesh.cmd5.CloudmeshPlugin import CloudmeshPlugin
 from cloudmesh.common.Printer import Printer
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.StopWatch import StopWatch
@@ -45,32 +45,12 @@ def iter_namespace(ns_pkg):
 #    in iter_namespace(cloudmesh.plugin)
 # }
 
-def print_list(elements):
-    """
-    prints the element of a list
-    :param elements: the elements to be printed
-    """
-    for name in elements:
-        print("*", name)
-
 
 def import_class(cl):
     d = cl.rfind(".")
     classname = cl[d + 1:len(cl)]
     m = __import__(cl[0:d], globals(), locals(), [classname])
     return getattr(m, classname)
-
-
-def inheritors(klass):
-    subclasses = set()
-    work = [klass]
-    while work:
-        parent = work.pop()
-        for child in parent.__subclasses__():
-            if child not in subclasses:
-                subclasses.add(child)
-                work.append(child)
-    return subclasses
 
 
 def get_class(str):
@@ -172,11 +152,14 @@ class Plugin(object):
         if commands is None:
             commands = [c.split('.')[-1] for c in cls.classes()]
 
+
         class_commands = [cls.class_name(c) for c in commands]
+        # Console.bullets(class_commands)
 
         commands = [getattr(importlib.import_module(mod), cls) for (mod, cls) in
                     (commands.rsplit(".", 1) for commands in class_commands)]
         return commands
+
 
 
 Plugin.load()
@@ -188,6 +171,10 @@ PluginCommandClasses = type(
 
 Console.init()
 
+# SysPluginManager.find_PluginCommands_in_sys()
+# c = cloudmesh.shell.command.PluginCommand
+# a = SysPluginManager.inheritors(c)
+# pprint (a)
 
 class CMShell(Cmd, PluginCommandClasses):
     """
@@ -233,7 +220,7 @@ class CMShell(Cmd, PluginCommandClasses):
             if not e.startswith("__") and str(e) not in ["etc", "DEBUG"]:
                 d.append(e)
         print(d)
-        VERBOSE(inheritors(PluginCommand))
+        VERBOSE(PluginManager.inheritors(PluginCommand))
         modules = Plugin.modules()
         VERBOSE(modules)
         for m in modules:
@@ -562,6 +549,7 @@ class CMShell(Cmd, PluginCommandClasses):
             info files [errors] [--output=FORMAT]
             info cloudmesh
             info errors [--trace]
+            info sys [KEYWORD] [--plugins] [--output=FORMAT]
             info
 
           Options:
@@ -577,22 +565,61 @@ class CMShell(Cmd, PluginCommandClasses):
                 cms info files
         """
 
-        def get_class(classname):
-            return eval(classname)
-
         arguments = dotdict(arguments)
+        _format = arguments["--output"] or "table"
 
         module_list = Plugin.modules()
 
         if arguments.commands:
 
             commands = Plugin.classes()
-            print_list(commands)
+            Console.bullets(commands)
 
         elif arguments.path:
 
             path_list = cloudmesh.__path__
-            print_list(path_list)
+            Console.bullets(path_list)
+
+        elif arguments.sys:
+
+            keyword = arguments["KEYWORD"]
+
+
+            all_modules = sys.modules.keys()
+            modules = []
+            for module in all_modules:
+                if keyword:
+                    if keyword in module:
+                        modules.append(module)
+                else:
+                   modules.append(module)
+
+
+            if arguments["--plugins"]:
+                plugins = []
+                for module in modules:
+                    try:
+                        _class = PluginManager.get_class(module)
+                        filename = inspect.getfile(_class)
+                        content = readfile(filename)
+                        if "PluginCommand" in content:
+                            entry = {
+                                "module": module,
+                                "filename": filename
+                            }
+                            plugins.append(entry)
+                    except Exception as e:
+                        # Console.error(str(e))
+                        pass
+                print(Printer.write(plugins,
+                                    order=["module", "filename"],
+                                    max_width=256,
+                                    output=_format))
+            else:
+                print("\n".join(modules))
+
+
+
 
         elif arguments.files or arguments.errors:
 
@@ -619,7 +646,6 @@ class CMShell(Cmd, PluginCommandClasses):
                             else:
                                 Console.error(str(e), traceflag=arguments["--trace"])
 
-            _format = arguments["--output"] or "table"
             if arguments.files:
                 print(Printer.write(data,
                                     order=["module", "directory"],
@@ -641,7 +667,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
         else:
 
-            print_list(module_list)
+            Console.bullets(module_list)
 
     def preloop(self):
         """adds the banner to the preloop"""
