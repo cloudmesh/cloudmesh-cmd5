@@ -557,32 +557,68 @@ class CMShell(Cmd, PluginCommandClasses):
         ::
 
           Usage:
-                info [path|commands|files|cloudmesh]
+            info path
+            info commands
+            info files [errors] [--output=FORMAT]
+            info cloudmesh
+            info errors [--output=FORMAT]
+            info
+
+          Options:
+            --format=FORMAT  the format to print the versions in [default: table]
 
           Description:
-                info
-                    provides internal info about the shell and its packages
 
+            info
+                provides internal info about the shell and its packages
+
+            The format option only works for
+
+                cms info files
         """
+
+        def get_class(classname):
+            return eval(classname)
+
         arguments = dotdict(arguments)
 
         module_list = Plugin.modules()
 
         if arguments.commands:
+
             commands = Plugin.classes()
             print_list(commands)
+
         elif arguments.path:
+
             path_list = cloudmesh.__path__
             print_list(path_list)
-        elif arguments.files:
-            commands = Plugin.modules()
-            for command in commands:
+
+        elif arguments.files or arguments.errors:
+
+            modules = Plugin.modules()
+            longets = 0
+            data = []
+            for module in modules:
                 try:
-                    r = inspect.getfile(command)
-                    print("*", type(command))
+                    _class = get_class(module)
+                    r = inspect.getfile(_class)
+                    data.append({
+                        "module": module,
+                        "directory": r
+                    })
                 except Exception as e:
-                    print(e)
+                    if arguments.errors:
+                        Console.error(str(e))
+            _format = arguments["--output"] or "table"
+            if arguments.files:
+                print(Printer.write(data,
+                                    order=["module", "directory"],
+                                    max_width=256,
+                                    output=_format))
+
         elif arguments.help:
+
             for name in module_list:
                 p = "cloudmesh." + name
                 help_string = p + " not found."
@@ -595,6 +631,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 print(help_string)
 
         else:
+
             print_list(module_list)
 
     def preloop(self):
