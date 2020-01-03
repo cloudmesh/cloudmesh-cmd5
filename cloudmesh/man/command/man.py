@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import textwrap
 
 from cloudmesh.shell.command import PluginCommand

@@ -3,8 +3,6 @@
 # pytest -v --capture=no tests/test_cmd5.py
 # pytest -v  tests/test_cmd5.py
 ###############################################################
-from __future__ import print_function
-
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
 
