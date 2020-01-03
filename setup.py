@@ -18,9 +18,21 @@
 Cloudmesh CMD5 setup.
 """
 import io
-
+import sys
 from setuptools import find_packages, setup
 
+def check_python():
+    if not sys.version_info.major == 3 and \
+        sys.version_info.minor >= 7:
+        print("Python 3.7 or higher is required.")
+
+        print("You are using Python {}.{}."
+              .format(sys.version_info.major,
+                      sys.version_info.minor))
+
+        sys.exit(1)
+
+check_python()
 
 def readfile(filename):
     """
