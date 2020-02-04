@@ -1,6 +1,6 @@
 os:
   - linux
-  - windows
+#  - windows
 #  - osx
 
 arch: arm64
@@ -12,7 +12,6 @@ sudo: required
 language: python
 
 python:
-  - "3.7"
   - "3.8"
 
 install:
