@@ -7,3 +7,4 @@ pytest
 bump2version
 pip-tools
 pipdeptree
+pip-tools
