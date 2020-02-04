@@ -94,7 +94,7 @@ class TerminalCommand(PluginCommand):
         color = arguments["-r"] or "normal"
         color = color.upper()
         text = arguments["TEXT"]
-        if color is "NORMAL":
+        if color == "NORMAL":
             Console.msg(text)
         else:
             Console.cprint(color=color, prefix="", message=text)
