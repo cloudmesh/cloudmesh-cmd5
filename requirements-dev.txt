@@ -1,7 +1,6 @@
 pygments
 coverage
 flake8
-twine
 pytest-cov
 pytest
 bump2version
