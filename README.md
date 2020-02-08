@@ -28,36 +28,23 @@ where we also document how to use pyenv virtualenv.
 
 ## Requirements
 
-* Python greater equal 3.7.3
-* Python greater equal 2.7.15
+* Python greater equal 3.8.1
 
 Cloudmesh was able to run on earlier versions of python, but we do prefer to
 test it on the newest version.
 
-We recommend that you use pyenv or venv first before you install cloudmesh. This
-will make sure the version of cmd5 is installed in the user space.
+We recommend that you use venv first before you install cloudmesh. This
 
+You can as user install cmd5 with
 
-Setup a virtualenv either with virtualenv or pyenv.
-We have a tutorial on cloudmesh classes for the use of
-pyenv. Pyenv is easy to uninstall via the installer documented at
-
-* <https://github.com/pyenv/pyenv-installer>
 
 ```bash
-$ curl https://pyenv.run | bash
+pip install cloudemsh-cmd5
 ```
 
-Add the following lines to your .bashrc or .bash_profile
+Developers should look at our cloudmesh manual.
 
-```
-export PATH="~/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-```
-
-For more information see our handbook
-
+* <https://cloudmesh.github.io/cloudmesh-manual/>
 
 ## CMD5 Shell and Commandline 
 
