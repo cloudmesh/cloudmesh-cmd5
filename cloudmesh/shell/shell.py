@@ -769,7 +769,8 @@ class CMShell(Cmd, PluginCommandClasses):
 
           Usage:
             version pip [PACKAGE]
-            version [--format=FORMAT] [--check=CHECK]
+            version [--format=FORMAT] [--check=CHECK] [--number]
+
            
 
           Options:
@@ -848,6 +849,7 @@ class CMShell(Cmd, PluginCommandClasses):
             pkglines = output.strip().split("\n")
 
             for pkgline in pkglines:
+                # print (pkgline)
                 if "==" in pkgline:
                     values = pkgline.split("==")
                     pkg = values[0]
@@ -873,7 +875,7 @@ class CMShell(Cmd, PluginCommandClasses):
                             "source": location,
                             "VERSION": v
                         }
-                elif "git" in pkgline:
+                elif "git" in pkgline and ("installer" not in pkgline) and ("pi_burn" not in pkgline):
 
                     pkgline = pkgline.replace(
                         "-e git+git@github.com:cloudmesh-community/", "")
@@ -950,11 +952,31 @@ class CMShell(Cmd, PluginCommandClasses):
         print (versions)
         '''
 
-        print(Printer.write(versions,
+        if arguments["--number"]:
+
+            data = []
+            for key,entry in versions.items():
+                try:
+                    d = {
+                        'name': entry['package'],
+                        'version': entry['VERSION']
+                    }
+                    data.append(d)
+                except:
+                    pass
+
+            print(Printer.write(data,
                             output=arguments["--format"],
-                            order=["name", "package", "VERSION", "version",
-                                   "source"],
+                                order=["name", "version"],
+                                header=["Package", "Version"],
                             sort_keys="name"))
+            return ""
+        else:
+            print(Printer.write(versions,
+                                output=arguments["--format"],
+                                order=["name", "package", "VERSION", "version",
+                                       "source"],
+                                sort_keys="name"))
         if arguments["--check"] in ["True"]:
             Shell.check_python()
 
