@@ -890,7 +890,10 @@ class CMShell(Cmd, PluginCommandClasses):
                     #
                     pname = pkg.replace("cloudmesh_", "cloudmesh.")
 
-                    i = importlib.import_module(pname)
+                    try:
+                        i = importlib.import_module(pname)
+                    except:
+                        continue
 
                     location = i.__file__
 
