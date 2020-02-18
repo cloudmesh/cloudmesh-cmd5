@@ -1,5 +1,5 @@
 ###############################################################
-# pip install .; pytest -v --capture=no -v --nocapture tests/test_cmd5.py:Test_cmd5.test_001
+# pip install .; pytest -v --capture=no -v --nocapture tests/test_cmd5..py::Test_cmd5.test_001
 # pytest -v --capture=no tests/test_cmd5.py
 # pytest -v  tests/test_cmd5.py
 ###############################################################
