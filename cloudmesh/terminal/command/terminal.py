@@ -220,7 +220,9 @@ class TerminalCommand(PluginCommand):
     #     config = Config(filename)
     #     config["cloudmesh.logging.level"] = self.loglevel
     #     config.write("aaa.yaml")
-    #     #config.write(filename=filename, output="yaml", attribute_indent="    ")
+    #     #config.write(filename=filename,
+    #                   output="yaml",
+    #                   attribute_indent="    ")
     #     return ""
 
     '''
