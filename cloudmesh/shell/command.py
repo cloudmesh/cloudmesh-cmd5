@@ -112,7 +112,7 @@ def command(func):
                 print()
                 print("Usage:")
 
-                for line in usage.split("\n"):
+                for line in usage.splitlines():
                     if ":" in line:
                         kind = line.split(":")[0]
                         if kind in ["Arguments", "Options", "Example",

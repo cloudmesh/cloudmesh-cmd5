@@ -670,7 +670,7 @@ class CMShell(Cmd, PluginCommandClasses):
     def preloop(self):
         """adds the banner to the preloop"""
 
-        lines = textwrap.dedent(self.banner).split("\n")
+        lines = textwrap.dedent(self.banner).splitlines()
         for line in lines:
             # Console.cprint("BLUE", "", line)
             print(line)
@@ -846,7 +846,7 @@ class CMShell(Cmd, PluginCommandClasses):
             output = subprocess.check_output(('grep', "cloudmesh"),
                                              stdin=pipcheck.stdout).decode(
                 "utf-8")
-            pkglines = output.strip().split("\n")
+            pkglines = output.strip().splitlines()
 
             for pkgline in pkglines:
                 # print (pkgline)
