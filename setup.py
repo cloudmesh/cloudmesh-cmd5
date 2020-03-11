@@ -20,6 +20,7 @@ Cloudmesh CMD5 setup.
 import io
 import sys
 from setuptools import find_packages, setup
+import os
 
 def check_python():
     if not sys.version_info.major == 3 and \
@@ -43,15 +44,18 @@ def readfile(filename):
     with io.open(filename, encoding="utf-8") as stream:
         return stream.read()
 
-
 requiers = """
 pyyaml
 docopt
 requests
+""".splitlines()
+
+requiers_cloudmesh = """
 cloudmesh-common
 """.splitlines()
 
-# dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
+if  "PRODUCTION" not in os.environ:
+    requiers = requiers + requiers_cloudmesh
 
 version = readfile("VERSION").strip()
 
@@ -64,9 +68,6 @@ DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cloudmesh-cmd5"
-
-
-
 
 setup(
     name=NAME,
