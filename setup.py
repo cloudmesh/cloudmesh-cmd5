@@ -24,6 +24,16 @@ import os
 
 def check_python():
     if not sys.version_info.major == 3 and \
+        sys.version_info.minor == 6:
+        print("THhis is an experimental version for 3.6, please upgrade if possible")
+
+        print("You are using Python {}.{}."
+              .format(sys.version_info.major,
+                      sys.version_info.minor))
+
+
+        sys.exit(1)
+    elif not sys.version_info.major == 3 and \
         sys.version_info.minor >= 7:
         print("Python 3.7 or higher is required.")
 
@@ -31,7 +41,6 @@ def check_python():
               .format(sys.version_info.major,
                       sys.version_info.minor))
 
-        sys.exit(1)
 
 check_python()
 
