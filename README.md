@@ -56,7 +56,7 @@ Developers should look at our cloudmesh manual.
 
 * <https://cloudmesh.github.io/cloudmesh-manual/>
 
-## CMD5 Shell and Commandline 
+## CMD5 Shell and Commandline
 
 
 to run the shell you can activate it with the cms command. cms stands
@@ -88,11 +88,23 @@ To see the list of commands you can say::
 cms> help
 ```
 
+```bash
+Documented commands (type help <topic>):
+========================================
+EOF     commands  default  help  pause   q     shell      sys   version
+banner  config    echo     info  plugin  quit  sleep      test
+clear   debug     gui      man   py      set   stopwatch  var 
+```
+
 To see the manual page for a specific command, please use::
 
 ```
 cms> help COMMANDNAME
 ```
+
+A full manual page is available at
+
+* <https://cloudmesh.github.io/cloudmesh-manual/>
 
 ## CMD 5 Plugin Mechanism
 
@@ -202,41 +214,32 @@ The following highlighted features are available:
   [open](https://cloudmesh.github.io/cloudmesh-manual/manual/cmd5/open.html),
   and others
 
-## Manual
-
-```bash
-Documented commands (type help <topic>):
-========================================
-EOF     commands  default  help  pause   q     shell      sys   version
-banner  config    echo     info  plugin  quit  sleep      test
-clear   debug     gui      man   py      set   stopwatch  var 
-```
 
 
-## Changes
+## New Features
 
-* added support for terminals with dark background
-* addes support for python in variable assignments
+* Support for terminals with dark background
+* Support for python in variable assignments
 
   ```
   cms set a=\"py 1 + 1\"
   a='2'
   ```
 
-* added support for executing python in a py command
+* Support for executing python in a py command
 
   ```
   cms py 1 + 1
   2
   ```
   
-* added support for shell commands in the variabe value
+* Support for shell commands in the variabe value
 
   ```
   cms set a=\!pwd
   ```
   
-* added support for reading values from a yaml configuration file in 
+* Support for reading values from a yaml configuration file in
   `~/.cloudmesh/cloudmesh.yaml`
 
   ```  
