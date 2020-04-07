@@ -9,6 +9,13 @@ define banner
 	@echo "############################################################"
 endef
 
+readme:
+	cd ..; cloudmesh-installer new ~/ENV3 cms
+	cms timer off
+	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) $(package)
+	#-git commit -m "Upadte Readme" README.md README-source.md
+	#-git push
+
 source: 
 	cd ../cloudmesh-common; make source
 	$(call banner, "Install cloudmesh-cmd5")
