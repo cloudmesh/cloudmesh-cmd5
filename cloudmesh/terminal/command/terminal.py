@@ -1,16 +1,56 @@
 import os
 import sys
 import time
-
 from builtins import input
+
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
-
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 
 
 class TerminalCommand(PluginCommand):
+
+    # noinspection PyUnusedLocal,PyIncorrectDocstring
+    @command
+    def do_banner(self, args, arguments):
+        """
+        ::
+
+          Usage:
+            banner [-c CHAR] [-n WIDTH] [-i INDENT] [-r COLOR] TEXT...
+
+          Arguments:
+            TEXT...   The text message from which to create the banner
+            CHAR      The character for the frame.
+            WIDTH     Width of the banner
+            INDENT    indentation of the banner
+            COLOR     the color
+
+            Options:
+                -c CHAR   The character for the frame. [default: #]
+                -n WIDTH  The width of the banner. [default: 70]
+                -i INDENT  The width of the banner. [default: 0]
+                -r COLOR  The color of the banner. [default: NORMAL]
+
+            Prints a banner form a one line text message.
+        """
+        Console.ok("banner")
+        n = int(arguments['-n'])
+        c = arguments['-c']
+        i = int(arguments['-i'])
+        color = arguments['-r'].upper()
+
+        line = ' '.join(arguments['TEXT'])
+
+        Console.init()
+        hline = i * " " + str((n - i) * c)
+        Console.cprint(color=color, prefix="", message=hline)
+        Console.cprint(color=color, prefix="", message=i * " " + c + " " + line)
+        Console.cprint(color=color, prefix="", message=hline)
+
+        return ""
+
     # noinspection PyUnusedLocal
     @command
     def do_stopwatch(self, args, arguments):
@@ -98,46 +138,6 @@ class TerminalCommand(PluginCommand):
             Console.msg(text)
         else:
             Console.cprint(color=color, prefix="", message=text)
-
-        return ""
-
-    # noinspection PyUnusedLocal,PyIncorrectDocstring
-    @command
-    def do_banner(self, args, arguments):
-        """
-        ::
-
-          Usage:
-            banner [-c CHAR] [-n WIDTH] [-i INDENT] [-r COLOR] TEXT...
-
-          Arguments:
-            TEXT...   The text message from which to create the banner
-            CHAR      The character for the frame.
-            WIDTH     Width of the banner
-            INDENT    indentation of the banner
-            COLOR     the color
-
-            Options:
-                -c CHAR   The character for the frame. [default: #]
-                -n WIDTH  The width of the banner. [default: 70]
-                -i INDENT  The width of the banner. [default: 0]
-                -r COLOR  The color of the banner. [default: NORMAL]
-
-            Prints a banner form a one line text message.
-        """
-        Console.ok("banner")
-        n = int(arguments['-n'])
-        c = arguments['-c']
-        i = int(arguments['-i'])
-        color = arguments['-r'].upper()
-
-        line = ' '.join(arguments['TEXT'])
-
-        Console.init()
-        hline = i * " " + str((n - i) * c)
-        Console.cprint(color=color, prefix="", message=hline)
-        Console.cprint(color=color, prefix="", message=i * " " + c + " " + line)
-        Console.cprint(color=color, prefix="", message=hline)
 
         return ""
 
