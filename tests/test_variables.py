@@ -9,15 +9,14 @@ from cloudmesh.common.util import HEADING
 from cloudmesh.common.variables import Variables
 import pytest
 from cloudmesh.common.run.subprocess import run
+from cloudmesh.common.util import path_expand
 
 
 def run(command):
-    print(command)
-    parameter = command.split(" ")
-    shell_command = parameter[0]
-    args = parameter[1:]
-    result = Shell.execute(shell_command, args)
-    print(result)
+    print()
+    print("Command:", command)
+    result = Shell.run(command)
+    print("Result:", result)
     return result
 
 
@@ -73,9 +72,21 @@ class Test_cmd5(object):
 
     def test_cli_set(self):
         r = run("cms var deleteme=abc")
-        v = Variables()
         print(r)
-        assert v['deleteme'] == 'abc'
+
+
+        data = path_expand("~/.cloudmesh/variables.dat")
+        cat= run(f"cat {data}")
+        print(cat)
+        assert "deleteme: abc" in cat
+
+        v = Variables()
+        print ("Data", v.__dict__["data"].__dict__)
+
+        value = v['deleteme']
+        print ("Value:",  value)
+
+        assert value == 'abc'
 
     def test_cli_get(self):
         r = run("cms var deleteme")
