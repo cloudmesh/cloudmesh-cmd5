@@ -1,9 +1,6 @@
-from datetime import datetime
-
+from cloudmesh.common.variables import Variables
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
-from cloudmesh.common.variables import Variables
-from cloudmesh.common.console import Console
 
 
 class DebugCommand(PluginCommand):
@@ -42,7 +39,7 @@ class DebugCommand(PluginCommand):
 
         """
 
-        database = Variables(filename="~/.cloudmesh/var-data")
+        database = Variables(filename="~/.cloudmesh/variables.dat")
 
         if arguments.on:
             database["debug"] = True

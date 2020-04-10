@@ -1,10 +1,10 @@
 from datetime import datetime
 
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.console import Console
+from cloudmesh.common.variables import Variables
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
-from cloudmesh.common.variables import Variables
-from cloudmesh.common.console import Console
-from cloudmesh.common.Shell import Shell
 
 
 class VarCommand(PluginCommand):
@@ -55,7 +55,7 @@ class VarCommand(PluginCommand):
             
         """
 
-        database = Variables(filename="~/.cloudmesh/var-data")
+        database = Variables(filename="~/.cloudmesh/variables.dat")
 
         if arguments["NAME=VALUE"]:
             if '=' in arguments["NAME=VALUE"]:
