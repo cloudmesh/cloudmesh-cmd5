@@ -1,6 +1,6 @@
 # Changelog
 
-# 4.3.2
+## 4.3.2
 
 Intermediate releases: 4.3.1
 
