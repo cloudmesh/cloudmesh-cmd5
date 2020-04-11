@@ -39,16 +39,16 @@ class DebugCommand(PluginCommand):
 
         """
 
-        database = Variables(filename="~/.cloudmesh/variables.dat")
+        variables = Variables()
 
         if arguments.on:
-            database["debug"] = True
-            database["trace"] = True
-            database["verbose"] = '10'
-            database["timer"] = True
+            variables["debug"] = True
+            variables["trace"] = True
+            variables["verbose"] = '10'
+            variables["timer"] = True
 
         elif arguments.off:
-            database["debug"] = False
-            database["trace"] = False
-            database["verbose"] = '0'
-            database["timer"] = False
+            variables["debug"] = False
+            variables["trace"] = False
+            variables["verbose"] = '0'
+            variables["timer"] = False

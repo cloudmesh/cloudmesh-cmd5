@@ -1,5 +1,12 @@
 # Changelog
 
+* add `cms dryrun` command it stest the variable dryrun
+* add `cms set` command that does a list of the variables
+* add `cms var` command that does a list of the variables
+* add `cms debug=on` command works the same way as `cms debug on`
+* add `cms dryrun=on` command works the same way as `cms dryrun on`
+* changed all use of `Variables(filename=..)` to ` Variables()`
+
 ## 4.3.0
 
 * Introduced a selective load based on the command name, which reduces

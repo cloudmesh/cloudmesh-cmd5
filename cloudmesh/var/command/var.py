@@ -21,11 +21,13 @@ class VarCommand(PluginCommand):
                 var delete NAME
                 var NAME=VALUE
                 var NAME
+                var
 
             Arguments:
                 NAME      the name of the variable
                 VALUE     the value of the variable
                 FILENAME  the filename of the variable
+
             Description:
                 Manage persistent variables
 
@@ -55,7 +57,11 @@ class VarCommand(PluginCommand):
             
         """
 
-        database = Variables(filename="~/.cloudmesh/variables.dat")
+        if args == '':
+            arguments["list"] = True
+
+        variables = Variables()
+
 
         if arguments["NAME=VALUE"]:
             if '=' in arguments["NAME=VALUE"]:
@@ -67,29 +73,38 @@ class VarCommand(PluginCommand):
             else:
                 name = arguments["NAME=VALUE"]
                 try:
-                    value = database[name]
+                    value = variables[name]
                 except:
                     value = None
 
         if arguments["clear"]:
-            database.clear()
+            variables.clear()
 
         elif arguments["list"]:
-            for name in database:
-                value = database[name]
+            for name in variables:
+                value = variables[name]
                 print(name, "=", "'", value, "'", sep="")
 
         elif arguments.delete:
-            del database[arguments.NAME]
+            del variables[arguments.NAME]
 
         elif name and not value:
             Console.error("variable {name} does not exist".format(name=name))
 
         elif name and not value:
-            print(database[arguments.NAME])
+            print(variables[arguments.NAME])
 
         elif name and value:
-            if value.startswith("cloudmesh."):
+            if name in ["dryrun"]:
+                if value.lower() in ["on", "true", "1", "t"]:
+                    value = True
+                elif value.lower() in ["off", "false", "0", "f"]:
+                    value = True
+                else:
+                    Console.error(
+                        "value must be True/False".format(name=name))
+                    return ""
+            elif value.startswith("cloudmesh."):
                 try:
                     from cloudmesh.configuration.Config import Config
                     config = Config()
@@ -117,10 +132,10 @@ class VarCommand(PluginCommand):
                 value = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             elif value.startswith("value."):
                 var = value.replace("value.", "")
-                value = database[var]
+                value = variables[var]
             elif value.startswith("$"):
                 var = value.replace("$", "")
-                value = database[var]
+                value = variables[var]
 
             print(name, "=", "'", value, "'", sep="")
-            database[name] = value
+            variables[name] = value

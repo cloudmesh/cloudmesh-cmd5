@@ -169,7 +169,6 @@ else:
     Plugin.load()
 StopWatch.stop("load")
 
-
 PluginCommandClasses = type(
     'CommandProxyClass',
     tuple(PluginCommand.__subclasses__()),
@@ -194,6 +193,34 @@ class CMShell(Cmd, PluginCommandClasses):
     |                  Cloudmesh CMD5 Shell                 |
     +-------------------------------------------------------+
     """)
+
+
+    def set_debug(self, on):
+
+        def boolean(value):
+            value = False
+            if str(value).lower() in ["true", "on"]:
+               value = True
+            elif str(value).lower() in ["false", "off"]:
+                value = False
+            else:
+                Console.error("Value is not boolean")
+            return value
+
+        variables = Variables()
+        if boolean(on):
+            variables["debug"] = True
+            variables["trace"] = True
+            variables["verbose"] = '10'
+            variables["timer"] = True
+        else:
+            variables["debug"] = False
+            variables["trace"] = False
+            variables["verbose"] = '0'
+            variables["timer"] = False
+
+        for key in ["debug", "trace", "verbose", "timer"]:
+            print (f"{key}={variables[key]}")
 
     @command
     def do_commands(self, args, arguments):
@@ -352,6 +379,31 @@ class CMShell(Cmd, PluginCommandClasses):
         #    return ""
 
         if cmd != '':
+
+            if cmd in ['dryrun']:
+                variables = Variables()
+                try:
+                    value = arg[1:]
+                    variables.boolean("dryrun", value)
+                except IndexError:
+                    Console.error("value for dryrun is missing")
+                except Exception as e:
+                    print(e)
+
+                return ""
+            elif cmd in ['debug']:
+
+                try:
+                    value = arg[1:]
+                    self.set_debug(value)
+                except IndexError:
+                    Console.error("value for dryrun is missing")
+                except Exception as e:
+                    print(e)
+
+                return ""
+
+
             try:
                 func = getattr(self, 'do_' + cmd)
                 return func(arg)

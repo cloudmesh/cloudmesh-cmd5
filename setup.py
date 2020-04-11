@@ -25,7 +25,7 @@ import os
 def check_python():
     if not sys.version_info.major == 3 and \
         sys.version_info.minor == 6:
-        print("THhis is an experimental version for 3.6, please upgrade if possible")
+        print("This is an experimental version for 3.6, please upgrade if possible")
 
         print("You are using Python {}.{}."
               .format(sys.version_info.major,

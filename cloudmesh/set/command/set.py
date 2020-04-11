@@ -18,6 +18,7 @@ class SetCommand(PluginCommand):
             set delete NAME
             set NAME=VALUE
             set NAME
+            set
                           
           Arguments:
             NAME      the name of the set variable
