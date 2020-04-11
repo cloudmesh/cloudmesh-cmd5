@@ -1,5 +1,9 @@
 # Changelog
 
+# 4.3.2
+
+Intermediate releases: 4.3.1
+
 * add `cms dryrun` command it stest the variable dryrun
 * add `cms set` command that does a list of the variables
 * add `cms var` command that does a list of the variables
