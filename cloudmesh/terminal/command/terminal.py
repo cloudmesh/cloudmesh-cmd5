@@ -216,8 +216,7 @@ class TerminalCommand(PluginCommand):
     #         return ""
     #     Console.ok ("Log level: {0} is set".format(self.loglevel))
     #
-    #     filename = path_expand("~/.cloudmesh/cloudmesh.yaml")
-    #     config = Config(filename)
+    #     config = Config()
     #     config["cloudmesh.logging.level"] = self.loglevel
     #     config.write("aaa.yaml")
     #     #config.write(filename=filename,
