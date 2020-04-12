@@ -7,9 +7,12 @@ from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
-
+from cloudmesh.common.variables import Variables
 
 class TerminalCommand(PluginCommand):
+    from cloudmesh.common.variables import Variables
+    from cloudmesh.shell.command import PluginCommand
+    from cloudmesh.shell.command import command
 
     # noinspection PyUnusedLocal,PyIncorrectDocstring
     @command

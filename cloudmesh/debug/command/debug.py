@@ -38,17 +38,5 @@ class DebugCommand(PluginCommand):
 
 
         """
-
-        variables = Variables()
-
-        if arguments.on:
-            variables["debug"] = True
-            variables["trace"] = True
-            variables["verbose"] = '10'
-            variables["timer"] = True
-
-        elif arguments.off:
-            variables["debug"] = False
-            variables["trace"] = False
-            variables["verbose"] = '0'
-            variables["timer"] = False
+        print(args, arguments)
+        self.set_debug(args)

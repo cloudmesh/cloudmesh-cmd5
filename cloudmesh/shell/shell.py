@@ -155,9 +155,16 @@ if selective_loading:
     try:
         name = sys.argv[1]
 
+        print (name)
         if name in ["help"]:
             Plugin.load()
-        if name in ['banner', 'stopwatch', 'clear', 'sleep', 'echo', 'pause']:
+        if name in ['banner',
+                    'stopwatch',
+                    'clear',
+                    'sleep',
+                    'echo',
+                    'pause']:
+            print ("X")
             name = Plugin.class_name("terminal")
             Plugin.load([name])
         else:
@@ -197,18 +204,19 @@ class CMShell(Cmd, PluginCommandClasses):
 
     def set_debug(self, on):
 
-        def boolean(value):
-            value = False
-            if str(value).lower() in ["true", "on"]:
-               value = True
-            elif str(value).lower() in ["false", "off"]:
+        def _boolean(value):
+            value = str(value).lower()
+            if value in ["true", "on"]:
+                value = True
+            elif value in ["false", "off"]:
                 value = False
             else:
+                value = False
                 Console.error("Value is not boolean")
             return value
 
         variables = Variables()
-        if boolean(on):
+        if _boolean(on):
             variables["debug"] = True
             variables["trace"] = True
             variables["verbose"] = '10'
@@ -382,8 +390,10 @@ class CMShell(Cmd, PluginCommandClasses):
 
             if cmd in ['dryrun']:
                 variables = Variables()
+                if arg.startswith("="):
+                    arg = arg[1:]
                 try:
-                    value = arg[1:]
+                    value = arg
                     variables.boolean("dryrun", value)
                 except IndexError:
                     Console.error("value for dryrun is missing")
@@ -392,9 +402,10 @@ class CMShell(Cmd, PluginCommandClasses):
 
                 return ""
             elif cmd in ['debug']:
-
+                if arg.startswith("="):
+                    arg = arg[1:]
                 try:
-                    value = arg[1:]
+                    value = arg
                     self.set_debug(value)
                 except IndexError:
                     Console.error("value for dryrun is missing")
