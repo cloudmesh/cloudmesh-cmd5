@@ -54,11 +54,23 @@ def map_parameters(arguments, *args):
 
     """
     for arg in args:
-        flag = "--" + arg
-        if flag in arguments:
-            arguments[arg] = arguments[flag]
+        if arg in ['clear', 'copy', 'fromkeys', 'get', 'items', 'keys', 'pop',
+                   'popitem', 'setdefault', 'update', 'values', 'format',
+                   'type']:
+            Console.error(f'`{arg}` is predefined method.'
+                          f' Use `arguments["--{arg}"]` in your code')
+            raise ValueError(f"{arg} already used in arguments")
+        elif arg in arguments:
+            Console.error(f'`{arg}` is already used in arguments.'
+                          f' Use `arguments["--{arg}"]` in your code')
+            raise ValueError(f"{arg} already used in arguments")
         else:
-            arguments[arg] = None
+            flag = "--" + arg
+            if flag in arguments:
+                value = arguments[flag]
+            else:
+                value = None
+            arguments[arg] = value
 
 
 # noinspection PySingleQuotedDocstring,PyUnusedLocal
