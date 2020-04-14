@@ -155,7 +155,6 @@ if selective_loading:
     try:
         name = sys.argv[1]
 
-        print (name)
         if name in ["help"]:
             Plugin.load()
         if name in ['banner',
@@ -164,7 +163,6 @@ if selective_loading:
                     'sleep',
                     'echo',
                     'pause']:
-            print ("X")
             name = Plugin.class_name("terminal")
             Plugin.load([name])
         else:
