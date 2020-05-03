@@ -162,6 +162,7 @@ if selective_loading:
                     'clear',
                     'sleep',
                     'echo',
+                     'term',
                     'pause']:
             name = Plugin.class_name("terminal")
             Plugin.load([name])

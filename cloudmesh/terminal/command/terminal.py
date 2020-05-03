@@ -8,11 +8,34 @@ from cloudmesh.common.console import Console
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.common.variables import Variables
+from cloudmesh.common.Shell import Shell
+
 
 class TerminalCommand(PluginCommand):
     from cloudmesh.common.variables import Variables
     from cloudmesh.shell.command import PluginCommand
     from cloudmesh.shell.command import command
+
+    # noinspection PyUnusedLocal,PyIncorrectDocstring
+    @command
+    def do_term(self, args, arguments):
+        """
+        ::
+
+          Usage:
+            term COMMAND
+
+          Arguments:
+            COMMAND   The command to execute in the terminal
+
+           Opens a new terminal and executes the command in it
+           The terminal stays openafter executing it in an interctive mode
+           The terminal is started in the background
+
+        """
+        Shell.terminal(arguments.COMMAND)
+
+        return ""
 
     # noinspection PyUnusedLocal,PyIncorrectDocstring
     @command
