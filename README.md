@@ -1,12 +1,5 @@
 # Cloudmesh cmd5
 
-
-> **Note:** The README.md page is outomatically generated, do not edit it.
-> To modify  change the content in
-> <https://github.com/cloudmesh/cloudmesh-cmd5/blob/master/README-source.md>
-> Curley brackets must use two in README-source.md
-
-
 [![DOI](https://zenodo.org/badge/82920490.svg)](https://zenodo.org/badge/latestdoi/82920490)
 
 
