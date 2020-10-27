@@ -5,10 +5,10 @@
 
 [![image](https://img.shields.io/pypi/v/cloudmesh-cmd5.svg)](https://pypi.org/project/cloudmesh-cmd5/)
 [![Python](https://img.shields.io/pypi/pyversions/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-cmd5/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-cmd5/blob/main/LICENSE)
 [![Format](https://img.shields.io/pypi/format/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
 [![Status](https://img.shields.io/pypi/status/cloudmesh-cmd5.svg)](https://pypi.python.org/pypi/cloudmesh-cmd5)
-[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-cmd5.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-cmd5)
+[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-cmd5.svg?branch=main)](https://travis-ci.com/cloudmesh/cloudmesh-cmd5)
 
 
 
@@ -27,7 +27,7 @@ installation documentation.
 An dynamically extensible CMD based command shell. For en extensive
 documentation please see
 
-* <https://github.com/cloudmesh-community/book/blob/master/vonLaszewski-cloud.epub?raw=true>
+* <https://github.com/cloudmesh-community/book/blob/main/vonLaszewski-cloud.epub?raw=true>
 
 where we also document how to use pyenv virtualenv.
 
@@ -136,7 +136,7 @@ The command will be added to the cms command>
 
 An example for the bar command is presented at:
 
-* [cloudmesh/bar/command/bar.py](https://github.com/cloudmesh/cloudmesh.bar/blob/master/cloudmesh/bar/command/bar.py)
+* [cloudmesh/bar/command/bar.py](https://github.com/cloudmesh/cloudmesh.bar/blob/main/cloudmesh/bar/command/bar.py)
 
 It shows how simple the command definition is (bar.py)::
 
