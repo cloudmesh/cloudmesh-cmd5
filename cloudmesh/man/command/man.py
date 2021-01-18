@@ -6,10 +6,49 @@ from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import writefile
 from pprint import pprint
 from cloudmesh.common.console import Console
-
+from cloudmesh.common.util import readfile
 
 class ManCommand(PluginCommand):
     # noinspection PyUnusedLocal
+
+    def _convert_file(self, file, command, tag):
+        tag_string = f"<!--{tag}-->"
+        try:
+            manual = 0
+            man = Shell.run(f"cms help {command}")
+
+            # remove timer
+            man = man.split("\nTimer: ")[0]
+
+            readme = readfile("README.md")
+
+            parts = readme.split(tag_string)
+
+            content = []
+
+            content.append(parts[0].strip())
+            content.append("")
+            content.append(tag_string)
+            content.append("```")
+            content.append(textwrap.dedent("\n".join(man.splitlines()[7:])))
+            content.append("```")
+            content.append(tag_string)
+            try:
+                content.append(parts[2])
+            except:
+                pass
+        except Exception as e:
+            content.append("")
+            content.append(tag_string)
+            content.append("```")
+            content.append(e)
+            content.append("```")
+            content.append(tag_string)
+
+        manpage = "\n".join(content)
+
+        return manpage, man
+
 
     def _get_help(self, what):
         """
@@ -89,11 +128,19 @@ class ManCommand(PluginCommand):
         ::
 
             Usage:
+                man readme [-p] --toc [--file=FILE]
+                man readme [-p] [--tag=TAG] [--file=FILE] COMMAND
                 man [--dir=DIR] [--format=FORMAT] [--noheader]
                 man COMMANDS... [--dir=DIR] [--format=FORMAT]
 
             Options:
-                --noheader  no rst header
+                --toc        adds a table of content between the TOC tag
+                -p           replacement in the file instead of stdout
+                --noheader   no rst header
+                --tag=TAG    the tag used to embed the manual
+                             page [default: MANUAL]
+                --file=FILE  the file for the replacement between the
+                             tags [default: README.md]
 
             Arguments:
                 COMMANDS   the command manual pages to be printed
@@ -104,8 +151,6 @@ class ManCommand(PluginCommand):
                 man COMMAND
                     Prints out the help page for a specific command
         """
-
-        print(arguments)
 
         cmds_doc = []
         cmds_undoc = []
@@ -137,14 +182,43 @@ class ManCommand(PluginCommand):
 
         arguments.kind = arguments["--format"] or "md"
         arguments.directory = arguments["--dir"]
+        arguments.file = arguments["--file"] or "README.md"
+        arguments.tag = arguments["--tag"] or "MANUAL"
 
         get_manual_pages()
+
 
         if arguments["--dir"]:
             d = arguments["--dir"]
             Shell.mkdir(d)
 
-        if len(arguments.COMMANDS) == 0:
+        if arguments["readme"] and arguments["--toc"]:
+
+            in_place = arguments["-p"]
+            if in_place:
+                man = Shell.run(f"md_toc -p github {arguments.file}")
+                print (man)
+            else:
+                man = Shell.run(f"md_toc github {arguments.file}")
+                print (man)
+
+        elif arguments["readme"]:
+
+            in_place = arguments["-p"]
+            command = arguments.COMMAND
+            file    = arguments.FILE
+
+
+            manpage, old = self._convert_file(arguments.file,
+                                         arguments.COMMAND,
+                                         arguments.tag)
+            if in_place and manpage != old:
+                writefile(arguments.file, manpage)
+            else:
+                print (manpage)
+
+
+        elif len(arguments.COMMANDS) == 0:
 
             for entry in cmds_doc:
                 data = self._get_help(entry)
@@ -161,7 +235,7 @@ class ManCommand(PluginCommand):
                     self._print(entry, data, arguments.kind, arguments.directory)
 
                 else:
-                    Console.error(f"Cloud not firn man page for {entry}")
+                    Console.error(f"Cloud not find man page for {entry}")
 
 
 
