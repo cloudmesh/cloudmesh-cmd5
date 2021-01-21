@@ -57,6 +57,7 @@ requiers = """
 pyyaml
 docopt
 requests
+md_toc
 """.splitlines()
 
 requiers_cloudmesh = """
