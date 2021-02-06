@@ -54,14 +54,13 @@ class VarCommand(PluginCommand):
                 The previous command copy the value from b to a. The val command
                 was added to avoid quoting.
 
-            
-        """
+
+        """  # noqa: W605
 
         if args == '':
             arguments["list"] = True
 
         variables = Variables()
-
 
         if arguments["NAME=VALUE"]:
             if '=' in arguments["NAME=VALUE"]:
@@ -101,8 +100,7 @@ class VarCommand(PluginCommand):
                 elif value.lower() in ["off", "false", "0", "f"]:
                     value = True
                 else:
-                    Console.error(
-                        "value must be True/False".format(name=name))
+                    Console.error(f"value of {name} must be True/False")
                     return ""
             elif value.startswith("cloudmesh."):
                 try:

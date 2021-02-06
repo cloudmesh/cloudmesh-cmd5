@@ -1,13 +1,9 @@
-import inspect
 import shlex
 import textwrap
 
+from cloudmesh.common.console import Console
 from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
-from cloudmesh.common.console import Console
-from pprint import pformat
-from cloudmesh.common.variables import Variables
-from cloudmesh.common.util import banner
 
 
 class PluginCommand(object):
@@ -95,9 +91,9 @@ def command(func):
 
     :param func: the function for the decorator
     '''
-    classname = inspect.getouterframes(inspect.currentframe())[1][3]
+    # classname = inspect.getouterframes(inspect.currentframe())[1][3]
     name = func.__name__
-    help_name = name.replace("do_", "help_")
+    # help_name = name.replace("do_", "help_")
     doc = textwrap.dedent(func.__doc__)
 
     def new(instance, args):
@@ -113,7 +109,7 @@ def command(func):
             #    s = pformat(arguments)
             #    banner(s, label="Arguments", color="BLUE")
             func(instance, args, arguments)
-        except SystemExit as e:
+        except SystemExit as e:  # noqa: F841
             if args not in ('-h', '--help'):
                 if "::" in doc:
                     usage = textwrap.dedent(doc.split("::")[1])
@@ -166,9 +162,9 @@ def basecommand(func):
 
     :param func: the function for the decorator
     '''
-    classname = inspect.getouterframes(inspect.currentframe())[1][3]
-    name = func.__name__
-    help_name = name.replace("do_", "help_")
+    # classname = inspect.getouterframes(inspect.currentframe())[1][3]
+    # name = func.__name__
+    # help_name = name.replace("do_", "help_")
     doc = textwrap.dedent(func.__doc__)
 
     def new(instance, args):
@@ -181,7 +177,7 @@ def basecommand(func):
             arguments = docopt(doc, help=True, argv=argv)
             func(instance, args, arguments)
         # except docopt.DocoptExit as e:
-        except Exception as e:
+        except Exception as e:  # noqa: F841
             import traceback
             import sys
             traceback.print_exc(file=sys.stdout)

@@ -2,6 +2,7 @@ import sys
 import inspect
 from cloudmesh.common.util import readfile
 
+
 class CloudmeshPlugin:
 
     @staticmethod
@@ -43,7 +44,7 @@ class CloudmeshPlugin:
                         }
                         plugins.append(entry)
                 except Exception as e:
-                    print (e)
+                    print(e)
                     pass
 
         return plugins

@@ -3,17 +3,13 @@ import sys
 import time
 from builtins import input
 
+from cloudmesh.common.Shell import Shell
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.shell.command import PluginCommand
-from cloudmesh.shell.command import command
-from cloudmesh.common.variables import Variables
-from cloudmesh.common.Shell import Shell
 
 
 class TerminalCommand(PluginCommand):
-    from cloudmesh.common.variables import Variables
-    from cloudmesh.shell.command import PluginCommand
     from cloudmesh.shell.command import command
 
     # noinspection PyUnusedLocal,PyIncorrectDocstring
@@ -88,7 +84,7 @@ class TerminalCommand(PluginCommand):
             stopwatch stop TIMER
             stopwatch print [TIMER]
             stopwatch benchmark
-            
+
           Arguments:
             TIMER  the name of the timer
 

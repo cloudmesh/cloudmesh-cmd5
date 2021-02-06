@@ -1,12 +1,12 @@
 import textwrap
 
-from cloudmesh.shell.command import PluginCommand
-from cloudmesh.shell.command import command
 from cloudmesh.common.Shell import Shell
-from cloudmesh.common.util import writefile
-from pprint import pprint
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import readfile
+from cloudmesh.common.util import writefile
+from cloudmesh.shell.command import PluginCommand
+from cloudmesh.shell.command import command
+
 
 class ManCommand(PluginCommand):
     # noinspection PyUnusedLocal
@@ -14,7 +14,6 @@ class ManCommand(PluginCommand):
     def _convert_file(self, file, command, tag):
         tag_string = f"<!--{tag}-->"
         try:
-            manual = 0
             man = Shell.run(f"cms help {command}")
 
             # remove timer
@@ -49,7 +48,6 @@ class ManCommand(PluginCommand):
 
         return manpage, man
 
-
     def _get_help(self, what):
         """
         prints the rst page of the command what
@@ -68,9 +66,7 @@ class ManCommand(PluginCommand):
             data['name'],
             "=" * len(data['name']),
             "",
-            textwrap.dedent(data['help']) \
-                .replace("::\n\n", ".. parsed-literal::\n\n") \
-                .strip(),
+            textwrap.dedent(data['help']).replace("::\n\n", ".. parsed-literal::\n\n").strip(),
             ""]
         return ("\n".join(result))
 
@@ -187,7 +183,6 @@ class ManCommand(PluginCommand):
 
         get_manual_pages()
 
-
         if arguments["--dir"]:
             d = arguments["--dir"]
             Shell.mkdir(d)
@@ -197,26 +192,22 @@ class ManCommand(PluginCommand):
             in_place = arguments["-p"]
             if in_place:
                 man = Shell.run(f"md_toc -p github {arguments.file}")
-                print (man)
+                print(man)
             else:
                 man = Shell.run(f"md_toc github {arguments.file}")
-                print (man)
+                print(man)
 
         elif arguments["readme"]:
 
             in_place = arguments["-p"]
-            command = arguments.COMMAND
-            file    = arguments.FILE
-
 
             manpage, old = self._convert_file(arguments.file,
-                                         arguments.COMMAND,
-                                         arguments.tag)
+                                              arguments.COMMAND,
+                                              arguments.tag)
             if in_place and manpage != old:
                 writefile(arguments.file, manpage)
             else:
-                print (manpage)
-
+                print(manpage)
 
         elif len(arguments.COMMANDS) == 0:
 
@@ -236,7 +227,5 @@ class ManCommand(PluginCommand):
 
                 else:
                     Console.error(f"Cloud not find man page for {entry}")
-
-
 
         return ""
