@@ -11,15 +11,22 @@ from cloudmesh.shell.command import command
 class ManCommand(PluginCommand):
     # noinspection PyUnusedLocal
 
-    def _convert_file(self, file, command, tag):
+    def _convert_file(self, file=None, command=None, include=None, tag="MANPAGE"):
+        file = file or "README.md"
         tag_string = f"<!--{tag}-->"
         try:
-            man = Shell.run(f"cms help {command}")
+            if command is not None:
+                man = Shell.run(f"cms help {command}")
+            elif include is not None:
+                man = readfile(include)
+            else:
+                man = "No command or file specified"
 
             # remove timer
-            man = man.split("\nTimer: ")[0]
+            if "\nTimer: " in man:
+                man = man.split("\nTimer: ")[0]
 
-            readme = readfile("README.md")
+            readme = readfile(file)
 
             parts = readme.split(tag_string)
 
@@ -28,20 +35,26 @@ class ManCommand(PluginCommand):
             content.append(parts[0].strip())
             content.append("")
             content.append(tag_string)
-            content.append("```")
-            content.append(textwrap.dedent("\n".join(man.splitlines()[7:])))
-            content.append("```")
+            if command is not None:
+                content.append("```")
+                content.append(textwrap.dedent("\n".join(man.splitlines()[7:])))
+                content.append("```")
+            else:
+                content.append(textwrap.dedent("\n".join(man.splitlines())))
+
             content.append(tag_string)
             try:
                 content.append(parts[2])
             except:
                 pass
         except Exception as e:
+            print (e)
             content.append("")
             content.append(tag_string)
             content.append("```")
             content.append(e)
             content.append("```")
+
             content.append(tag_string)
 
         manpage = "\n".join(content)
@@ -123,9 +136,12 @@ class ManCommand(PluginCommand):
         """
         ::
 
+    def _convert_file(self, file=None, command=None, include=None, tag="MANPAGE"):
+
             Usage:
                 man readme [-p] --toc [--file=FILE]
-                man readme [-p] [--tag=TAG] [--file=FILE] COMMAND
+                man readme [-p] [--tag=TAG] [--file=FILE] --include=INCLUDE
+                man readme [-p] [--tag=TAG] [--file=FILE] --command=COMMAND
                 man [--dir=DIR] [--format=FORMAT] [--noheader]
                 man COMMANDS... [--dir=DIR] [--format=FORMAT]
 
@@ -196,6 +212,30 @@ class ManCommand(PluginCommand):
             else:
                 man = Shell.run(f"md_toc github {arguments.file}")
                 print(man)
+
+        elif arguments["readme"] and arguments["--include"]:
+
+            in_place = arguments["-p"]
+
+            manpage, old = self._convert_file(file=arguments.file,
+                                              include=arguments["--include"],
+                                              tag=arguments.tag)
+            if in_place and manpage != old:
+                writefile(arguments.file, manpage)
+            else:
+                print(manpage)
+
+        elif arguments["readme"] and arguments["--command"]:
+
+            in_place = arguments["-p"]
+
+            manpage, old = self._convert_file(file=arguments.file,
+                                              command=arguments["--command"],
+                                              tag=arguments.tag)
+            if in_place and manpage != old:
+                writefile(arguments.file, manpage)
+            else:
+                print(manpage)
 
         elif arguments["readme"]:
 
