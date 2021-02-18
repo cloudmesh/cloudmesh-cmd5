@@ -57,7 +57,7 @@ class ManCommand(PluginCommand):
 
             content.append(tag_string)
 
-        manpage = "\n".join(content)
+        manpage = "\n".join(content).strip()
 
         return manpage, man
 
