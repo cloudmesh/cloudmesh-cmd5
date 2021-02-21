@@ -389,7 +389,10 @@ class CMShell(Cmd, PluginCommandClasses):
                     arg = arg[1:]
                 try:
                     value = arg
-                    variables.boolean("dryrun", value)
+                    if arg == "":
+                        print ("dryrun=", variables['dryrun'], sep="")
+                    else:
+                        variables.boolean("dryrun", value)
                 except IndexError:
                     Console.error("value for dryrun is missing")
                 except Exception as e:
@@ -401,7 +404,11 @@ class CMShell(Cmd, PluginCommandClasses):
                     arg = arg[1:]
                 try:
                     value = arg
-                    self.set_debug(value)
+                    if arg == "":
+                        variables = Variables()
+                        print ("debug=", variables['debug'], sep="")
+                    else:
+                        self.set_debug(value)
                 except IndexError:
                     Console.error("value for dryrun is missing")
                 except Exception as e:

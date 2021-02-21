@@ -14,23 +14,28 @@ class DebugCommand(PluginCommand):
             Usage:
                 dryrun on
                 dryrun off
+                dryrun
 
             Description:
 
                 dryrun on
 
-                    sets the variable
+                    Sets the variable
 
                     dryrun=True
 
                 dryrun off
 
-                    sets the variable
+                    Sets the variable
 
                     dryrun=False
 
+                dryrun
+
+                    Returns the value of dryrun
         """
 
+        print ("KKKK")
         variables = Variables()
 
         if arguments.on:
@@ -38,3 +43,6 @@ class DebugCommand(PluginCommand):
 
         elif arguments.off:
             variables["dryrun"] = False
+
+        else:
+            print ("dryrun =", variables["dryrun"])
