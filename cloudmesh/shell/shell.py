@@ -390,7 +390,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 try:
                     value = arg
                     if arg == "":
-                        print ("dryrun=", variables['dryrun'], sep="")
+                        print("dryrun=", variables['dryrun'], sep="")
                     else:
                         variables.boolean("dryrun", value)
                 except IndexError:
@@ -406,7 +406,7 @@ class CMShell(Cmd, PluginCommandClasses):
                     value = arg
                     if arg == "":
                         variables = Variables()
-                        print ("debug=", variables['debug'], sep="")
+                        print("debug=", variables['debug'], sep="")
                     else:
                         self.set_debug(value)
                 except IndexError:

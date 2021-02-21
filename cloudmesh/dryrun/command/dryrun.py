@@ -35,7 +35,6 @@ class DebugCommand(PluginCommand):
                     Returns the value of dryrun
         """
 
-        print ("KKKK")
         variables = Variables()
 
         if arguments.on:
@@ -45,4 +44,4 @@ class DebugCommand(PluginCommand):
             variables["dryrun"] = False
 
         else:
-            print ("dryrun =", variables["dryrun"])
+            print("dryrun =", variables["dryrun"])
