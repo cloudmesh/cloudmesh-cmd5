@@ -451,8 +451,11 @@ class CMShell(Cmd, PluginCommandClasses):
                 py PROGRAM...  executes the command
 
         """
-        result = eval(args)
-        print(result)
+        try:
+            result = eval(args)
+            print(result)
+        except Exception as e:
+            Console.error(str(e))
         return ""
 
     # noinspection PyUnusedLocal
