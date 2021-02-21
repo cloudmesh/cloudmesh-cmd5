@@ -1,18 +1,16 @@
 ###############################################################
-# pip install .; pytest -v --capture=no -v --nocapture tests/test_cmd5..py::Test_cmd5.test_001
-# pytest -v --capture=no tests/test_cmd5.py
-# pytest -v  tests/test_cmd5.py
+# pytest -v --capture=no tests/1_local/test_variables.py
+# pytest -v  tests/1_local/test_variables.py
+# pytest -v --capture=no  tests/1_local/test_variables.py::TestVariables::<METHODNAME>
 ###############################################################
+import pytest
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import HEADING
-
-from cloudmesh.common.variables import Variables
-import pytest
-from cloudmesh.common.run.subprocess import run
 from cloudmesh.common.util import path_expand
+from cloudmesh.common.variables import Variables
 
 
-def run(command):
+def _run(command):
     print()
     print("Command:", command)
     result = Shell.run(command)
@@ -21,7 +19,7 @@ def run(command):
 
 
 @pytest.mark.incremental
-class Test_cmd5(object):
+class TestVariables(object):
 
     def test_variables_assign(self):
         HEADING("assign key=value")
@@ -71,46 +69,41 @@ class Test_cmd5(object):
         v.close()
 
     def test_cli_set(self):
-        r = run("cms var deleteme=abc")
+        HEADING()
+        r = _run("cms var deleteme=abc")
         print(r)
 
-
         data = path_expand("~/.cloudmesh/variables.dat")
-        cat= run(f"cat {data}")
+        cat = _run(f"cat {data}")
         print(cat)
         assert "deleteme: abc" in cat
 
         v = Variables()
-        print ("Data", v.__dict__["data"].__dict__)
+        print("Data", v.__dict__["data"].__dict__)
 
         value = v['deleteme']
-        print ("Value:",  value)
+        print("Value:", value)
 
         assert value == 'abc'
 
     def test_cli_get(self):
-        r = run("cms var deleteme")
+        HEADING()
+        r = _run("cms var deleteme")
         v = Variables()
         print(r)
         assert v['deleteme'] == 'abc'
 
     def test_cli_list(self):
-        r = run("cms var list")
+        HEADING()
+        r = _run("cms var list")
         v = Variables()
         print(r)
         assert v['deleteme'] == 'abc'
         assert "deleteme='abc'" in r
 
     def test_cli_delete(self):
-        r = run("cms var delete deleteme")
-        v = Variables()
-        print("Result:", r)
-        print("Variable:", v)
-
-        assert v['deleteme'] != 'abc'
-
-    def test_cli_delete(self):
-        r = run("cms var delete deleteme")
+        HEADING()
+        r = _run("cms var delete deleteme")
         v = Variables()
         print("Result:", r)
         print("Variable:", v)

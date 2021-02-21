@@ -48,7 +48,7 @@ class ManCommand(PluginCommand):
             except:
                 pass
         except Exception as e:
-            print (e)
+            print(e)
             content.append("")
             content.append(tag_string)
             content.append("```")

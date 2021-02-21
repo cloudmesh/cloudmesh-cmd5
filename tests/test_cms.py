@@ -13,7 +13,6 @@ from cloudmesh.common.util import HEADING
 @pytest.mark.incremental
 class TestConfig:
 
-
     def test_help(self):
         HEADING()
         Benchmark.Start()

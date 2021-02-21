@@ -1,7 +1,7 @@
 ###############################################################
-# pytest -v --capture=no tests/1_local/test_shell.py
-# pytest -v  tests/1_local/test_shell.py
-# pytest -v --capture=no  tests/1_local/test_shell..py::Test_name::<METHODNAME>
+# pytest -v --capture=no tests/1_local/test_shell_universal.py
+# pytest -v  tests/1_local/test_shell_universal.py
+# pytest -v --capture=no  tests/1_local/test_shell_universal.py::TestUniversal::<METHODNAME>
 ###############################################################
 import pytest
 from cloudmesh.common.Benchmark import Benchmark
@@ -16,7 +16,7 @@ shell = Shell()
 
 
 @pytest.mark.incremental
-class TestName:
+class TestUniversal:
 
     def test_terminal_type(self):
         HEADING()
