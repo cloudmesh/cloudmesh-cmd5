@@ -136,8 +136,6 @@ class ManCommand(PluginCommand):
         """
         ::
 
-    def _convert_file(self, file=None, command=None, include=None, tag="MANPAGE"):
-
             Usage:
                 man readme [-p] --toc [--file=FILE]
                 man readme [-p] [--tag=TAG] [--file=FILE] --include=INCLUDE
