@@ -16,12 +16,30 @@ class SysinfoCommand(PluginCommand):
         ::
 
             Usage:
-                sysinfo
+                sysinfo [-v] [-t]
 
             Description:
                 prints information about the system
 
         """  # noqa: W605
 
-        print (Printer.attribute(systeminfo()))
+        if arguments["-t"]:
+            info = systeminfo()
+            p = 1
+            t = info["cpu_threads"]
+            c = info["cpu_cores"]
+            n = 1
+
+            print(f"(Nodes, Processors, Cores, Threads) = ({n}, {p}, {c}, {t})")
+        elif arguments["-v"]:
+            info = systeminfo()
+            p = 1
+            t = info["cpu_threads"]
+            c = info["cpu_cores"]
+            n = 1
+
+            print(f"(Nodes, Processors, Cores, Threads) = ({n}, {p}, {int(c/p)}, {int(t/(c*p))})")
+
+        else:
+            print (Printer.attribute(systeminfo()))
 
