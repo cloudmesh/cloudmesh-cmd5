@@ -423,9 +423,14 @@ class CMShell(Cmd, PluginCommandClasses):
             except AttributeError as e:
 
                 variables = Variables()
-                trace = "T" in variables['trace'] or True
-                debug = "T" in variables['debug'] or True
-
+                try:
+                    trace = "T" in variables['trace'] or True
+                except:
+                    trace = False
+                try:
+                    debug = "T" in variables['debug'] or True
+                except:
+                    debug = False
                 command_missing = "'CMShell' object has no attribute 'do_{cmd}'".format(
                     cmd=cmd)
 
