@@ -427,10 +427,12 @@ class CMShell(Cmd, PluginCommandClasses):
                     trace = "T" in variables['trace'] or True
                 except:
                     trace = False
+                    variables['trace'] = "False"
                 try:
                     debug = "T" in variables['debug'] or True
                 except:
                     debug = False
+                    variables['debug'] = "False"
                 command_missing = "'CMShell' object has no attribute 'do_{cmd}'".format(
                     cmd=cmd)
 
