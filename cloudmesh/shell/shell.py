@@ -252,7 +252,7 @@ class CMShell(Cmd, PluginCommandClasses):
         print(dir(cloudmesh))
 
     def precmd(self, line):
-        print(line)
+        # print("# " + line)
         StopWatch.start("command")
         return line
 
