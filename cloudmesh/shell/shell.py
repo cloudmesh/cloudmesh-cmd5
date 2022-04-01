@@ -267,7 +267,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 command_time = StopWatch.get("command")
                 load_time = StopWatch.get("load")
                 line_strip = line.strip()
-                print(f"Timer: {command_time:.4f}s "
+                print(f"# Timer: {command_time:.4f}s "
                       f"Load: {load_time:.4f}s "
                       f"{line_strip}")
             variable.close()

@@ -104,7 +104,7 @@ class TerminalCommand(PluginCommand):
             if t is None:
                 print(StopWatch.__str__)
             else:
-                StopWatch.print("Timer " + t + ":", t)
+                StopWatch.print("# Timer " + t + ":", t)
 
     # noinspection PyUnusedLocal
     @command

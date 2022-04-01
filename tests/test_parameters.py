@@ -28,9 +28,19 @@ class TestCmd5Parameters(object):
     def test_variables_predefined(self):
         HEADING()
 
-        for argument in ['clear', 'copy', 'fromkeys', 'get', 'items',
-                         'keys', 'pop', 'popitem', 'setdefault', 'update',
-                         'values', 'format', 'type']:
+        for argument in ['clear',
+                         'copy',
+                         'fromkeys',
+                         'get',
+                         'items',
+                         'keys',
+                         'pop',
+                         'popitem',
+                         'setdefault',
+                         'update',
+                         'values',
+                         'format',
+                         'type']:
             arguments = {
                 argument: True,
             }

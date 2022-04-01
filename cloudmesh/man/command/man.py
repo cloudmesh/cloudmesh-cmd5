@@ -23,8 +23,8 @@ class ManCommand(PluginCommand):
                 man = "No command or file specified"
 
             # remove timer
-            if "\nTimer: " in man:
-                man = man.split("\nTimer: ")[0]
+            if "\n# Timer: " in man:
+                man = man.split("\n# Timer: ")[0]
 
             readme = readfile(file)
 
