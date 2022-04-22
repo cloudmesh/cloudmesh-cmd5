@@ -1,6 +1,7 @@
-import shlex
+#import shlex
 import textwrap
 
+from cloudmesh.common import shlex
 from cloudmesh.common.console import Console
 from cloudmesh.common.dotdict import dotdict
 from docopt import docopt
