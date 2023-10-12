@@ -9,6 +9,7 @@ from cloudmesh.shell.command import command
 from cloudmesh.common.base import Base
 from cloudmesh.common.console import Console
 
+
 class VarCommand(PluginCommand):
     # noinspection PyUnusedLocal
 
@@ -60,7 +61,7 @@ class VarCommand(PluginCommand):
         """  # noqa: W605
 
         if arguments["NAME=VALUE"] == "base":
-            print ("base")
+            print("base")
             base = Base()
 
             try:
@@ -80,7 +81,7 @@ class VarCommand(PluginCommand):
                 Console.warning("could not find cloudmesh base.file")
 
             if base.key in os.environ:
-                Console.ok (f"{base.key}={os.environ[base.key]}")
+                Console.ok(f"{base.key}={os.environ[base.key]}")
             else:
                 Console.warning(f"{base.key} is not set, ignoring and using other values")
 
