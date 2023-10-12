@@ -80,7 +80,7 @@ class VarCommand(PluginCommand):
                 Console.warning("could not find cloudmesh base.file")
 
             if base.key in os.environ:
-                Console.ok (base.key, "=", os.environ[base.key])
+                Console.ok (f"{base.key}={os.environ[base.key]}")
             else:
                 Console.warning(f"{base.key} is not set, ignoring and using other values")
 
