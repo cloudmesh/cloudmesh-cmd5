@@ -11,6 +11,7 @@ class SetCommand(PluginCommand):
         ::
 
           Usage:
+            set base
             set list
             set clear
             set delete NAME
