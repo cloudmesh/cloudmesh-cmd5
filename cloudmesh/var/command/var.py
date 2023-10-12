@@ -7,7 +7,7 @@ from cloudmesh.common.variables import Variables
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 from cloudmesh.common.base import Base
-
+from cloudmesh.common.console import Console
 
 class VarCommand(PluginCommand):
     # noinspection PyUnusedLocal
@@ -62,18 +62,36 @@ class VarCommand(PluginCommand):
         if arguments["NAME=VALUE"] == "base":
             print ("base")
             base = Base()
-            print (".cloudmesh directory", base.path)
-            if not os.path.exists(base.path):
-                print(f"Warning: {base.path} does not exist use `cms help` to create it")
 
-            print (".cloudmesh file", base.config)
-            if not os.path.exists(base.file):
-                print(f"Warning: {base.file} does not exist use `cms help` to create it")
+            try:
+                if os.path.exists(base.path):
+                    Console.ok(".cloudmesh directory", base.path)
+                else:
+                    Console.warning(f"{base.path} does not exist use `cms help` to create it")
+            except:
+                Console.warning("could not find cloudmesh base.path")
+
+            try:
+                if os.path.exists(base.file):
+                    Console.ok(f"cloudmesh.yaml is at {base.file}")
+                else:
+                    Console.warning(f"{base.file} does not exist use `cms help` to create it")
+            except:
+                Console.warning("could not find cloudmesh base.file")
 
             if base.key in os.environ:
-                print (base.key)
+                Console.ok (base.key, "=", os.environ[base.key])
             else:
-                print(base.key, " is not set, ignoring and using other values")
+                Console.warning(f"{base.key} is not set, ignoring and using other values")
+
+            try:
+                vars = f"{base.path}/variables.dat"
+                if os.path.exists(vars):
+                    Console.ok(f"variables.dat found at {vars}")
+                else:
+                    Console.warning("variables.dat not found")
+            except:
+                Console.warning("variables.dat not found")
 
             return ""
 
