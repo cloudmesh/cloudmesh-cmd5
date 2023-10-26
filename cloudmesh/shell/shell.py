@@ -187,7 +187,7 @@ class CMShell(Cmd, PluginCommandClasses):
     The command shell that inherits all commands from PluginCommand
     """
     prompt = 'cms> '
-    banner = textwrap.dedent("""
+    banner = textwrap.dedent(r"""
     +-------------------------------------------------------+
     |   ____ _                 _                     _      |
     |  / ___| | ___  _   _  __| |_ __ ___   ___  ___| |__   |
