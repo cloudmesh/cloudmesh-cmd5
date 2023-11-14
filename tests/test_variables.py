@@ -1,7 +1,7 @@
 ###############################################################
-# pytest -v --capture=no tests/1_local/test_variables.py
-# pytest -v  tests/1_local/test_variables.py
-# pytest -v --capture=no  tests/1_local/test_variables.py::TestVariables::<METHODNAME>
+# pytest -v --capture=no tests/test_variables.py
+# pytest -v  tests/test_variables.py
+# pytest -v --capture=no  tests/test_variables.py::TestVariables::<METHODNAME>
 ###############################################################
 import pytest
 from cloudmesh.common.Shell import Shell
