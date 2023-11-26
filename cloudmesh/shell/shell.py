@@ -1,7 +1,7 @@
 import importlib
 import inspect
 import os
-# import pkgutil
+import pkgutil
 import pydoc
 import subprocess
 import sys
@@ -76,12 +76,12 @@ class Plugin(object):
         """
 
         module_list = []
-        # package = cloudmesh
-        # for importer, modname, ispkg in pkgutil.walk_packages(
-        #         path=package.__path__,
-        #         prefix=package.__name__ + '.',
-        #         onerror=lambda x: None):
-        #     module_list.append(modname)
+        package = cloudmesh
+        for importer, modname, ispkg in pkgutil.walk_packages(
+                path=package.__path__,
+                prefix=package.__name__ + '.',
+                onerror=lambda x: None):
+            module_list.append(modname)
         return module_list
 
     @classmethod
