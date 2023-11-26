@@ -89,11 +89,14 @@ setup(
     version=version,
     license="Apache 2.0",
     url=URL,
-    packages=find_packages(exclude=("tests",
+    packages=find_namespace_packages(
+        where="cloudmesh",
+        exclude=("tests",
                  "deprecated",
                  "propose",
                  "examples",
-                 "conda")) + find_namespace_packages(include=['cloudmesh.*']),
+                 "conda"),
+        include=['cloudmesh.*']),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -130,7 +133,6 @@ setup(
         "coverage",
     ],
     zip_safe=False,
-    namespace_packages=['cloudmesh'],
     entry_points={
         'console_scripts': [
             'cms = cloudmesh.shell.shell:main',

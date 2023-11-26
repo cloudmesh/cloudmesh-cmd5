@@ -1,3 +1,0 @@
-"""
-Cloudmesh Shell.
-"""

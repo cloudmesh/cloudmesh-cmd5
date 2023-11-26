@@ -43,7 +43,7 @@ class SetCommand(PluginCommand):
 
             Examples include:
 
-               cms set a=\$b
+               cms set a=$b
                cms set 'a=$b'
                cms set a=val.b
 
