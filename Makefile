@@ -53,6 +53,9 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
+set_version:
+	bump2version --allow-dirty patch --new-version 4.4.0
+
 patch: clean
 	$(call banner, "patch")
 	bump2version --allow-dirty patch
