@@ -1,7 +1,7 @@
 import importlib
 import inspect
 import os
-import pkgutil
+# import pkgutil
 import pydoc
 import subprocess
 import sys
@@ -28,8 +28,8 @@ from cloudmesh.shell.plugin import PluginManager
 # import cloudmesh.plugin
 
 
-def iter_namespace(ns_pkg):
-    return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
+# def iter_namespace(ns_pkg):
+#     return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
 
 
 # cloudmesh_plugins = {
@@ -76,12 +76,12 @@ class Plugin(object):
         """
 
         module_list = []
-        package = cloudmesh
-        for importer, modname, ispkg in pkgutil.walk_packages(
-                path=package.__path__,
-                prefix=package.__name__ + '.',
-                onerror=lambda x: None):
-            module_list.append(modname)
+        # package = cloudmesh
+        # for importer, modname, ispkg in pkgutil.walk_packages(
+        #         path=package.__path__,
+        #         prefix=package.__name__ + '.',
+        #         onerror=lambda x: None):
+        #     module_list.append(modname)
         return module_list
 
     @classmethod

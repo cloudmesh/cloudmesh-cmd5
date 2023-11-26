@@ -19,30 +19,9 @@ Cloudmesh CMD5 setup.
 """
 import io
 import sys
-from setuptools import find_packages, find_namespace_packages, setup
 import os
 
-def check_python():
-    if not sys.version_info.major == 3 and \
-        sys.version_info.minor == 6:
-        print("This is an experimental version for 3.6, please upgrade if possible")
-
-        print("You are using Python {}.{}."
-              .format(sys.version_info.major,
-                      sys.version_info.minor))
-
-
-        sys.exit(1)
-    elif not sys.version_info.major == 3 and \
-        sys.version_info.minor >= 7:
-        print("Python 3.7 or higher is required.")
-
-        print("You are using Python {}.{}."
-              .format(sys.version_info.major,
-                      sys.version_info.minor))
-
-
-check_python()
+from setuptools import find_namespace_packages, setup
 
 def readfile(filename):
     """
@@ -54,18 +33,12 @@ def readfile(filename):
         return stream.read()
 
 requiers = """
+cloudmesh-common
 pyyaml
 docopt
 requests
 md_toc
 """.splitlines()
-
-requiers_cloudmesh = """
-cloudmesh-common
-""".splitlines()
-
-if  "TESTING" not in os.environ:
-    requiers = requiers + requiers_cloudmesh
 
 version = readfile("VERSION").strip()
 
@@ -90,7 +63,7 @@ setup(
     license="Apache 2.0",
     url=URL,
     packages=find_namespace_packages(
-        where="cloudmesh",
+        # where="cloudmesh",
         exclude=("tests",
                  "deprecated",
                  "propose",
