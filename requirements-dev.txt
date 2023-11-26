@@ -1,3 +1,4 @@
+twine
 pygments
 coverage
 flake8

@@ -19,7 +19,7 @@ Cloudmesh CMD5 setup.
 """
 import io
 import sys
-from setuptools import find_packages, setup
+from setuptools import find_packages, find_namespace_packages, setup
 import os
 
 def check_python():
@@ -89,12 +89,11 @@ setup(
     version=version,
     license="Apache 2.0",
     url=URL,
-    packages=find_packages(
-        exclude=("tests",
+    packages=find_packages(exclude=("tests",
                  "deprecated",
                  "propose",
                  "examples",
-                 "conda")),
+                 "conda")) + find_namespace_packages(include=['cloudmesh.*']),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -138,3 +137,4 @@ setup(
         ],
     }
 )
+
