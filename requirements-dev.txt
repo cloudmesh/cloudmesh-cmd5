@@ -1,9 +1,9 @@
+twine
 pygments
 coverage
 flake8
 pytest-cov
 pytest
-bump2version
 pip-tools
 pipdeptree
 pip-tools

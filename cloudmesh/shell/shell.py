@@ -28,8 +28,8 @@ from cloudmesh.shell.plugin import PluginManager
 # import cloudmesh.plugin
 
 
-def iter_namespace(ns_pkg):
-    return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
+# def iter_namespace(ns_pkg):
+#     return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
 
 
 # cloudmesh_plugins = {
