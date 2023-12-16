@@ -11,7 +11,7 @@ name = "cloudmesh-cmd5"
 version = "5.0.8"
 description = "A set of useful APIs for cloudmesh"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
 authors = [
   {name = "Gregor von Laszewski", email = "laszewski@gmail.com"}
@@ -55,11 +55,16 @@ dependencies = [
 "requests",
 "md_toc",
 ]
+
 [project.urls]
 "Documentation" = "https://github.com/cloudmesh/cloudmesh-common"
-[tool.setuptools.packages.find]
-exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
-where = [".", "cloudmesh"]
-namespaces =true
+
+[tool.setuptools]
+packages = ["cloudmesh"]
+
+#[tool.setuptools.packages.find]
+#exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
+#include = ["cloudmesh"]
+
 [project.scripts]
 cms = "cloudmesh.shell.shell:main"
