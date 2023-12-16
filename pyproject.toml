@@ -59,12 +59,11 @@ dependencies = [
 [project.urls]
 "Documentation" = "https://github.com/cloudmesh/cloudmesh-common"
 
-[tool.setuptools]
-packages = ["cloudmesh"]
-
-#[tool.setuptools.packages.find]
-#exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
-#include = ["cloudmesh"]
+[tool.setuptools.packages.find]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["cloudmesh"]  # package names should match these glob patterns (["*"] by default)
+exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
+namespaces = true
 
 [project.scripts]
 cms = "cloudmesh.shell.shell:main"
