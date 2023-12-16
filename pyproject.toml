@@ -59,7 +59,7 @@ dependencies = [
 "Documentation" = "https://github.com/cloudmesh/cloudmesh-common"
 [tool.setuptools.packages.find]
 exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
-where = ["cloudmesh"]
-namespaces = true
+where = [".", "cloudmesh"]
+namespaces =true
 [project.scripts]
 cms = "cloudmesh.shell.shell:main"
