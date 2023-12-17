@@ -23,10 +23,6 @@ class HPCPluginCommand(object):
     pass
 
 
-class CometPluginCommand(object):
-    pass
-
-
 def map_parameters(arguments, *args):
     """
     This command is useful to map parameters with -- to regular argument dicts

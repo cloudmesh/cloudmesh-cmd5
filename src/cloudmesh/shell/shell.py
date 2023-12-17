@@ -936,7 +936,7 @@ class CMShell(Cmd, PluginCommandClasses):
         #
         # for a preset set of named packages
         '''
-        #pkgs = ['cloudmesh-common', 'cloudmesh-cmd5', 'cloudmesh.comet']
+        #pkgs = ['cloudmesh-common', 'cloudmesh-cmd5']
         for package in pkgs:
             # check version from pip
             pipcheck = subprocess.Popen(('pip', 'freeze'), stdout=subprocess.PIPE)

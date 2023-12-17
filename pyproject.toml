@@ -8,7 +8,7 @@ requires = [
 
 [project]
 name = "cloudmesh-cmd5"
-version = "5.0.8"
+version = "5.0.9"
 description = "A set of useful APIs for cloudmesh"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -60,10 +60,25 @@ dependencies = [
 "Documentation" = "https://github.com/cloudmesh/cloudmesh-common"
 
 [tool.setuptools.packages.find]
-where = ["."]  # list of folders that contain the packages (["."] by default)
-include = ["cloudmesh"]  # package names should match these glob patterns (["*"] by default)
-exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
-namespaces = true
+where = ["src/"]
+include = [
+    "cloudmesh.cmd5",
+    "cloudmesh.debiug",
+    "cloudmesh.default",
+    "cloudmesh.dryrun",
+    "cloudmesh.ii",
+    "cloudmesh.man",
+    "cloudmesh.set",
+    "cloudmesh.shell",
+    "cloudmesh.sysinfo",
+    "cloudmesh.terminal",
+    "cloudmesh.var"]
+
+#[tool.setuptools.packages.find]
+#where = ["."]  # list of folders that contain the packages (["."] by default)
+#include = ["cloudmesh"]  # package names should match these glob patterns (["*"] by default)
+#exclude = ["deprecated", "deprecated.**", "tests", "tests.*", "examples"]
+#namespaces = true
 
 [project.scripts]
 cms = "cloudmesh.shell.shell:main"
