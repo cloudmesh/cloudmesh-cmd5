@@ -1,4 +1,4 @@
-#import shlex
+# import shlex
 import textwrap
 
 from cloudmesh.common import shlex
@@ -24,13 +24,14 @@ class HPCPluginCommand(object):
 
 
 def map_parameters(arguments, *args):
-    """
-    This command is useful to map parameters with -- to regular argument dicts
+    """This command is useful to map parameters with -- to regular argument dicts
     for easier processing.
 
-    :param arguments:
-    :param args:
-    :return:
+    Args:
+        arguments
+        *args
+
+    Returns:
 
     an example is
 
@@ -47,15 +48,31 @@ def map_parameters(arguments, *args):
 
     """
     for arg in args:
-        if arg in ['clear', 'copy', 'fromkeys', 'get', 'items', 'keys', 'pop',
-                   'popitem', 'setdefault', 'update', 'values', 'format',
-                   'type']:
-            Console.error(f'`{arg}` is predefined method.'
-                          f' Use `arguments["--{arg}"]` in your code')
+        if arg in [
+            "clear",
+            "copy",
+            "fromkeys",
+            "get",
+            "items",
+            "keys",
+            "pop",
+            "popitem",
+            "setdefault",
+            "update",
+            "values",
+            "format",
+            "type",
+        ]:
+            Console.error(
+                f"`{arg}` is predefined method."
+                f' Use `arguments["--{arg}"]` in your code'
+            )
             raise ValueError(f"{arg} already used in arguments")
         elif arg in arguments:
-            Console.error(f'`{arg}` is already used in arguments.'
-                          f' Use `arguments["--{arg}"]` in your code')
+            Console.error(
+                f"`{arg}` is already used in arguments."
+                f' Use `arguments["--{arg}"]` in your code'
+            )
             raise ValueError(f"{arg} already used in arguments")
         else:
             flag = "--" + arg
@@ -68,8 +85,7 @@ def map_parameters(arguments, *args):
 
 # noinspection PySingleQuotedDocstring,PyUnusedLocal
 def command(func):
-    '''
-    A decorator to create a function with docopt arguments.
+    '''A decorator to create a function with docopt arguments.
     It also generates a help function
 
     @command
@@ -86,7 +102,8 @@ def command(func):
     def help_myfunc(self, args, arguments):
         ... prints the docopt text ...
 
-    :param func: the function for the decorator
+    Args:
+        func: the function for the decorator
     '''
     # classname = inspect.getouterframes(inspect.currentframe())[1][3]
     name = func.__name__
@@ -107,7 +124,7 @@ def command(func):
             #    banner(s, label="Arguments", color="BLUE")
             func(instance, args, arguments)
         except SystemExit as e:  # noqa: F841
-            if args not in ('-h', '--help'):
+            if args not in ("-h", "--help"):
                 if "::" in doc:
                     usage = textwrap.dedent(doc.split("::")[1])
                 else:
@@ -120,12 +137,10 @@ def command(func):
                 for line in usage.splitlines():
                     if ":" in line:
                         kind = line.split(":")[0]
-                        if kind in ["Arguments", "Options", "Example",
-                                    "Descriptiom"]:
+                        if kind in ["Arguments", "Options", "Example", "Descriptiom"]:
                             break
                     print(line)
-                Console.error(
-                    "Could not execute the command. Please check usage with")
+                Console.error("Could not execute the command. Please check usage with")
                 print()
                 Console.msg("    cms help", name.replace("do_", ""))
                 print()
@@ -139,8 +154,7 @@ def command(func):
 
 # noinspection PySingleQuotedDocstring,PyUnusedLocal
 def basecommand(func):
-    '''
-    A decorator to create a function with docopt arguments.
+    '''A decorator to create a function with docopt arguments.
     It also generates a help function
 
     @command
@@ -157,7 +171,8 @@ def basecommand(func):
     def help_myfunc(self, args, arguments):
         ... prints the docopt text ...
 
-    :param func: the function for the decorator
+    Args:
+        func: the function for the decorator
     '''
     # classname = inspect.getouterframes(inspect.currentframe())[1][3]
     # name = func.__name__
@@ -177,15 +192,16 @@ def basecommand(func):
         except Exception as e:  # noqa: F841
             import traceback
             import sys
+
             traceback.print_exc(file=sys.stdout)
-            if args not in ('-h', '--help'):
+            if args not in ("-h", "--help"):
                 print(args)
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")
             print(doc)
 
         except SystemExit as e:
-            if args not in ('-h', '--help'):
+            if args not in ("-h", "--help"):
                 print(args)
                 Console.error("Could not execute the command.")
                 Console.error("Check usage..")

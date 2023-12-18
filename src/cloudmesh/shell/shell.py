@@ -40,30 +40,63 @@ from cloudmesh.shell.plugin import PluginManager
 
 
 def import_class(cl):
+    """
+    Import a class dynamically from a fully qualified class name.
+
+    Parameters:
+    - cl (str): A string representing the fully qualified class name, including the module.
+
+    Returns:
+    - class: The imported class.
+
+    Example:
+        my_class = import_class("module_name.ClassName")
+    """
     d = cl.rfind(".")
-    classname = cl[d + 1:len(cl)]
+    classname = cl[d + 1 : len(cl)]
     m = __import__(cl[0:d], globals(), locals(), [classname])
     return getattr(m, classname)
 
 
 def get_class(str):
+    """
+    Get a class reference from the current module based on its name.
+
+    Parameters:
+    - str (str): The name of the class.
+
+    Returns:
+    - class: The class reference.
+
+    Example:
+        my_class = get_class("ClassName")
+    """
     return getattr(sys.modules[__name__], str)
 
 
 class Plugin(object):
-    """
-    Some simple methods to manage dynamic namespace plugins for cloudmesh.
-    """
+    """Some simple methods to manage dynamic namespace plugins for cloudmesh."""
 
     @staticmethod
     def list():
+        """
+        Return a set of all subclasses of PluginCommand in the cloudmesh namespace.
+
+        Returns:
+          set: Subclasses of PluginCommand.
+
+        Example:
+            plugin_subclasses = Plugin.list()
+        """
         subclasses = set()
         work = [PluginCommand]
         while work:
             parent = work.pop()
             for child in parent.__subclasses__():
-                if child not in subclasses and child.__name__ not in ["CMShell",
-                                                                      "CommandProxyClass"]:
+                if child not in subclasses and child.__name__ not in [
+                    "CMShell",
+                    "CommandProxyClass",
+                ]:
                     subclasses.add(child)
                     work.append(child)
         return subclasses
@@ -71,31 +104,39 @@ class Plugin(object):
     @classmethod
     def modules(cls):
         """
-        list of cloudmesh modules in the cloudmesh namespace
-        :return: list of modules
+        Return a list of cloudmesh modules in the cloudmesh namespace.
+
+        Returns:
+            list: List of cloudmesh modules.
+
+        Example:
+            module_list = Plugin.modules()
         """
 
         module_list = []
         package = cloudmesh
         for importer, modname, ispkg in pkgutil.walk_packages(
-                path=package.__path__,
-                prefix=package.__name__ + '.',
-                onerror=lambda x: None):
+            path=package.__path__, prefix=package.__name__ + ".", onerror=lambda x: None
+        ):
             module_list.append(modname)
         return module_list
 
     @classmethod
     def classes(cls):
         """
-        list of the commands in the cloudmesh namespace under cloudmesh.command
+        Return a list of commands in the cloudmesh namespace under cloudmesh.command.
 
-        :return: list of the commands
+        Returns:
+            list: List of command modules.
+
+        Example:
+            command_list = Plugin.classes()
         """
         module_list = cls.modules()
         # VERBOSE(module_list)
         commands = []
         for module_name in module_list:
-            if module_name.startswith('cloudmesh.') and '.command.' in module_name:
+            if module_name.startswith("cloudmesh.") and ".command." in module_name:
                 commands.append(module_name)
 
         return commands
@@ -103,39 +144,70 @@ class Plugin(object):
     @classmethod
     def name(cls, command):
         """
-        creates a name for a modules starting with do_
-        :param command: returns a tuple with the module location and tge do_function
-        :return:
+        Create a name for a module starting with 'do_'.
+
+        Args:
+          command (str): The name of the command.
+
+        Returns:
+          tuple: A tuple with the module location and the 'do_function' name.
+
+        Example:
+            module_name, do_function_name = Plugin.name("example")
         """
+
         command_name = "do_" + command
 
-        class_name = "cloudmesh." + command + ".command." + command + "." \
-                     + command.capitalize() + "Command"
+        class_name = (
+            "cloudmesh."
+            + command
+            + ".command."
+            + command
+            + "."
+            + command.capitalize()
+            + "Command"
+        )
 
         return class_name, command_name
 
     @classmethod
     def class_name(cls, command):
         """
-        creates the default filename in which the module is defined
-        :param command:  the name of the command
-        :return: cloudmesh.ext.command.<command>+command.<Command>
+        Create the default filename in which the module is defined.
+
+        Args:
+             command (str): The name of the command.
+
+        Returns:
+            str: The default filename for the module:
+                 cloudmesh.ext.command.<command>+command.<Command>
+
+        Example:
+            filename = Plugin.class_name("example")
         """
         return "cloudmesh." + command + ".command." + command
 
     @classmethod
     def load(cls, commands=None):
         """
-        :param commands: If None the commands will be found from import cloudmesh
-                         Otherwise the commands can be explicitly specified with
+        Load the classes of the specified commands.
 
-                          commands = [
-                            'cloudmesh.bar.command.bar.BarCommand',
-                            'cloudmesh.foo.command.foo.FooCommand',
-                            ]
-                          A namespace package must exists. Foo and Bar ar just examples
+        Args:
+            commands(list): If None the commands will be found from import
+                cloudmesh Otherwise the commands can be explicitly
+                specified with
 
-        :return: the classes of the command
+                 commands = [
+                   'cloudmesh.bar.command.bar.BarCommand',
+                   'cloudmesh.foo.command.foo.FooCommand',
+                   ]
+                 A namespace package must exist. Foo and Bar ar just examples
+
+        Returns:
+            the classes of the command
+
+        Example:
+            loaded_classes = Plugin.load(['cloudmesh.example.command.example.ExampleCommand'])
         """
         if commands is None:
             classes = cls.classes()
@@ -156,13 +228,7 @@ if selective_loading:
 
         if name in ["help"]:
             Plugin.load()
-        if name in ['banner',
-                    'stopwatch',
-                    'clear',
-                    'sleep',
-                    'echo',
-                    'term',
-                    'pause']:
+        if name in ["banner", "stopwatch", "clear", "sleep", "echo", "term", "pause"]:
             name = Plugin.class_name("terminal")
             Plugin.load([name])
         else:
@@ -175,19 +241,18 @@ else:
 StopWatch.stop("load")
 
 PluginCommandClasses = type(
-    'CommandProxyClass',
-    tuple(PluginCommand.__subclasses__()),
-    {})
+    "CommandProxyClass", tuple(PluginCommand.__subclasses__()), {}
+)
 
 Console.init()
 
 
 class CMShell(Cmd, PluginCommandClasses):
-    """
-    The command shell that inherits all commands from PluginCommand
-    """
-    prompt = 'cms> '
-    banner = textwrap.dedent(r"""
+    """The command shell that inherits all commands from PluginCommand"""
+
+    prompt = "cms> "
+    banner = textwrap.dedent(
+        r"""
     +-------------------------------------------------------+
     |   ____ _                 _                     _      |
     |  / ___| | ___  _   _  __| |_ __ ___   ___  ___| |__   |
@@ -197,10 +262,10 @@ class CMShell(Cmd, PluginCommandClasses):
     +-------------------------------------------------------+
     |                  Cloudmesh CMD5 Shell                 |
     +-------------------------------------------------------+
-    """)  # noqa: W605
+    """
+    )  # noqa: W605
 
     def set_debug(self, on):
-
         def _boolean(value):
             value = str(value).lower()
             if value in ["true", "on"]:
@@ -216,12 +281,12 @@ class CMShell(Cmd, PluginCommandClasses):
         if _boolean(on):
             variables["debug"] = True
             variables["trace"] = True
-            variables["verbose"] = '10'
+            variables["verbose"] = "10"
             variables["timer"] = True
         else:
             variables["debug"] = False
             variables["trace"] = False
-            variables["verbose"] = '0'
+            variables["verbose"] = "0"
             variables["timer"] = False
 
         for key in ["debug", "trace", "verbose", "timer"]:
@@ -229,8 +294,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
     @command
     def do_commands(self, args, arguments):
-        """
-        ::
+        """::
 
           Usage:
                 commands
@@ -263,13 +327,15 @@ class CMShell(Cmd, PluginCommandClasses):
             variable = Variables()
             if "timer" not in variable:
                 variable["timer"] = "False"
-            if str(variable["timer"].lower()) in ['on', 'true']:
+            if str(variable["timer"].lower()) in ["on", "true"]:
                 command_time = StopWatch.get("command")
                 load_time = StopWatch.get("load")
                 line_strip = line.strip()
-                print(f"# Timer: {command_time:.4f}s "
-                      f"Load: {load_time:.4f}s "
-                      f"{line_strip}")
+                print(
+                    f"# Timer: {command_time:.4f}s "
+                    f"Load: {load_time:.4f}s "
+                    f"{line_strip}"
+                )
             variable.close()
         except Exception as e:
             Error.traceback(error=e)
@@ -278,7 +344,6 @@ class CMShell(Cmd, PluginCommandClasses):
 
     # noinspection PyMethodMayBeStatic
     def replace_vars(self, line):
-
         # self.update_time()
 
         variable = Variables()
@@ -290,7 +355,7 @@ class CMShell(Cmd, PluginCommandClasses):
                 newline = newline.replace("$" + name, value)
                 newline = newline.replace("var." + name, value)
             for v in os.environ:
-                name = v.replace('os.', '')
+                name = v.replace("os.", "")
                 if name in newline:
                     value = os.environ[name]
                     newline = newline.replace("os." + v, value)
@@ -334,11 +399,11 @@ class CMShell(Cmd, PluginCommandClasses):
         # -----------------------------
         # print comment lines, but do not execute them
         # -----------------------------
-        if line.startswith('#') or line.startswith('//') or line.startswith('/*'):
+        if line.startswith("#") or line.startswith("//") or line.startswith("/*"):
             print(line)
             return ""
 
-        if line.startswith('!'):
+        if line.startswith("!"):
             os.system(line[1:])
 
             return ""
@@ -355,10 +420,10 @@ class CMShell(Cmd, PluginCommandClasses):
         #    return ""
         cmd, arg, line = self.parseline(line)
 
-        if line.startswith("$") or line.startswith('var.'):
+        if line.startswith("$") or line.startswith("var."):
             line = line.replace("$", "", 1)
             line = line.replace("var.", "", 1)
-            print("FIND>", line, "<", sep='')
+            print("FIND>", line, "<", sep="")
             variable = Variables()
             print(variable[line])
             variable.close()
@@ -381,16 +446,15 @@ class CMShell(Cmd, PluginCommandClasses):
         #    self.do_exec(line)
         #    return ""
 
-        if cmd != '':
-
-            if cmd in ['dryrun']:
+        if cmd != "":
+            if cmd in ["dryrun"]:
                 variables = Variables()
                 if arg.startswith("="):
                     arg = arg[1:]
                 try:
                     value = arg
                     if arg == "":
-                        print("dryrun=", variables['dryrun'], sep="")
+                        print("dryrun=", variables["dryrun"], sep="")
                     else:
                         variables.boolean("dryrun", value)
                 except IndexError:
@@ -399,14 +463,14 @@ class CMShell(Cmd, PluginCommandClasses):
                     print(e)
 
                 return ""
-            elif cmd in ['debug']:
+            elif cmd in ["debug"]:
                 if arg.startswith("="):
                     arg = arg[1:]
                 try:
                     value = arg
                     if arg == "":
                         variables = Variables()
-                        print("debug=", variables['debug'], sep="")
+                        print("debug=", variables["debug"], sep="")
                     else:
                         self.set_debug(value)
                 except IndexError:
@@ -417,32 +481,33 @@ class CMShell(Cmd, PluginCommandClasses):
                 return ""
 
             try:
-                func = getattr(self, 'do_' + cmd)
+                func = getattr(self, "do_" + cmd)
                 return func(arg)
 
             except AttributeError as e:
-
                 variables = Variables()
 
-                if variables['trace'] is None:
-                    variables['trace'] = "False"
+                if variables["trace"] is None:
+                    variables["trace"] = "False"
                     trace = False
                 else:
-                    trace = "T" in variables['trace']
+                    trace = "T" in variables["trace"]
 
-                if variables['debug'] is None:
-                    variables['debug'] = "False"
+                if variables["debug"] is None:
+                    variables["debug"] = "False"
                     debug = False
                 else:
-                    debug = "T" in variables['debug']
+                    debug = "T" in variables["debug"]
 
                 command_missing = "'CMShell' object has no attribute 'do_{cmd}'".format(
-                    cmd=cmd)
+                    cmd=cmd
+                )
 
                 if e.args[0] == command_missing:
                     Console.error(
                         "this command does not exist: '{cmd}'".format(cmd=cmd),
-                        traceflag=False)
+                        traceflag=False,
+                    )
                 else:
                     Error.traceback(error=e, debug=debug, trace=trace)
 
@@ -455,8 +520,7 @@ class CMShell(Cmd, PluginCommandClasses):
     # noinspection PyUnusedLocal
     @command
     def do_py(self, args, arguments):
-        """
-        ::
+        """::
 
            Usage:
                 py PROGRAM...
@@ -478,8 +542,7 @@ class CMShell(Cmd, PluginCommandClasses):
     # noinspection PyUnusedLocal
     @command
     def do_shell(self, args, arguments):
-        """
-        ::
+        """::
 
            Usage:
                 shell COMMAND
@@ -526,8 +589,7 @@ class CMShell(Cmd, PluginCommandClasses):
     '''
 
     def do_help(self, arg):
-        """
-        ::
+        """::
 
             Usage:
                 help
@@ -550,10 +612,10 @@ class CMShell(Cmd, PluginCommandClasses):
             return ""
         elif arg:
             try:
-                func = getattr(self, 'help_' + arg)
+                func = getattr(self, "help_" + arg)
             except AttributeError:
                 try:
-                    doc = getattr(self, 'do_' + arg).__doc__
+                    doc = getattr(self, "do_" + arg).__doc__
                     if doc:
                         self.stdout.write("Command {arg}\n".format(arg=arg))
                         self.stdout.write(len("Command " + arg) * "=")
@@ -573,13 +635,13 @@ class CMShell(Cmd, PluginCommandClasses):
             cmds_undoc = []
             help_page = {}
             for name in names:
-                if name[:5] == 'help_':
+                if name[:5] == "help_":
                     help_page[name[5:]] = 1
             names.sort()
             # There can be duplicates if routines overridden
-            prevname = ''
+            prevname = ""
             for name in names:
-                if name[:3] == 'do_':
+                if name[:3] == "do_":
                     if name == prevname:
                         continue
                     prevname = name
@@ -598,8 +660,7 @@ class CMShell(Cmd, PluginCommandClasses):
             self.print_topics(self.undoc_header, cmds_undoc, 15, 80)
 
     def help_help(self):
-        """
-        ::
+        """::
 
             Usage:
                 help
@@ -614,8 +675,7 @@ class CMShell(Cmd, PluginCommandClasses):
     # noinspection PyUnusedLocal
     @command
     def do_info(self, args, arguments):
-        """
-        ::
+        """::
 
           Usage:
             info path
@@ -645,17 +705,14 @@ class CMShell(Cmd, PluginCommandClasses):
         module_list = Plugin.modules()
 
         if arguments.commands:
-
             commands = Plugin.classes()
             Console.bullets(commands)
 
         elif arguments.path:
-
             path_list = cloudmesh.__path__
             Console.bullets(path_list)
 
         elif arguments.sys:
-
             keyword = arguments["KEYWORD"]
 
             all_modules = sys.modules.keys()
@@ -675,23 +732,23 @@ class CMShell(Cmd, PluginCommandClasses):
                         filename = inspect.getfile(_class)
                         content = readfile(filename)
                         if "PluginCommand" in content:
-                            entry = {
-                                "module": module,
-                                "filename": filename
-                            }
+                            entry = {"module": module, "filename": filename}
                             plugins.append(entry)
                     except Exception as e:  # noqa: F841
                         # Console.error(str(e))
                         pass
-                print(Printer.write(plugins,
-                                    order=["module", "filename"],
-                                    max_width=256,
-                                    output=_format))
+                print(
+                    Printer.write(
+                        plugins,
+                        order=["module", "filename"],
+                        max_width=256,
+                        output=_format,
+                    )
+                )
             else:
                 print("\n".join(modules))
 
         elif arguments.files or arguments.errors:
-
             modules = Plugin.modules()
             # longets = 0
             data = []
@@ -699,44 +756,40 @@ class CMShell(Cmd, PluginCommandClasses):
                 try:
                     _class = get_class(module)
                     r = inspect.getfile(_class)
-                    data.append({
-                        "module": module,
-                        "directory": r
-                    })
+                    data.append({"module": module, "directory": r})
                 except Exception as e:
                     if arguments.errors:
                         if "got str" not in str(e) and "__version__" not in module:
                             if "module" not in str(e):
                                 print()
                                 Console.error(f"Problem for {module}")
-                                Console.error(str(e),
-                                              traceflag=arguments["--trace"])
+                                Console.error(str(e), traceflag=arguments["--trace"])
                                 print()
                             else:
-                                Console.error(str(e),
-                                              traceflag=arguments["--trace"])
+                                Console.error(str(e), traceflag=arguments["--trace"])
 
             if arguments.files:
-                print(Printer.write(data,
-                                    order=["module", "directory"],
-                                    max_width=256,
-                                    output=_format))
+                print(
+                    Printer.write(
+                        data,
+                        order=["module", "directory"],
+                        max_width=256,
+                        output=_format,
+                    )
+                )
 
         elif arguments.help:
-
             for name in module_list:
                 p = "cloudmesh." + name
                 help_string = p + " not found."
                 # noinspection PyBroadException
                 try:
-                    help_string = pydoc.render_doc(p,
-                                                   "Help on %s" + "\n" + 79 * "=")
+                    help_string = pydoc.render_doc(p, "Help on %s" + "\n" + 79 * "=")
                 except Exception as e:  # noqa: F841
                     pass
                 print(help_string)
 
         else:
-
             Console.bullets(module_list)
 
     def preloop(self):
@@ -749,8 +802,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
     # noinspection PyUnusedLocal,PyPep8Naming,PyMethodMayBeStatic
     def do_EOF(self, args):
-        """
-        ::
+        """::
 
           Usage:
             EOF
@@ -762,8 +814,7 @@ class CMShell(Cmd, PluginCommandClasses):
 
     # noinspection PyUnusedLocal,PyMethodMayBeStatic
     def do_quit(self, args):
-        """
-        ::
+        """::
 
           Usage:
             quit
@@ -782,8 +833,7 @@ class CMShell(Cmd, PluginCommandClasses):
     # noinspection PyUnusedLocal,PyPep8
     @basecommand
     def do_version(self, args, arguments):
-        """
-        ::
+        """::
 
           Usage:
             version pip [PACKAGE]
@@ -816,52 +866,48 @@ class CMShell(Cmd, PluginCommandClasses):
                 package = arguments["PACKAGE"]
 
                 if package is None:
-                    result = Shell.execute('pip', ['list', '--format=columns'],
-                                           traceflag=False, witherror=False)
+                    result = Shell.execute(
+                        "pip",
+                        ["list", "--format=columns"],
+                        traceflag=False,
+                        witherror=False,
+                    )
                     print(result)
                 else:
                     if "." in package:
                         package = package.replace(".", "-")
-                    result = Shell.execute('pip', ['show', package],
-                                           traceflag=False, witherror=False)
+                    result = Shell.execute(
+                        "pip", ["show", package], traceflag=False, witherror=False
+                    )
                     print(result)
 
             except Exception as e:  # noqa: F841
-                result = 'N/A'
+                result = "N/A"
             return ""
 
         python_version, pip_version = Shell.get_python()
 
         # noinspection PyBroadException
         try:
-            git_hash_version = Shell.execute('git', 'log -1 --format=%h',
-                                             traceflag=False, witherror=False)
+            git_hash_version = Shell.execute(
+                "git", "log -1 --format=%h", traceflag=False, witherror=False
+            )
         except:  # noqa: E722
-            git_hash_version = 'N/A'
+            git_hash_version = "N/A"
 
         versions = {
-            "python": {
-                "name": "python",
-                "version": str(python_version)
-            },
-            "pip": {
-                "name": "pip",
-                "version": str(pip_version)
-            },
-            "git": {
-                "name": "git hash",
-                "version": str(git_hash_version)
-            }
-
+            "python": {"name": "python", "version": str(python_version)},
+            "pip": {"name": "pip", "version": str(pip_version)},
+            "git": {"name": "git hash", "version": str(git_hash_version)},
         }
 
         # dynamically check all installed cloudmesh packages and versions
-        pipcheck = subprocess.Popen(('pip', 'freeze'), stdout=subprocess.PIPE)
+        pipcheck = subprocess.Popen(("pip", "freeze"), stdout=subprocess.PIPE)
         try:
             # python 3 returns byte sequence so the decode is necessary
-            output = subprocess.check_output(('grep', "cloudmesh"),
-                                             stdin=pipcheck.stdout).decode(
-                "utf-8")
+            output = subprocess.check_output(
+                ("grep", "cloudmesh"), stdin=pipcheck.stdout
+            ).decode("utf-8")
             pkglines = output.strip().splitlines()
 
             for pkgline in pkglines:
@@ -870,7 +916,7 @@ class CMShell(Cmd, PluginCommandClasses):
                     values = pkgline.split("==")
                     pkg = values[0]
                     version = values[1].strip()
-                    if pkg != 'cloudmesh-installer':
+                    if pkg != "cloudmesh-installer":
                         pname = pkg.replace("cloudmesh-", "cloudmesh.")
                         i = importlib.import_module(pname)
 
@@ -878,8 +924,10 @@ class CMShell(Cmd, PluginCommandClasses):
 
                         try:
                             vlocation = path_expand(
-                                os.path.join(os.path.dirname(location),
-                                             "__version__.py"))
+                                os.path.join(
+                                    os.path.dirname(location), "__version__.py"
+                                )
+                            )
                             v = readfile(vlocation).split('"')[1].strip()
                         except:  # noqa: E722
                             v = "not found"
@@ -889,14 +937,19 @@ class CMShell(Cmd, PluginCommandClasses):
                             "package": pname,
                             "version": version,
                             "source": location,
-                            "VERSION": v
+                            "VERSION": v,
                         }
-                elif "git" in pkgline and ("installer" not in pkgline) and ("pi_burn" not in pkgline):
-
+                elif (
+                    "git" in pkgline
+                    and ("installer" not in pkgline)
+                    and ("pi_burn" not in pkgline)
+                ):
                     pkgline = pkgline.replace(
-                        "-e git+git@github.com:cloudmesh-community/", "")
+                        "-e git+git@github.com:cloudmesh-community/", ""
+                    )
                     pkgline = pkgline.replace(
-                        "-e git+https://github.com/cloudmesh/", "")
+                        "-e git+https://github.com/cloudmesh/", ""
+                    )
                     pkgline = pkgline.replace("egg=", "")
 
                     version, pkg = pkgline.split("#")
@@ -915,8 +968,8 @@ class CMShell(Cmd, PluginCommandClasses):
 
                     try:
                         vlocation = path_expand(
-                            os.path.join(os.path.dirname(location),
-                                         "__version__.py"))
+                            os.path.join(os.path.dirname(location), "__version__.py")
+                        )
                         v = readfile(vlocation).split('"')[1].strip()
                     except:  # noqa: E722
                         v = "not found"
@@ -926,7 +979,7 @@ class CMShell(Cmd, PluginCommandClasses):
                         "package": pname,
                         "version": version,
                         "source": location,
-                        "VERSION": v
+                        "VERSION": v,
                     }
         except subprocess.CalledProcessError as e:  # noqa: F841
             pass
@@ -935,7 +988,7 @@ class CMShell(Cmd, PluginCommandClasses):
         # installedpkgs = []
         #
         # for a preset set of named packages
-        '''
+        """
         #pkgs = ['cloudmesh-common', 'cloudmesh-cmd5']
         for package in pkgs:
             # check version from pip
@@ -949,10 +1002,10 @@ class CMShell(Cmd, PluginCommandClasses):
             except subprocess.CalledProcessError as e:
                 pass
             pipcheck.wait()
-        '''
+        """
 
         # __version__ not maintained in package file so this won't work
-        '''
+        """
             try:
                 print ("trying package |%s|" % package)
                 try_module = __import__(package)
@@ -969,33 +1022,36 @@ class CMShell(Cmd, PluginCommandClasses):
                                            }
                                  }
         print (versions)
-        '''
+        """
 
         if arguments["--number"]:
-
             data = []
             for key, entry in versions.items():
                 try:
-                    d = {
-                        'name': entry['package'],
-                        'version': entry['VERSION']
-                    }
+                    d = {"name": entry["package"], "version": entry["VERSION"]}
                     data.append(d)
                 except:
                     pass
 
-            print(Printer.write(data,
-                                output=arguments["--format"],
-                                order=["name", "version"],
-                                header=["Package", "Version"],
-                                sort_keys="name"))
+            print(
+                Printer.write(
+                    data,
+                    output=arguments["--format"],
+                    order=["name", "version"],
+                    header=["Package", "Version"],
+                    sort_keys="name",
+                )
+            )
             return ""
         else:
-            print(Printer.write(versions,
-                                output=arguments["--format"],
-                                order=["name", "package", "VERSION", "version",
-                                       "source"],
-                                sort_keys="name"))
+            print(
+                Printer.write(
+                    versions,
+                    output=arguments["--format"],
+                    order=["name", "package", "VERSION", "version", "source"],
+                    sort_keys="name",
+                )
+            )
         if arguments["--check"] in ["True"]:
             Shell.check_python()
 
@@ -1024,14 +1080,15 @@ def main():
     args = sys.argv[1:]
 
     arguments = {
-        '--echo': '--echo' in args,
-        '--help': '--help' in args,
-        '--debug': '--debug' in args,
-        '--nosplash': '--nosplash' in args,
-        '-i': '-i' in args}
+        "--echo": "--echo" in args,
+        "--help": "--help" in args,
+        "--debug": "--debug" in args,
+        "--nosplash": "--nosplash" in args,
+        "-i": "-i" in args,
+    }
 
     echo = arguments["--echo"]
-    if arguments['--help']:
+    if arguments["--help"]:
         manual()
         sys.exit()
 
@@ -1039,7 +1096,7 @@ def main():
         if a in arguments:
             args.remove(a)
 
-    arguments['COMMAND'] = [' '.join(args)]
+    arguments["COMMAND"] = [" ".join(args)]
 
     commands = arguments["COMMAND"]
     # commands = list(arguments["COMMAND"])
@@ -1051,32 +1108,32 @@ def main():
         else:
             arguments["SCRIPT"] = None
 
-        arguments["COMMAND"] = ' '.join(commands)
-        if arguments["COMMAND"] == '':
+        arguments["COMMAND"] = " ".join(commands)
+        if arguments["COMMAND"] == "":
             arguments["COMMAND"] = None
 
     # noinspection PySimplifyBooleanCheck
-    if arguments['COMMAND'] == []:
-        arguments['COMMAND'] = None
+    if arguments["COMMAND"] == []:
+        arguments["COMMAND"] = None
 
     # splash = not arguments['--nosplash']
     # debug = arguments['--debug']
-    interactive = arguments['-i']
+    interactive = arguments["-i"]
     script = arguments["SCRIPT"]
     command = arguments["COMMAND"]
 
     #
     # trick for the removal of the ", ' in the set command
     #
-    if sys.platform != 'win32':
+    if sys.platform != "win32":
         if len(sys.argv) == 3:
-            if sys.argv[1] == 'set' and "=" in sys.argv[2]:
-                command = command.replace("\"", "")
+            if sys.argv[1] == "set" and "=" in sys.argv[2]:
+                command = command.replace('"', "")
                 command = command.replace("=", "='", 1)
                 command = command + "'"
         if len(sys.argv) >= 4:
-            if sys.argv[1] == 'config' and sys.argv[2] == 'set' and "=" in sys.argv[3]:
-                command = command.replace("\"", "")
+            if sys.argv[1] == "config" and sys.argv[2] == "set" and "=" in sys.argv[3]:
+                command = command.replace('"', "")
                 command = command.replace("=", "='", 1)
                 command = command + "'"
 
@@ -1117,5 +1174,5 @@ def main():
         cmd.cmdloop()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
