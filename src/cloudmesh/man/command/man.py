@@ -6,6 +6,8 @@ from cloudmesh.common.util import readfile
 from cloudmesh.common.util import writefile
 from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
+from cloudmesh.common.util import yn_choice
+from cloudmesh.common.debug import VERBOSE
 
 
 class ManCommand(PluginCommand):
@@ -13,10 +15,15 @@ class ManCommand(PluginCommand):
 
     def _convert_file(self, file=None, command=None, include=None, tag="MANPAGE"):
         file = file or "README.md"
-        tag_string = f"<!--{tag}-->"
+
+        if command == "cmd5":
+            command = ""
+        start_tag_string = f"<!-- START-{tag} -->"
+        stop_tag_string = f"<!-- STOP-{tag} -->"
         try:
             if command is not None:
-                man = Shell.run(f"cms help {command}")
+                man = Shell.run(f"cms help {command}").strip()
+                print(man)
             elif include is not None:
                 man = readfile(include)
             else:
@@ -28,36 +35,12 @@ class ManCommand(PluginCommand):
 
             readme = readfile(file)
 
-            parts = readme.split(tag_string)
+            md = "\n".join(["```"] + man.splitlines() + ["```"])
 
-            content = []
-
-            content.append(parts[0].strip())
-            content.append("")
-            content.append(tag_string)
-            if command is not None:
-                content.append("```")
-                content.append(textwrap.dedent("\n".join(man.splitlines()[7:])))
-                content.append("```")
-            else:
-                content.append(textwrap.dedent("\n".join(man.splitlines())))
-
-            content.append(tag_string)
-            try:
-                content.append(parts[2])
-            except:
-                pass
+            manpage = Shell.replace_lines_between(readme, start_tag_string, stop_tag_string, md)
         except Exception as e:
-            print(e)
-            content.append("")
-            content.append(tag_string)
-            content.append("```")
-            content.append(e)
-            content.append("```")
-
-            content.append(tag_string)
-
-        manpage = "\n".join(content).strip()
+            manpage = "ERROR"
+            Console.error(str(e), traceflag=True)
 
         return manpage, man
 
@@ -76,34 +59,37 @@ class ManCommand(PluginCommand):
 
     def _man_rst(self, data):
         result = [
-            data['name'],
-            "=" * len(data['name']),
+            data["name"],
+            "=" * len(data["name"]),
             "",
-            textwrap.dedent(data['help']).replace("::\n\n", ".. parsed-literal::\n\n").strip(),
-            ""]
-        return ("\n".join(result))
+            textwrap.dedent(data["help"])
+            .replace("::\n\n", ".. parsed-literal::\n\n")
+            .strip(),
+            "",
+        ]
+        return "\n".join(result)
 
     def _man_txt(self, data):
         result = [
             "=" * 79,
-            data['name'],
+            data["name"],
             "=" * 79,
             "",
-            textwrap.dedent(data['help'].replace("::\n\n", "")).strip(),
-            ""
+            textwrap.dedent(data["help"].replace("::\n\n", "")).strip(),
+            "",
         ]
-        return ("\n".join(result))
+        return "\n".join(result)
 
     def _man_md(self, data):
         result = [
-            "# " + data['name'],
+            "# " + data["name"],
             "",
             "```",
-            textwrap.dedent(data['help'].replace("::\n\n", "")).strip(),
+            textwrap.dedent(data["help"].replace("::\n\n", "")).strip(),
             "```",
-            ""
+            "",
         ]
-        return ("\n".join(result))
+        return "\n".join(result)
 
     def _man_content(self, data, kind):
         result = ""
@@ -117,7 +103,7 @@ class ManCommand(PluginCommand):
             tmp = [
                 data["name"],
                 "=" * len(data["name"]),
-                data["help"].replace("::\n\n", "", 1)
+                data["help"].replace("::\n\n", "", 1),
             ]
             result = "\n".join(tmp)
 
@@ -167,17 +153,16 @@ class ManCommand(PluginCommand):
         help_page = {}
 
         def get_manual_pages():
-
             names = self.get_names()
 
             for name in names:
-                if name[:5] == 'help_':
+                if name[:5] == "help_":
                     help_page[name[5:]] = 1
             names.sort()
             # There can be duplicates if routines overridden
-            prevname = ''
+            prevname = ""
             for name in names:
-                if name[:3] == 'do_':
+                if name[:3] == "do_":
                     if name == prevname:
                         continue
                     prevname = name
@@ -195,6 +180,10 @@ class ManCommand(PluginCommand):
         arguments.file = arguments["--file"] or "README.md"
         arguments.tag = arguments["--tag"] or "MANUAL"
 
+        in_place = arguments["-p"]
+
+        VERBOSE(arguments)
+
         get_manual_pages()
 
         if arguments["--dir"]:
@@ -202,8 +191,6 @@ class ManCommand(PluginCommand):
             Shell.mkdir(d)
 
         if arguments["readme"] and arguments["--toc"]:
-
-            in_place = arguments["-p"]
             if in_place:
                 man = Shell.run(f"md_toc -p github {arguments.file}")
                 print(man)
@@ -212,54 +199,42 @@ class ManCommand(PluginCommand):
                 print(man)
 
         elif arguments["readme"] and arguments["--include"]:
-
-            in_place = arguments["-p"]
-
-            manpage, old = self._convert_file(file=arguments.file,
-                                              include=arguments["--include"],
-                                              tag=arguments.tag)
+            manpage, old = self._convert_file(
+                file=arguments.file, include=arguments["--include"], tag=arguments.tag
+            )
             if in_place and manpage != old:
                 writefile(arguments.file, manpage)
             else:
                 print(manpage)
 
         elif arguments["readme"] and arguments["--command"]:
-
-            in_place = arguments["-p"]
-
-            manpage, old = self._convert_file(file=arguments.file,
-                                              command=arguments["--command"],
-                                              tag=arguments.tag)
+            manpage, old = self._convert_file(
+                file=arguments.file, command=arguments["--command"], tag=arguments.tag
+            )
             if in_place and manpage != old:
                 writefile(arguments.file, manpage)
             else:
                 print(manpage)
 
         elif arguments["readme"]:
-
-            in_place = arguments["-p"]
-
-            manpage, old = self._convert_file(arguments.file,
-                                              arguments.COMMAND,
-                                              arguments.tag)
+            manpage, old = self._convert_file(
+                arguments.file, arguments.COMMAND, arguments.tag
+            )
             if in_place and manpage != old:
                 writefile(arguments.file, manpage)
             else:
                 print(manpage)
 
         elif len(arguments.COMMANDS) == 0:
-
             for entry in cmds_doc:
                 data = self._get_help(entry)
                 self._print(entry, data, arguments.kind, arguments.directory)
 
         else:
-
             commands = arguments.COMMANDS
 
             for entry in commands:
                 if entry in cmds_doc:
-
                     data = self._get_help(entry)
                     self._print(entry, data, arguments.kind, arguments.directory)
 
