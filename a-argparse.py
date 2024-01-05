@@ -12,8 +12,13 @@ def cms(args):
     commands = args.commands
 
     # Your logic here
-    print(f'Echo: {echo}, Debug: {debug}, Nosplash: {nosplash}, Interactive: {i}, File: {file}, Commands: {commands}')
-
+    print(f'Echo: {echo} \n'
+            f'Debug: {debug}\n'
+            f'Nosplash: {nosplash}\n'
+            f'Interactive: {i}\n'
+            f'File: {file}\n'
+            f'Command: {commands}\n')
+    
 def main():
     parser = argparse.ArgumentParser(description="Command-line utility")
 

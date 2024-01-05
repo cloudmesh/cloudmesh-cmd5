@@ -511,6 +511,9 @@ class CMShell(Cmd, PluginCommandClasses):
                 else:
                     Error.traceback(error=e, debug=debug, trace=trace)
 
+                if trace:
+                    print(e)
+
                 # noinspection PyUnusedLocal
                 cmd = None
                 line = oldline
@@ -1055,6 +1058,41 @@ class CMShell(Cmd, PluginCommandClasses):
         if arguments["--check"] in ["True"]:
             Shell.check_python()
 
+    def do_script(self, name, echo=True):
+        """::
+
+          Usage:
+                script FILENAME
+
+          Description:
+                Executes the command in the file
+
+        """
+        with open(name, "r") as f:
+            for command in f:
+                print ("PPPPP", command)
+
+                try:
+                    if echo:
+                        print(self.prompt, command)
+                    if command is not None:
+
+                        print ("CCCC", command)
+                        self.precmd(command)
+                        stop = self.onecmd(command)
+                        self.postcmd(stop, command)
+                except Exception as e:
+                    print("ERROR: executing command '{0}'".format(command))
+                    print(70 * "=")
+                    print(e)
+                    d = Default()
+                    trace = d["global", "trace"] == "True"
+                    trace = True
+                    Error.traceback(error=e, debug=True, trace=trace)
+                    d.close()
+                    print(70 * "=")
+
+        
 
 # noinspection PyBroadException,PyUnusedLocal
 def main():
@@ -1078,64 +1116,94 @@ def main():
         print(main.__doc__)
 
     args = sys.argv[1:]
+    arguments = args
 
-    arguments = {
-        "--echo": "--echo" in args,
-        "--help": "--help" in args,
-        "--debug": "--debug" in args,
-        "--nosplash": "--nosplash" in args,
-        "-i": "-i" in args,
-    }
 
-    echo = arguments["--echo"]
-    if arguments["--help"]:
+    # Your logic here
+    help = '--help' in arguments
+    echo = '--echo' in arguments
+    debug = '--debug' in arguments
+    nosplash = '--nosplash' in arguments
+    interactive = '-i' in arguments
+    file_index = arguments.index('--file') if '--file' in arguments else None
+    file = arguments[file_index + 1] if file_index is not None and file_index + 1 < len(arguments) else None
+    commands = [arg for arg in arguments if arg not in [
+        '--help',
+        '--echo',
+        '--debug',
+        '--nosplash',
+        '-i',
+        '--file', file]]
+
+    # Print values for demonstration purposes
+    print(f'Help: {help} \n'\
+          f'Echo: {echo} \n'
+            f'Debug: {debug}\n'
+            f'Nosplash: {nosplash}\n'
+            f'Interactive: {interactive}\n'
+            f'File: {file}\n'
+            f'Command: {commands}\n')
+
+
+
+    # print help is --help used    
+    if help:
         manual()
         sys.exit()
 
-    for a in args:
-        if a in arguments:
-            args.remove(a)
-
-    arguments["COMMAND"] = [" ".join(args)]
-
-    commands = arguments["COMMAND"]
-    # commands = list(arguments["COMMAND"])
-
-    if len(commands) > 0:
-        if ".cm" in commands[0]:
-            arguments["SCRIPT"] = commands[0]
-            commands = commands[1:]
+    # check if COMMAND is a .cm file
+    def is_command_a_cm_file(command):
+        script = " ".join(commands)
+        if script.endswith('.cm'):
+            if not os.path.exists(script):
+                print(f"Error: The file {script} does not exist.")
+                sys.exit(1)
+            elif not os.path.isfile(script):
+                print(f"Error: {script} is not a file.")
+                sys.exit(1)
+            else:
+                print(f'coudmesh cm file detected {script}')
+            return script
         else:
-            arguments["SCRIPT"] = None
+            return None
 
-        arguments["COMMAND"] = " ".join(commands)
-        if arguments["COMMAND"] == "":
-            arguments["COMMAND"] = None
+    script = is_command_a_cm_file(commands)
 
-    # noinspection PySimplifyBooleanCheck
-    if arguments["COMMAND"] == []:
-        arguments["COMMAND"] = None
+    def convert_command_to_line(args):
+        new_commands = []
+        for cmd in args:
+            if " " in cmd:
+                new_commands.append(f'"{cmd}"')
+            else:
+                new_commands.append(cmd)
 
-    # splash = not arguments['--nosplash']
-    # debug = arguments['--debug']
-    interactive = arguments["-i"]
-    script = arguments["SCRIPT"]
-    command = arguments["COMMAND"]
+        command = " ".join(new_commands)
+        return command
+    
+    command = convert_command_to_line(args)
+    print(f'XXX command: {command}')    
 
+    # if no arguments given go tointeractive mode
+
+    if len(command) == 0:
+        interactive = True
+ 
     #
     # trick for the removal of the ", ' in the set command
+    # if used this should be made a function
     #
-    if sys.platform != "win32":
-        if len(sys.argv) == 3:
-            if sys.argv[1] == "set" and "=" in sys.argv[2]:
-                command = command.replace('"', "")
-                command = command.replace("=", "='", 1)
-                command = command + "'"
-        if len(sys.argv) >= 4:
-            if sys.argv[1] == "config" and sys.argv[2] == "set" and "=" in sys.argv[3]:
-                command = command.replace('"', "")
-                command = command.replace("=", "='", 1)
-                command = command + "'"
+
+    # if sys.platform != "win32":
+    #     if len(sys.argv) == 3:
+    #         if sys.argv[1] == "set" and "=" in sys.argv[2]:
+    #             command = command.replace('"', "")
+    #             command = command.replace("=", "='", 1)
+    #             command = command + "'"
+    #     if len(sys.argv) >= 4:
+    #         if sys.argv[1] == "config" and sys.argv[2] == "set" and "=" in sys.argv[3]:
+    #             command = command.replace('"', "")
+    #             command = command.replace("=", "='", 1)
+    #             command = command + "'"
 
     # import ctypes
     # ctypes.windll.kernel32.GetCommandLineA.restype = ctypes.c_char_p
@@ -1149,13 +1217,19 @@ def main():
 
     cmd = CMShell()
 
-    #    if script is not None:
-    #        cmd.do_exec(script)
+    if script is not None:
+         cmd.do_script(script, echo=echo)
+         sys.exit()
+
+
 
     try:
         if echo:
             print(cmd.prompt, command)
         if command is not None:
+
+            print ("CCCC", command)
+
             cmd.precmd(command)
             stop = cmd.onecmd(command)
             cmd.postcmd(stop, command)
