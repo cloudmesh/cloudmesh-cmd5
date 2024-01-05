@@ -1,0 +1,9 @@
+!ls -lisa Makefile
+set a=now
+set a
+banner "ls -lisa"
+# comment
+banner a b c
+// comment2
+
+
