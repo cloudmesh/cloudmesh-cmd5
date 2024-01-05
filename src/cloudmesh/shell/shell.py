@@ -1141,11 +1141,11 @@ def main():
 
     def convert_command_to_line(args):
         new_commands = []
-        for cmd in args:
-            if " " in cmd:
-                new_commands.append(f'"{cmd}"')
+        for a in args:
+            if " " in a:
+                new_commands.append(f'"{a}"')
             else:
-                new_commands.append(cmd)
+                new_commands.append(a)
 
         command = " ".join(new_commands)
         return command
