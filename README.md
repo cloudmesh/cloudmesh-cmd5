@@ -248,3 +248,15 @@ The following highlighted features are available:
     profile:
       user: gregor
   ```
+## Manual Page
+
+<!-- START-MANUAL -->
+```
+Documented commands (type help <topic>):
+========================================
+EOF     commands  echo  q        shell    sysinfo    
+banner  debug     man   quit     sleep    term     
+bar     default   help  pause    var      version
+clear   dryrun    info  py       set      sys    
+```
+<!-- STOP-MANUAL -->
