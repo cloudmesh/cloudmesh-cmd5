@@ -1100,60 +1100,26 @@ def main():
 
     Usage:
       cms --help
+      cms --file=SCRIPT
+      cms SCRIPT
       cms [--echo] [--debug] [--nosplash] [-i] [COMMAND ...]
 
     Arguments:
       COMMAND                  A command to be executed
+      SCRIPT                   A script to be executed must end with .cm
 
     Options:
-      --file=SCRIPT  -f  SCRIPT  Executes the script
-      -i                 After start keep the shell interactive,
-                         otherwise quit [default: False]
-      --nosplash    do not show the banner [default: False]
+      --file=SCRIPT  SCRIPT  Executes the script
+      -i             After start keep the shell interactive,
+                     otherwise quit [default: False]
+      --nosplash     do not show the banner [default: False]
     """
 
     def manual():
         print(main.__doc__)
 
-    args = sys.argv[1:]
-    arguments = args
-
-
-    # Your logic here
-    help = '--help' in arguments
-    echo = '--echo' in arguments
-    debug = '--debug' in arguments
-    nosplash = '--nosplash' in arguments
-    interactive = '-i' in arguments
-    file_index = arguments.index('--file') if '--file' in arguments else None
-    file = arguments[file_index + 1] if file_index is not None and file_index + 1 < len(arguments) else None
-    commands = [arg for arg in arguments if arg not in [
-        '--help',
-        '--echo',
-        '--debug',
-        '--nosplash',
-        '-i',
-        '--file', file]]
-
-    # Print values for demonstration purposes
-    print(f'Help: {help} \n'\
-          f'Echo: {echo} \n'
-            f'Debug: {debug}\n'
-            f'Nosplash: {nosplash}\n'
-            f'Interactive: {interactive}\n'
-            f'File: {file}\n'
-            f'Command: {commands}\n')
-
-
-
-    # print help is --help used    
-    if help:
-        manual()
-        sys.exit()
-
-    # check if COMMAND is a .cm file
-    def is_command_a_cm_file(command):
-        script = " ".join(commands)
+   # check if COMMAND is a .cm file
+    def is_command_a_cm_script(script):
         if script.endswith('.cm'):
             if not os.path.exists(script):
                 print(f"Error: The file {script} does not exist.")
@@ -1167,7 +1133,46 @@ def main():
         else:
             return None
 
-    script = is_command_a_cm_file(commands)
+
+    arguments = sys.argv[1:]
+
+    print ("ARGUMENTS", arguments)
+    # Your logic here
+
+    joint_args = ' '.join(arguments)
+    if '--file=' in joint_args:
+        file = ' '.join(arguments).split('--file=')[1].strip()
+        arguments = file
+    elif is_command_a_cm_script(joint_args):
+        file = joint_args
+        arguments = file
+
+    
+
+    help = '--help' in arguments
+    echo = '--echo' in arguments
+    debug = '--debug' in arguments
+    nosplash = '--nosplash' in arguments
+    interactive = '-i' in arguments
+
+
+    commands = []
+
+    print(f'Help: {help} \n'\
+          f'Echo: {echo} \n'
+            f'Debug: {debug}\n'
+            f'Nosplash: {nosplash}\n'
+            f'Interactive: {interactive}\n'
+            f'File: {file}\n'
+            f'Commands: {commands}\n')
+
+
+    # print help is --help used    
+    if help:
+        manual()
+        sys.exit()
+
+ 
 
     def convert_command_to_line(args):
         new_commands = []
@@ -1180,7 +1185,7 @@ def main():
         command = " ".join(new_commands)
         return command
     
-    command = convert_command_to_line(args)
+    command = convert_command_to_line(arguments)
     print(f'XXX command: {command}')    
 
     # if no arguments given go tointeractive mode
@@ -1217,10 +1222,12 @@ def main():
 
     cmd = CMShell()
 
-    if script is not None:
-         cmd.do_script(script, echo=echo)
+    if file is not None:
+         print ("RRRRRR")
+         file = file.replace("--file=", "")
+         print ("RRRRRR", file)
+         cmd.do_script(file, echo=echo)
          sys.exit()
-
 
 
     try:
@@ -1244,7 +1251,7 @@ def main():
         d.close()
         print(70 * "=")
 
-    if interactive or (command is None and script is None):
+    if interactive or (command is None and file is None):
         cmd.cmdloop()
 
 
