@@ -246,7 +246,6 @@ PluginCommandClasses = type(
 
 Console.init()
 
-
 class CMShell(Cmd, PluginCommandClasses):
     """The command shell that inherits all commands from PluginCommand"""
 
@@ -1058,42 +1057,6 @@ class CMShell(Cmd, PluginCommandClasses):
         if arguments["--check"] in ["True"]:
             Shell.check_python()
 
-    def do_script(self, name, echo=True):
-        """::
-
-          Usage:
-                script FILENAME
-
-          Description:
-                Executes the command in the file
-
-        """
-        with open(name, "r") as f:
-            for command in f:
-                print ("PPPPP", command)
-
-                try:
-                    if echo:
-                        print(self.prompt, command)
-                    if command is not None:
-
-                        print ("CCCC", command)
-                        self.precmd(command)
-                        stop = self.onecmd(command)
-                        self.postcmd(stop, command)
-                except Exception as e:
-                    print("ERROR: executing command '{0}'".format(command))
-                    print(70 * "=")
-                    print(e)
-                    d = Default()
-                    trace = d["global", "trace"] == "True"
-                    trace = True
-                    Error.traceback(error=e, debug=True, trace=trace)
-                    d.close()
-                    print(70 * "=")
-
-        
-
 # noinspection PyBroadException,PyUnusedLocal
 def main():
     """cms.
@@ -1115,6 +1078,17 @@ def main():
       --nosplash     do not show the banner [default: False]
     """
 
+    def DEBUG(msg=""):
+        print ("DEBUG", msg)
+        print(f'Help: {help} \n'
+              f'Echo: {echo} \n'
+              f'Debug: {debug}\n'
+              f'Nosplash: {nosplash}\n'
+              f'Interactive: {interactive}\n'
+              f'File: {file}\n'
+              f'Commands: {commands}\n',
+              'command:', {command})
+
     def manual():
         print(main.__doc__)
 
@@ -1133,12 +1107,12 @@ def main():
         else:
             return None
 
-
     arguments = sys.argv[1:]
+    file = None
+    command = ""
 
-    print ("ARGUMENTS", arguments)
-    # Your logic here
-
+    # check if COMMAND is a .cm file
+    # or check if we use --file=SCRIPT
     joint_args = ' '.join(arguments)
     if '--file=' in joint_args:
         file = ' '.join(arguments).split('--file=')[1].strip()
@@ -1147,32 +1121,23 @@ def main():
         file = joint_args
         arguments = file
 
-    
-
+    if file is not None:
+        result = Shell.execute(f'cat {file} | cms', shell=True).strip()
+        print(result)
+        sys.exit()
+ 
     help = '--help' in arguments
     echo = '--echo' in arguments
     debug = '--debug' in arguments
     nosplash = '--nosplash' in arguments
-    interactive = '-i' in arguments
-
+    interactive = '-i' in arguments or len(arguments) == 0
 
     commands = []
-
-    print(f'Help: {help} \n'\
-          f'Echo: {echo} \n'
-            f'Debug: {debug}\n'
-            f'Nosplash: {nosplash}\n'
-            f'Interactive: {interactive}\n'
-            f'File: {file}\n'
-            f'Commands: {commands}\n')
-
 
     # print help is --help used    
     if help:
         manual()
         sys.exit()
-
- 
 
     def convert_command_to_line(args):
         new_commands = []
@@ -1184,59 +1149,16 @@ def main():
 
         command = " ".join(new_commands)
         return command
+
+    if file is None:
+        command = convert_command_to_line(arguments)
     
-    command = convert_command_to_line(arguments)
-    print(f'XXX command: {command}')    
-
-    # if no arguments given go tointeractive mode
-
-    if len(command) == 0:
-        interactive = True
- 
-    #
-    # trick for the removal of the ", ' in the set command
-    # if used this should be made a function
-    #
-
-    # if sys.platform != "win32":
-    #     if len(sys.argv) == 3:
-    #         if sys.argv[1] == "set" and "=" in sys.argv[2]:
-    #             command = command.replace('"', "")
-    #             command = command.replace("=", "='", 1)
-    #             command = command + "'"
-    #     if len(sys.argv) >= 4:
-    #         if sys.argv[1] == "config" and sys.argv[2] == "set" and "=" in sys.argv[3]:
-    #             command = command.replace('"', "")
-    #             command = command.replace("=", "='", 1)
-    #             command = command + "'"
-
-    # import ctypes
-    # ctypes.windll.kernel32.GetCommandLineA.restype = ctypes.c_char_p
-    # print (ctypes.windll.kernel32.GetCommandLineA())
-
-    # context = CloudmeshContext(
-    #    interactive=interactive,
-    #    debug=debug,
-    #    echo=echo,
-    #    splash=splash)
-
     cmd = CMShell()
-
-    if file is not None:
-         print ("RRRRRR")
-         file = file.replace("--file=", "")
-         print ("RRRRRR", file)
-         cmd.do_script(file, echo=echo)
-         sys.exit()
-
 
     try:
         if echo:
             print(cmd.prompt, command)
         if command is not None:
-
-            print ("CCCC", command)
-
             cmd.precmd(command)
             stop = cmd.onecmd(command)
             cmd.postcmd(stop, command)
