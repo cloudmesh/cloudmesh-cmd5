@@ -246,7 +246,6 @@ PluginCommandClasses = type(
 
 Console.init()
 
-
 class CMShell(Cmd, PluginCommandClasses):
     """The command shell that inherits all commands from PluginCommand"""
 
@@ -510,6 +509,9 @@ class CMShell(Cmd, PluginCommandClasses):
                     )
                 else:
                     Error.traceback(error=e, debug=debug, trace=trace)
+
+                if trace:
+                    print(e)
 
                 # noinspection PyUnusedLocal
                 cmd = None
@@ -1055,102 +1057,103 @@ class CMShell(Cmd, PluginCommandClasses):
         if arguments["--check"] in ["True"]:
             Shell.check_python()
 
-
 # noinspection PyBroadException,PyUnusedLocal
 def main():
     """cms.
 
     Usage:
       cms --help
+      cms --file=SCRIPT
+      cms SCRIPT
       cms [--echo] [--debug] [--nosplash] [-i] [COMMAND ...]
 
     Arguments:
       COMMAND                  A command to be executed
+      SCRIPT                   A script to be executed must end with .cm
 
     Options:
-      --file=SCRIPT  -f  SCRIPT  Executes the script
-      -i                 After start keep the shell interactive,
-                         otherwise quit [default: False]
-      --nosplash    do not show the banner [default: False]
+      --file=SCRIPT  SCRIPT  Executes the script
+      -i             After start keep the shell interactive,
+                     otherwise quit [default: False]
+      --nosplash     do not show the banner [default: False]
     """
+
+    def DEBUG(msg=""):
+        print ("DEBUG", msg)
+        print(f'Help: {help} \n'
+              f'Echo: {echo} \n'
+              f'Debug: {debug}\n'
+              f'Nosplash: {nosplash}\n'
+              f'Interactive: {interactive}\n'
+              f'File: {file}\n'
+              f'Commands: {commands}\n',
+              'command:', {command})
 
     def manual():
         print(main.__doc__)
 
-    args = sys.argv[1:]
+   # check if COMMAND is a .cm file
+    def is_command_a_cm_script(script):
+        if script.endswith('.cm'):
+            if not os.path.exists(script):
+                print(f"Error: The file {script} does not exist.")
+                sys.exit(1)
+            elif not os.path.isfile(script):
+                print(f"Error: {script} is not a file.")
+                sys.exit(1)
+            else:
+                print(f'coudmesh cm file detected {script}')
+            return script
+        else:
+            return None
 
-    arguments = {
-        "--echo": "--echo" in args,
-        "--help": "--help" in args,
-        "--debug": "--debug" in args,
-        "--nosplash": "--nosplash" in args,
-        "-i": "-i" in args,
-    }
+    arguments = sys.argv[1:]
+    file = None
+    command = ""
 
-    echo = arguments["--echo"]
-    if arguments["--help"]:
+    # check if COMMAND is a .cm file
+    # or check if we use --file=SCRIPT
+    joint_args = ' '.join(arguments)
+    if '--file=' in joint_args:
+        file = ' '.join(arguments).split('--file=')[1].strip()
+        arguments = file
+    elif is_command_a_cm_script(joint_args):
+        file = joint_args
+        arguments = file
+
+    if file is not None:
+        result = Shell.execute(f'cat {file} | cms', shell=True).strip()
+        print(result)
+        sys.exit()
+ 
+    help = '--help' in arguments
+    echo = '--echo' in arguments
+    debug = '--debug' in arguments
+    nosplash = '--nosplash' in arguments
+    interactive = '-i' in arguments or len(arguments) == 0
+
+    commands = []
+
+    # print help is --help used    
+    if help:
         manual()
         sys.exit()
 
-    for a in args:
-        if a in arguments:
-            args.remove(a)
+    def convert_command_to_line(args):
+        new_commands = []
+        for a in args:
+            if " " in a:
+                new_commands.append(f'"{a}"')
+            else:
+                new_commands.append(a)
 
-    arguments["COMMAND"] = [" ".join(args)]
+        command = " ".join(new_commands)
+        return command
 
-    commands = arguments["COMMAND"]
-    # commands = list(arguments["COMMAND"])
-
-    if len(commands) > 0:
-        if ".cm" in commands[0]:
-            arguments["SCRIPT"] = commands[0]
-            commands = commands[1:]
-        else:
-            arguments["SCRIPT"] = None
-
-        arguments["COMMAND"] = " ".join(commands)
-        if arguments["COMMAND"] == "":
-            arguments["COMMAND"] = None
-
-    # noinspection PySimplifyBooleanCheck
-    if arguments["COMMAND"] == []:
-        arguments["COMMAND"] = None
-
-    # splash = not arguments['--nosplash']
-    # debug = arguments['--debug']
-    interactive = arguments["-i"]
-    script = arguments["SCRIPT"]
-    command = arguments["COMMAND"]
-
-    #
-    # trick for the removal of the ", ' in the set command
-    #
-    if sys.platform != "win32":
-        if len(sys.argv) == 3:
-            if sys.argv[1] == "set" and "=" in sys.argv[2]:
-                command = command.replace('"', "")
-                command = command.replace("=", "='", 1)
-                command = command + "'"
-        if len(sys.argv) >= 4:
-            if sys.argv[1] == "config" and sys.argv[2] == "set" and "=" in sys.argv[3]:
-                command = command.replace('"', "")
-                command = command.replace("=", "='", 1)
-                command = command + "'"
-
-    # import ctypes
-    # ctypes.windll.kernel32.GetCommandLineA.restype = ctypes.c_char_p
-    # print (ctypes.windll.kernel32.GetCommandLineA())
-
-    # context = CloudmeshContext(
-    #    interactive=interactive,
-    #    debug=debug,
-    #    echo=echo,
-    #    splash=splash)
-
+    if file is None:
+        command = convert_command_to_line(arguments)
+    
     cmd = CMShell()
-
-    #    if script is not None:
-    #        cmd.do_exec(script)
 
     try:
         if echo:
@@ -1170,7 +1173,7 @@ def main():
         d.close()
         print(70 * "=")
 
-    if interactive or (command is None and script is None):
+    if interactive or (command is None and file is None):
         cmd.cmdloop()
 
 
