@@ -244,8 +244,6 @@ PluginCommandClasses = type(
     "CommandProxyClass", tuple(PluginCommand.__subclasses__()), {}
 )
 
-Console.init()
-
 class CMShell(Cmd, PluginCommandClasses):
     """The command shell that inherits all commands from PluginCommand"""
 

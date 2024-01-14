@@ -65,7 +65,6 @@ class TerminalCommand(PluginCommand):
 
         line = ' '.join(arguments['TEXT'])
 
-        Console.init()
         hline = i * " " + str((n - i) * c)
         Console.cprint(color=color, prefix="", message=hline)
         Console.cprint(color=color, prefix="", message=i * " " + c + " " + line)
